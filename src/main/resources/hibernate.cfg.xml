@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+    <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+    <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/iip</property>
+    <property name="hibernate.connection.username">postgres</property>
+    <property name="hibernate.connection.password">postgres</property>
+    <property name="hbm2ddl.auto">update</property>
+    <property name="show_sql">true</property>
+    <property name="hibernate.current_session_context_class">thread</property>
+    <mapping class="br.com.is.Entitys.PermissaoPK"/>
+    <mapping class="br.com.is.Entitys.Permissao"/>
+    <mapping class="br.com.is.Entitys.Diretiva"/>
+    <mapping class="br.com.is.Entitys.Tela"/>
+    <mapping class="br.com.is.Entitys.Campo"/>
+    <mapping class="br.com.is.Entitys.Auditoria"/>
+    <mapping class="br.com.is.Entitys.Servico"/>
+    <mapping class="br.com.is.Entitys.Equipe"/>
+    <mapping class="br.com.is.Entitys.PossuiContato"/>
+    <mapping class="br.com.is.Entitys.ServicoPertenceEvento"/>
+    <mapping class="br.com.is.Entitys.PossuiEndereco"/>
+    <mapping class="br.com.is.Entitys.Pacote"/>
+    <mapping class="br.com.is.Entitys.Usuario"/>
+    <mapping class="br.com.is.Entitys.Endereco"/>
+    <mapping class="br.com.is.Entitys.TipoEndereco"/>
+    <mapping class="br.com.is.Entitys.Pessoa"/>
+    <mapping class="br.com.is.Entitys.Estado"/>
+    <mapping class="br.com.is.Entitys.Cidade"/>
+    <mapping class="br.com.is.Entitys.PossuiEnderecoId"/>
+    <mapping class="br.com.is.Entitys.Logradouro"/>
+    <mapping class="br.com.is.Entitys.TipoContato"/>
+    <mapping class="br.com.is.Entitys.PossuiContatoId"/>
+    <mapping class="br.com.is.Entitys.TipoEvento"/>
+    <mapping class="br.com.is.Entitys.Evento"/>
+    <mapping class="br.com.is.Entitys.PacotePossuiServicoId"/>
+    <mapping class="br.com.is.Entitys.PacotePossuiServico"/>
+    <mapping class="br.com.is.Entitys.Contato"/>
+    <mapping class="br.com.is.Entitys.Pais"/>
+  </session-factory>
+</hibernate-configuration>

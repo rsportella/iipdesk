@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd">
+<hibernate-reverse-engineering>
+  <schema-selection match-catalog="iip" match-schema="public"/>
+  <table-filter match-name="servico_pertence_evento"/>
+  <table-filter match-name="possui_endereco"/>
+  <table-filter match-name="equipe"/>
+  <table-filter match-name="possui_contato"/>
+  <table-filter match-name="tipo_contato"/>
+  <table-filter match-name="tipo_evento"/>
+  <table-filter match-name="pacote_possui_servico"/>
+  <table-filter match-name="endereco"/>
+  <table-filter match-name="pacote"/>
+  <table-filter match-name="usuario"/>
+  <table-filter match-name="pessoa"/>
+  <table-filter match-name="pais"/>
+  <table-filter match-name="logradouro"/>
+  <table-filter match-name="servico"/>
+  <table-filter match-name="tipo_endereco"/>
+  <table-filter match-name="evento"/>
+  <table-filter match-name="estado"/>
+  <table-filter match-name="contato"/>
+  <table-filter match-name="cidade"/>
+</hibernate-reverse-engineering>
