@@ -1,3 +1,45 @@
+INSERT INTO Campo (codigo, descricao, nome) VALUES 
+(1, 'btnNovo', 'Botão Novo'),
+(2, 'btnEditar', 'Botão Editar'),
+(3, 'btnFechar', 'Botão Fechar'),
+(4, 'btnExcluir', 'Botão Excluír'),
+(5, 'btnListar', 'Botão Listar');
+
+INSERT INTO Tela (codigo, descricao) VALUES 
+(1, 'Logradouro'),
+(2, 'Pais'),
+(3, 'Estado'),
+(4, 'Cidade'),
+(5, 'Usuário');
+
+INSERT INTO Diretiva (codigo, tela, campo) VALUES 
+(DEFAULT, 1, 1),
+(DEFAULT, 1, 2),
+(DEFAULT, 1, 3),
+(DEFAULT, 1, 4),
+(DEFAULT, 2, 1),
+(DEFAULT, 2, 2),
+(DEFAULT, 2, 3),
+(DEFAULT, 2, 4),
+(DEFAULT, 3, 1),
+(DEFAULT, 3, 2),
+(DEFAULT, 3, 3),
+(DEFAULT, 3, 4),
+(DEFAULT, 4, 1),
+(DEFAULT, 4, 2),
+(DEFAULT, 4, 3),
+(DEFAULT, 4, 4);
+
+INSERT INTO Tela (codigo, descricao) VALUES (6, 'Tipo Contato');
+INSERT INTO Campo (codigo, descricao, nome) VALUES (6, 'inpSigla', 'Entrada de texto - Sigla');
+INSERT INTO Diretiva (codigo, tela, campo) VALUES (DEFAULT, 6, 6);
+
+INSERT INTO Diretiva (codigo, tela, descricao) VALUES 
+(DEFAULT,
+(INSERT INTO Tela (codigo, descricao) VALUES (DEFAULT, '')),
+(INSERT INTO Campo (codigo, descricao, nome) VALUES (DEFAULT, '', ''));
+
+
 INSERT INTO Pais (codigo, nome, sigla) VALUES
 (1, 'Brasil', 'BR'),
 (2, 'Estados Unidos', 'EUA' );
