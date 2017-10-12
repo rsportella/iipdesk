@@ -14,30 +14,25 @@ public class TelaAlertas_view extends javax.swing.JInternalFrame {
     public TelaAlertas_view() {
         initComponents();
         resetField();
-        // GerenciarPermissao.sweepComponents(telaAlertasView, "Logradouro");
+        GerenciarPermissao.sweepComponents(telaalertasView, "Tela de Alertas");
     }
 
     public void resetField() {
-        //tfdIp.setText("");
-        tfdMensagem.setText("");
-        tfdMensagem.requestFocus(true);
-        //tfdIp.requestFocus(true);
-        //log = new Logradouro();
-        // tfdCodigo.setText(String.valueOf(new GenericoDAO<Logradouro>(log).ProximoCodigo()));
-        // new LogradouroDAO(log).PopulaTabela(tblConsulta, null);
+        inpMensagem.setText("");
+        inpMensagem.requestFocus(true);
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        logradouroView = new javax.swing.JPanel();
+        telaalertasView = new javax.swing.JPanel();
         tfdIp = new javax.swing.JFormattedTextField();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        tfdMensagem = new javax.swing.JTextField();
+        inpMensagem = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jcombotipo = new javax.swing.JComboBox<>();
+        combotipo = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         btnEnviar = new javax.swing.JButton();
         btnSair = new javax.swing.JButton();
@@ -45,7 +40,7 @@ public class TelaAlertas_view extends javax.swing.JInternalFrame {
         setTitle("Enviar Mensagem/Alerta");
         setName("logradouroView"); // NOI18N
 
-        logradouroView.setName("TelaAlertasView"); // NOI18N
+        telaalertasView.setName("TelaAlertasView"); // NOI18N
 
         tfdIp.setText("10.2.2.2");
 
@@ -53,19 +48,19 @@ public class TelaAlertas_view extends javax.swing.JInternalFrame {
 
         jLabel4.setText("Tipo *");
 
-        jcombotipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Aviso", "Alerta" }));
-        jcombotipo.setToolTipText("");
+        combotipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Aviso", "Alerta" }));
+        combotipo.setToolTipText("");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tfdMensagem)
+            .addComponent(inpMensagem)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
                     .addComponent(jLabel4)
-                    .addComponent(jcombotipo, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(combotipo, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(49, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -74,11 +69,11 @@ public class TelaAlertas_view extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jcombotipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(combotipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tfdMensagem, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(inpMensagem, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -99,29 +94,25 @@ public class TelaAlertas_view extends javax.swing.JInternalFrame {
             }
         });
 
-        javax.swing.GroupLayout logradouroViewLayout = new javax.swing.GroupLayout(logradouroView);
-        logradouroView.setLayout(logradouroViewLayout);
-        logradouroViewLayout.setHorizontalGroup(
-            logradouroViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(logradouroViewLayout.createSequentialGroup()
+        javax.swing.GroupLayout telaalertasViewLayout = new javax.swing.GroupLayout(telaalertasView);
+        telaalertasView.setLayout(telaalertasViewLayout);
+        telaalertasViewLayout.setHorizontalGroup(
+            telaalertasViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(telaalertasViewLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(logradouroViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(logradouroViewLayout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(logradouroViewLayout.createSequentialGroup()
-                        .addGroup(logradouroViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(logradouroViewLayout.createSequentialGroup()
-                                .addComponent(btnEnviar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnSair))
-                            .addComponent(tfdIp, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(20, Short.MAX_VALUE))))
+                .addGroup(telaalertasViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(telaalertasViewLayout.createSequentialGroup()
+                        .addComponent(btnEnviar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnSair))
+                    .addComponent(tfdIp, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        logradouroViewLayout.setVerticalGroup(
-            logradouroViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(logradouroViewLayout.createSequentialGroup()
+        telaalertasViewLayout.setVerticalGroup(
+            telaalertasViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(telaalertasViewLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -129,7 +120,7 @@ public class TelaAlertas_view extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(37, 37, 37)
-                .addGroup(logradouroViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(telaalertasViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEnviar)
                     .addComponent(btnSair))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -139,11 +130,11 @@ public class TelaAlertas_view extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(logradouroView, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(telaalertasView, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(logradouroView, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(telaalertasView, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -154,29 +145,20 @@ public class TelaAlertas_view extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnSairActionPerformed
 
     private void btnEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarActionPerformed
-        //if (!tfdNome.getText().trim().equals("") && !tfdSigla.getText().trim().equals("__")) {
-        //   log.setNome(tfdNome.getText());
-        //   log.setSigla(tfdSigla.getText());
 
-        //  JOptionPane.showMessageDialog(null, new GenericoDAO<Logradouro>(log).gravar());
-        //    resetField();
-        //  } else {
-        //    JOptionPane.showMessageDialog(null, "Os campos obrigatórios devem estar todos preenchidos!");
-        //  }
-        //  if (rbtServidor.isSelected()) {
         servidor = new SocketServidor(tfdIp.getText(), 5500, null);
         servidor.start();
 
-        String Tipo = jcombotipo.getSelectedItem().toString();
-        String Mensagem = tfdMensagem.getText();
+        String Tipo = combotipo.getSelectedItem().toString();
+        String Mensagem = inpMensagem.getText();
 
         String MensagemCompleta = senha.concat("|").concat(Tipo).concat("|").concat(Mensagem);
 
         servidor.definirMensagem(MensagemCompleta);
         servidor.definirEnvio(true);
 
-        tfdMensagem.setText("");
-        tfdMensagem.requestFocus();
+        inpMensagem.setText("");
+        inpMensagem.requestFocus();
         //}
     }//GEN-LAST:event_btnEnviarActionPerformed
 
@@ -184,13 +166,13 @@ public class TelaAlertas_view extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEnviar;
     private javax.swing.JButton btnSair;
+    private javax.swing.JComboBox<String> combotipo;
+    private javax.swing.JTextField inpMensagem;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JComboBox<String> jcombotipo;
-    private javax.swing.JPanel logradouroView;
+    private javax.swing.JPanel telaalertasView;
     private javax.swing.JFormattedTextField tfdIp;
-    private javax.swing.JTextField tfdMensagem;
     // End of variables declaration//GEN-END:variables
 }
