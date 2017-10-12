@@ -51,7 +51,7 @@ public class Cidade_view extends javax.swing.JInternalFrame {
         btnNovo = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
 
-        setTitle("Estados");
+        setTitle("Cidades");
 
         jLabel2.setText("Código");
 
