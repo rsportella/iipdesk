@@ -82,14 +82,23 @@ public class Endereco_view extends javax.swing.JInternalFrame {
 
         jLabel1.setText("Rua *");
 
+        tfdEndereco.setName("tfdEndereco"); // NOI18N
+
         jLabel3.setText("Número *");
 
+        tfdNum.setName("tfdNum"); // NOI18N
+
         jLabel4.setText("CEP");
+
+        tfdCep.setName("tfdCep"); // NOI18N
+
+        tfdBairro.setName("tfdBairro"); // NOI18N
 
         jLabel5.setText("Bairro");
 
         jLabel6.setText("Pais *");
 
+        cmbPais.setName("cmbPais"); // NOI18N
         cmbPais.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cmbPaisItemStateChanged(evt);
@@ -98,6 +107,7 @@ public class Endereco_view extends javax.swing.JInternalFrame {
 
         jLabel7.setText("Estado *");
 
+        cmbEstado.setName("cmbEstado"); // NOI18N
         cmbEstado.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cmbEstadoItemStateChanged(evt);
@@ -106,13 +116,17 @@ public class Endereco_view extends javax.swing.JInternalFrame {
 
         jLabel8.setText("Cidade *");
 
+        cmbCidade.setName("cmbCidade"); // NOI18N
+
         tfaComplemento.setColumns(20);
         tfaComplemento.setRows(5);
+        tfaComplemento.setName("tfaComplemento"); // NOI18N
         jScrollPane1.setViewportView(tfaComplemento);
 
         jLabel9.setText("Complemento");
 
         btnSalvar.setText("Salvar");
+        btnSalvar.setName("btnSalvar"); // NOI18N
         btnSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSalvarActionPerformed(evt);
@@ -120,17 +134,21 @@ public class Endereco_view extends javax.swing.JInternalFrame {
         });
 
         btnSair.setText("Fechar");
+        btnSair.setName("btnSair"); // NOI18N
         btnSair.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSairActionPerformed(evt);
             }
         });
 
+        cmbLogradouro.setName("cmbLogradouro"); // NOI18N
+
         jLabel10.setText("Logradouro *");
 
         jLabel11.setText("Tipo de endereço *");
 
         cmbTipoEndereco.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Selecione uma opção", "1 - Casa", "2 - Trabalho", "3 - Lazer", "4 - Familiar", "5 - Outro" }));
+        cmbTipoEndereco.setName("cmbTipoEndereco"); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

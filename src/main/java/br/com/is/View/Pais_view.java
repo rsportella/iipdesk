@@ -65,13 +65,20 @@ public class Pais_view extends javax.swing.JInternalFrame {
 
         tfdCodigo.setEditable(false);
 
+        tfdSigla.setName("tfdSigla"); // NOI18N
+
+        tfdNome.setName("tfdNome"); // NOI18N
+
         jLabel3.setText("Sigla *");
 
         jPanel1.setName("jPanel1"); // NOI18N
 
         jLabel6.setText("Procurar");
 
+        tfdBuscar.setName("tfdBuscar"); // NOI18N
+
         btnBusca.setText("Buscar");
+        btnBusca.setName("btnBusca"); // NOI18N
 
         tblConsulta.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
