@@ -24,7 +24,6 @@ public class PermissaoTela {
         public Boolean getPermissao() {
             return permissao;
         }
-
     }
 
     private String tela;

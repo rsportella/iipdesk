@@ -1,6 +1,7 @@
 package br.com.is.Entitys;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -10,10 +11,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * @author Portella, Rodolfo <rodolfosportella@gmail.com>
@@ -32,6 +35,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Pessoa.findByOrgexp", query = "SELECT p FROM Pessoa p WHERE p.orgexp = :orgexp")
     , @NamedQuery(name = "Pessoa.findByGenero", query = "SELECT p FROM Pessoa p WHERE p.genero = :genero")})
 public class Pessoa implements Serializable {
+
+    @OneToMany(mappedBy = "responsavel")
+    private Collection<Equipe> equipeCollection;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -157,6 +163,15 @@ public class Pessoa implements Serializable {
     @Override
     public String toString() {
         return "Entitys.Pessoa[ codigo=" + codigo + " ]";
+    }
+
+    @XmlTransient
+    public Collection<Equipe> getEquipeCollection() {
+        return equipeCollection;
+    }
+
+    public void setEquipeCollection(Collection<Equipe> equipeCollection) {
+        this.equipeCollection = equipeCollection;
     }
 
 }
