@@ -15,6 +15,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -23,6 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "pessoa")
+
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Pessoa.findAll", query = "SELECT p FROM Pessoa p")
@@ -34,6 +37,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Pessoa.findByNascimento", query = "SELECT p FROM Pessoa p WHERE p.nascimento = :nascimento")
     , @NamedQuery(name = "Pessoa.findByOrgexp", query = "SELECT p FROM Pessoa p WHERE p.orgexp = :orgexp")
     , @NamedQuery(name = "Pessoa.findByGenero", query = "SELECT p FROM Pessoa p WHERE p.genero = :genero")})
+
 public class Pessoa implements Serializable {
 
     @OneToMany(mappedBy = "responsavel")
