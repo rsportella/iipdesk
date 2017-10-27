@@ -3,18 +3,31 @@ package br.com.is.View;
 import br.com.is.DAO.Generico;
 import br.com.is.Entitys.Equipe;
 import br.com.is.DAO.GenericoDAO;
+import br.com.is.DAO.QueryCriteria;
+import br.com.is.DAO.ServicoDAO;
 import br.com.is.Entitys.Pessoa;
+import br.com.is.Entitys.Servico;
 import utils.Support;
 import static br.com.is.View.JanelaPrincipal.jDesktopPane;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 public class Equipe_view extends javax.swing.JInternalFrame {
 
     Equipe eq = new Equipe();
+    public static Pessoa ps = new Pessoa();
 
     public Equipe_view() {
         initComponents();
         resetField();
+    }
+
+    public Equipe_view(Pessoa ps) {
+        initComponents();
+        this.ps = ps;
+        ftfCpf.setText(ps.getCpf());
+        tfdNome.setText(ps.getNome());
     }
 
     public Equipe_view(Equipe equ) {
@@ -26,6 +39,11 @@ public class Equipe_view extends javax.swing.JInternalFrame {
         txaDescricao.setText(this.eq.getDescricao());
         ftfCpf.setText(this.eq.getResponsavel().getCpf());
         tfdNome.setText(this.eq.getResponsavel().getNome());
+
+        List<QueryCriteria> listCriterias = new ArrayList<QueryCriteria>();
+        listCriterias.add(new QueryCriteria("node", "equipe", "eq"));
+        listCriterias.add(new QueryCriteria("equal", "eq.codigo", String.valueOf(eq.getCodigo())));
+        new ServicoDAO(new Servico()).PopulaTabela(tblServicos, listCriterias);
 
         btnAdicionar.setEnabled(true);
         btnEditar.setEnabled(true);
@@ -281,10 +299,13 @@ public class Equipe_view extends javax.swing.JInternalFrame {
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         eq.setTitulo(tfdTitulo.getText());
         eq.setDescricao(txaDescricao.getText());
+        eq.setResponsavel(this.ps);
+
+        new Generico<Equipe>(eq).Gravar();
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnLocalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLocalizarActionPerformed
-        Pessoa_listar_view peliv = new Pessoa_listar_view();
+        Pessoa_listar_view peliv = new Pessoa_listar_view("equipe");
         Support.centralizar(jDesktopPane.add(peliv));
         peliv.setVisible(true);
     }//GEN-LAST:event_btnLocalizarActionPerformed
@@ -326,7 +347,7 @@ public class Equipe_view extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnLocalizar;
     private javax.swing.JButton btnSair;
     private javax.swing.JButton btnSalvar;
-    private javax.swing.JFormattedTextField ftfCpf;
+    public static javax.swing.JFormattedTextField ftfCpf;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -339,7 +360,7 @@ public class Equipe_view extends javax.swing.JInternalFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     public static javax.swing.JTable tblServicos;
     private javax.swing.JTextField tfdCodigo;
-    private javax.swing.JTextField tfdNome;
+    public static javax.swing.JTextField tfdNome;
     private javax.swing.JTextField tfdTitulo;
     private javax.swing.JTextArea txaDescricao;
     // End of variables declaration//GEN-END:variables

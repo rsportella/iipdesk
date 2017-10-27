@@ -34,6 +34,10 @@ public class Formatacao {
         campo.setText(df.format(Double.parseDouble(campo.getText())));
     }
 
+    public static JFormattedTextField getMonetario() {
+        return getFormatado("#.###,##");
+    }
+
     public static JFormattedTextField getTelefone() {
         return getFormatado("(##) ####-####");
     }
@@ -56,6 +60,19 @@ public class Formatacao {
 
     public void formatoDecimal(JTextField campo) {
         campo.setText(df.format(Double.parseDouble(campo.getText())));
+    }
+
+    public static void reformatarMonetario(JFormattedTextField campo) {
+        try {
+            MaskFormatter m = new MaskFormatter();
+            m.setPlaceholderCharacter('_');
+            m.setMask("R$ ##.###,##");
+            campo.setFormatterFactory(null);
+            campo.setFormatterFactory(new DefaultFormatterFactory(m));
+            campo.setValue(null);
+        } catch (Exception e) {
+            System.err.println(e);
+        }
     }
 
     public static void reformatarData(JFormattedTextField campo) {

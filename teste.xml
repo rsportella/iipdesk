@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<pessoas>
+    <pessoa>
+        <apelido>rsportella</apelido>
+        <codigo>7</codigo>
+        <cpf>02624248005</cpf>
+        <nascimento>1991-03-11T00:00:00-03:00</nascimento>
+        <nome>Rodolfo Portella</nome>
+    </pessoa>
+    <pessoa>
+        <apelido>RS</apelido>
+        <codigo>8</codigo>
+        <cpf>02624248005</cpf>
+        <genero>70</genero>
+        <nascimento>1991-12-04T00:00:00-02:00</nascimento>
+        <nome>Rodolfo Portella</nome>
+        <orgexp>SJS</orgexp>
+        <rg>2312312</rg>
+    </pessoa>
+    <pessoa>
+        <apelido>adsasd</apelido>
+        <codigo>10</codigo>
+        <cpf>11111111111</cpf>
+        <genero>70</genero>
+        <nascimento>1111-10-28T00:00:00-03:00</nascimento>
+        <nome>sadasd</nome>
+        <orgexp>asdasd</orgexp>
+        <rg>123123</rg>
+    </pessoa>
+    <pessoa>
+        <apelido>MARI</apelido>
+        <codigo>9</codigo>
+        <cpf>32222222222</cpf>
+        <genero>70</genero>
+        <nascimento>1990-06-12T00:00:00-03:00</nascimento>
+        <nome>Mariane Portellas</nome>
+        <orgexp></orgexp>
+        <rg></rg>
+    </pessoa>
+</pessoas>
