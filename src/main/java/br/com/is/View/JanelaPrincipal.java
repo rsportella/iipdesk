@@ -36,6 +36,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
 
         jDesktopPane = new javax.swing.JDesktopPane();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -63,7 +64,16 @@ public class JanelaPrincipal extends javax.swing.JFrame {
             }
         });
         jDesktopPane.add(jButton1);
-        jButton1.setBounds(10, 10, 170, 130);
+        jButton1.setBounds(20, 20, 170, 130);
+
+        jButton2.setText("SUPORTE");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jDesktopPane.add(jButton2);
+        jButton2.setBounds(220, 20, 170, 130);
 
         getContentPane().add(jDesktopPane);
 
@@ -216,9 +226,17 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         tav.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        EnviaEmail_view tav = new EnviaEmail_view();
+        Support.centralizar(jDesktopPane.add(tav));
+        tav.setVisible(true);
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     public static javax.swing.JDesktopPane jDesktopPane;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
