@@ -24,12 +24,21 @@ import javax.xml.bind.Unmarshaller;
 public class Pessoa_listar_view extends javax.swing.JInternalFrame {
 
     Pessoa pe = new Pessoa();
+    private String frame;
 
     public Pessoa_listar_view() {
         initComponents();
         new PessoaDAO(pe).PopulaTabela(tblConsulta, null);
         ftfBusca.requestFocus(true);
         btnSelecionar.setEnabled(false);
+    }
+
+    public Pessoa_listar_view(String frame) {
+        initComponents();
+        new PessoaDAO(pe).PopulaTabela(tblConsulta, null);
+        ftfBusca.requestFocus(true);
+        btnSelecionar.setEnabled(true);
+        this.frame = frame;
     }
 
     @SuppressWarnings("unchecked")
@@ -50,8 +59,8 @@ public class Pessoa_listar_view extends javax.swing.JInternalFrame {
         ftfBusca = new javax.swing.JFormattedTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblConsulta = new javax.swing.JTable();
-        btnSelecionar1 = new javax.swing.JButton();
-        btnSelecionar2 = new javax.swing.JButton();
+        btnExportar = new javax.swing.JButton();
+        btnImportar = new javax.swing.JButton();
 
         setTitle("Listar pessoas");
         setToolTipText("");
@@ -73,6 +82,11 @@ public class Pessoa_listar_view extends javax.swing.JInternalFrame {
         });
 
         btnSelecionar.setText("Selecionar");
+        btnSelecionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSelecionarActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Buscar");
 
@@ -117,17 +131,17 @@ public class Pessoa_listar_view extends javax.swing.JInternalFrame {
         ));
         jScrollPane2.setViewportView(tblConsulta);
 
-        btnSelecionar1.setText("Exportar");
-        btnSelecionar1.addActionListener(new java.awt.event.ActionListener() {
+        btnExportar.setText("Exportar");
+        btnExportar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSelecionar1ActionPerformed(evt);
+                btnExportarActionPerformed(evt);
             }
         });
 
-        btnSelecionar2.setText("Importar");
-        btnSelecionar2.addActionListener(new java.awt.event.ActionListener() {
+        btnImportar.setText("Importar");
+        btnImportar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSelecionar2ActionPerformed(evt);
+                btnImportarActionPerformed(evt);
             }
         });
 
@@ -160,9 +174,9 @@ public class Pessoa_listar_view extends javax.swing.JInternalFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btnSelecionar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnSelecionar1)
+                                .addComponent(btnExportar)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnSelecionar2)))
+                                .addComponent(btnImportar)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -185,8 +199,8 @@ public class Pessoa_listar_view extends javax.swing.JInternalFrame {
                     .addComponent(btnBloquear)
                     .addComponent(btnEditar)
                     .addComponent(btnSelecionar)
-                    .addComponent(btnSelecionar1)
-                    .addComponent(btnSelecionar2))
+                    .addComponent(btnExportar)
+                    .addComponent(btnImportar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnSair)
                 .addContainerGap())
@@ -200,9 +214,7 @@ public class Pessoa_listar_view extends javax.swing.JInternalFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(background, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(background, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -239,11 +251,9 @@ public class Pessoa_listar_view extends javax.swing.JInternalFrame {
         if (tblConsulta.getSelectedRow() != -1) {
             String[][] criterios = {{"codigo", String.valueOf(tblConsulta.getValueAt(tblConsulta.getSelectedRow(), 0))}};
             this.pe = (Pessoa) new GenericoDAO<Pessoa>(pe).visualizar(criterios);
-
             Pessoa_view pev = new Pessoa_view(this.pe);
             Support.centralizar(jDesktopPane.add(pev));
             pev.setVisible(true);
-
             dispose();
         } else {
             JOptionPane.showMessageDialog(null, "Uma linha da tabela deve estar selecionada para efetuar a ação!");
@@ -256,7 +266,7 @@ public class Pessoa_listar_view extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_rbtNomeItemStateChanged
 
-    private void btnSelecionar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelecionar1ActionPerformed
+    private void btnExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarActionPerformed
         JFileChooser fileChooser = new JFileChooser();
         FileNameExtensionFilter xmlfilter = new FileNameExtensionFilter(
                 "Arquivos XML  (*.xml)", "xml");
@@ -264,23 +274,19 @@ public class Pessoa_listar_view extends javax.swing.JInternalFrame {
         fileChooser.setFileFilter(xmlfilter);
         if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
             String arquivo = fileChooser.getSelectedFile() + ".xml";
-// salvar   
             try {
                 List<Pessoa> pessoas = new Generico<Pessoa>(new Pessoa()).Listar(null);
                 JAXBContext jc = JAXBContext.newInstance(Wrapper.class, Pessoa.class);
-
-                // Marshal
                 Marshaller marshaller = jc.createMarshaller();
                 marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
                 Serializacao.FileGerator(marshaller, pessoas, "pessoas", arquivo);
-
             } catch (JAXBException ex) {
                 Logger.getLogger(Pessoa_listar_view.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-    }//GEN-LAST:event_btnSelecionar1ActionPerformed
+    }//GEN-LAST:event_btnExportarActionPerformed
 
-    private void btnSelecionar2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelecionar2ActionPerformed
+    private void btnImportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImportarActionPerformed
         JFileChooser fileChooser = new JFileChooser();
         FileNameExtensionFilter xmlfilter = new FileNameExtensionFilter(
                 "Arquivos XML  (*.xml)", "xml");
@@ -302,7 +308,22 @@ public class Pessoa_listar_view extends javax.swing.JInternalFrame {
                 Logger.getLogger(Pessoa_listar_view.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-    }//GEN-LAST:event_btnSelecionar2ActionPerformed
+    }//GEN-LAST:event_btnImportarActionPerformed
+
+    private void btnSelecionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelecionarActionPerformed
+        switch (frame) {
+            case "equipe":
+                String[][] criterios = {{"codigo", String.valueOf(tblConsulta.getValueAt(tblConsulta.getSelectedRow(), 0))}};
+                pe = (Pessoa) new GenericoDAO<Pessoa>(pe).visualizar(criterios);
+                Equipe_view.ps = pe;
+                Equipe_view.ftfCpf.setText(pe.getCpf());
+                Equipe_view.tfdNome.setText(pe.getNome());
+                dispose();
+                break;
+            default:
+                break;
+        }
+    }//GEN-LAST:event_btnSelecionarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -310,12 +331,12 @@ public class Pessoa_listar_view extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnAdicionar;
     private javax.swing.JButton btnBloquear;
     private javax.swing.JButton btnEditar;
+    private javax.swing.JButton btnExportar;
     private javax.swing.ButtonGroup btnGrupo;
+    private javax.swing.JButton btnImportar;
     private javax.swing.JButton btnLocalizar;
     private javax.swing.JButton btnSair;
     private javax.swing.JButton btnSelecionar;
-    private javax.swing.JButton btnSelecionar1;
-    private javax.swing.JButton btnSelecionar2;
     private javax.swing.JFormattedTextField ftfBusca;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane2;

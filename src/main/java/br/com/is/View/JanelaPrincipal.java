@@ -5,6 +5,13 @@
  */
 package br.com.is.View;
 
+import br.com.is.utils.GerenciamentoBD;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.xml.bind.JAXBException;
 import utils.Support;
 
 /**
@@ -38,20 +45,23 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        mitBackup = new javax.swing.JMenuItem();
+        jSeparator4 = new javax.swing.JPopupMenu.Separator();
+        mitSair = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
-        jMenuItem7 = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        mitCliente = new javax.swing.JMenuItem();
+        mitEvento = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenu3 = new javax.swing.JMenu();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
+        mitPEC = new javax.swing.JMenuItem();
+        mitLogradouro = new javax.swing.JMenuItem();
+        mitTipoEndereco = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem6 = new javax.swing.JMenuItem();
+        mitTipoEvento = new javax.swing.JMenuItem();
+        mitTipoContato = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
-        jMenuItem8 = new javax.swing.JMenuItem();
-        jMenuItem9 = new javax.swing.JMenuItem();
+        mitEquipeServico = new javax.swing.JMenuItem();
+        mitPacote = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
@@ -68,86 +78,99 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         getContentPane().add(jDesktopPane);
 
         jMenu1.setText("Arquivo");
+
+        mitBackup.setText("Backup");
+        mitBackup.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mitBackupActionPerformed(evt);
+            }
+        });
+        jMenu1.add(mitBackup);
+        jMenu1.add(jSeparator4);
+
+        mitSair.setText("Sair");
+        jMenu1.add(mitSair);
+
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Apoio");
 
-        jMenuItem7.setText("Cliente");
-        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+        mitCliente.setText("Cliente");
+        mitCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem7ActionPerformed(evt);
+                mitClienteActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem7);
+        jMenu2.add(mitCliente);
 
-        jMenuItem1.setText("Evento");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        mitEvento.setText("Evento");
+        mitEvento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                mitEventoActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem1);
+        jMenu2.add(mitEvento);
         jMenu2.add(jSeparator1);
 
         jMenu3.setText("Apoio");
 
-        jMenuItem2.setText("Pais/estado/cidade");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        mitPEC.setText("Pais/estado/cidade");
+        mitPEC.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                mitPECActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItem2);
+        jMenu3.add(mitPEC);
 
-        jMenuItem5.setText("Logradouro");
-        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+        mitLogradouro.setText("Logradouro");
+        mitLogradouro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem5ActionPerformed(evt);
+                mitLogradouroActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItem5);
+        jMenu3.add(mitLogradouro);
 
-        jMenuItem4.setText("Tipo de endereço");
-        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+        mitTipoEndereco.setText("Tipo de endereço");
+        mitTipoEndereco.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem4ActionPerformed(evt);
+                mitTipoEnderecoActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItem4);
+        jMenu3.add(mitTipoEndereco);
         jMenu3.add(jSeparator2);
 
-        jMenuItem3.setText("Tipo de evento");
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+        mitTipoEvento.setText("Tipo de evento");
+        mitTipoEvento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem3ActionPerformed(evt);
+                mitTipoEventoActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItem3);
+        jMenu3.add(mitTipoEvento);
 
-        jMenuItem6.setText("Tipo contato");
-        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+        mitTipoContato.setText("Tipo contato");
+        mitTipoContato.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem6ActionPerformed(evt);
+                mitTipoContatoActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItem6);
+        jMenu3.add(mitTipoContato);
         jMenu3.add(jSeparator3);
 
-        jMenuItem8.setText("Equipe/Serviços");
-        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+        mitEquipeServico.setText("Equipe/Serviços");
+        mitEquipeServico.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem8ActionPerformed(evt);
+                mitEquipeServicoActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItem8);
+        jMenu3.add(mitEquipeServico);
 
-        jMenuItem9.setText("Pacotes");
-        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+        mitPacote.setText("Pacotes");
+        mitPacote.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem9ActionPerformed(evt);
+                mitPacoteActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItem9);
+        jMenu3.add(mitPacote);
 
         jMenu2.add(jMenu3);
 
@@ -158,63 +181,74 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+    private void mitPECActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitPECActionPerformed
         Pais_view pv = new Pais_view();
         Support.centralizar(jDesktopPane.add(pv));
         pv.setVisible(true);
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    }//GEN-LAST:event_mitPECActionPerformed
 
-    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+    private void mitLogradouroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitLogradouroActionPerformed
         Logradouro_view logv = new Logradouro_view();
         Support.centralizar(jDesktopPane.add(logv));
         logv.setVisible(true);
-    }//GEN-LAST:event_jMenuItem5ActionPerformed
+    }//GEN-LAST:event_mitLogradouroActionPerformed
 
-    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+    private void mitTipoEventoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitTipoEventoActionPerformed
         TipoEvento_view tev = new TipoEvento_view();
         Support.centralizar(jDesktopPane.add(tev));
         tev.setVisible(true);
-    }//GEN-LAST:event_jMenuItem3ActionPerformed
+    }//GEN-LAST:event_mitTipoEventoActionPerformed
 
-    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+    private void mitTipoContatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitTipoContatoActionPerformed
         TipoContato_view tcv = new TipoContato_view();
         Support.centralizar(jDesktopPane.add(tcv));
         tcv.setVisible(true);
-    }//GEN-LAST:event_jMenuItem6ActionPerformed
+    }//GEN-LAST:event_mitTipoContatoActionPerformed
 
-    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+    private void mitTipoEnderecoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitTipoEnderecoActionPerformed
         TipoEndereco_view tev = new TipoEndereco_view();
         Support.centralizar(jDesktopPane.add(tev));
         tev.setVisible(true);
-    }//GEN-LAST:event_jMenuItem4ActionPerformed
+    }//GEN-LAST:event_mitTipoEnderecoActionPerformed
 
-    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
-        Pessoa_view pev = new Pessoa_view();
-        Support.centralizar(jDesktopPane.add(pev));
-        pev.setVisible(true);
-    }//GEN-LAST:event_jMenuItem7ActionPerformed
+    private void mitClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitClienteActionPerformed
+        Pessoa_listar_view plv = new Pessoa_listar_view();
+        Support.centralizar(jDesktopPane.add(plv));
+        plv.setVisible(true);
+    }//GEN-LAST:event_mitClienteActionPerformed
 
-    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+    private void mitEquipeServicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitEquipeServicoActionPerformed
         Equipe_view eqv = new Equipe_view();
         Support.centralizar(jDesktopPane.add(eqv));
         eqv.setVisible(true);
-    }//GEN-LAST:event_jMenuItem8ActionPerformed
+    }//GEN-LAST:event_mitEquipeServicoActionPerformed
 
-    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+    private void mitPacoteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitPacoteActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem9ActionPerformed
+    }//GEN-LAST:event_mitPacoteActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void mitEventoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitEventoActionPerformed
         Evento_view evv = new Evento_view();
         Support.centralizar(jDesktopPane.add(evv));
         evv.setVisible(true);
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_mitEventoActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         TelaAlertas_view tav = new TelaAlertas_view();
         Support.centralizar(jDesktopPane.add(tav));
         tav.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void mitBackupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mitBackupActionPerformed
+
+        try {
+            GerenciamentoBD.realizaBackup();
+        } catch (IOException ex) {
+            Logger.getLogger(JanelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(JanelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_mitBackupActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -224,17 +258,20 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JMenuItem jMenuItem6;
-    private javax.swing.JMenuItem jMenuItem7;
-    private javax.swing.JMenuItem jMenuItem8;
-    private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
+    private javax.swing.JPopupMenu.Separator jSeparator4;
+    private javax.swing.JMenuItem mitBackup;
+    private javax.swing.JMenuItem mitCliente;
+    private javax.swing.JMenuItem mitEquipeServico;
+    private javax.swing.JMenuItem mitEvento;
+    private javax.swing.JMenuItem mitLogradouro;
+    private javax.swing.JMenuItem mitPEC;
+    private javax.swing.JMenuItem mitPacote;
+    private javax.swing.JMenuItem mitSair;
+    private javax.swing.JMenuItem mitTipoContato;
+    private javax.swing.JMenuItem mitTipoEndereco;
+    private javax.swing.JMenuItem mitTipoEvento;
     // End of variables declaration//GEN-END:variables
 }

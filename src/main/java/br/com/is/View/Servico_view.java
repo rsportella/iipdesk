@@ -7,6 +7,7 @@ import br.com.is.DAO.ServicoDAO;
 import br.com.is.Entitys.Equipe;
 import br.com.is.Entitys.Servico;
 import static br.com.is.View.Equipe_view.tblServicos;
+import br.com.is.utils.Formatacao;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,10 +22,10 @@ public class Servico_view extends javax.swing.JInternalFrame {
         initComponents();
         this.eq = eq;
         resetField();
+        Formatacao.reformatarMonetario(ftfValor);
         GerenciarPermissao.sweepComponents(background, "Servico");
         listCriterias.add(new QueryCriteria("node", "equipe", "eq"));
         listCriterias.add(new QueryCriteria("equal", "eq.codigo", String.valueOf(eq.getCodigo())));
-        new ServicoDAO(ser).PopulaTabela(tblServicos, listCriterias);
     }
     
     public void resetField() {
