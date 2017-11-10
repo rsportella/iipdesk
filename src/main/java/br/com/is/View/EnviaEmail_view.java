@@ -17,11 +17,10 @@ public class EnviaEmail_view extends javax.swing.JInternalFrame {
     JFileChooser chooser = new JFileChooser();
     File file = null;
 
-    // JFileChooser jfc = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
     public EnviaEmail_view() {
         initComponents();
         resetField();
-        GerenciarPermissao.sweepComponents(telaalertasView, "Tela de Suporte");
+        //GerenciarPermissao.sweepComponents(telaalertasView, "Tela de Suporte");
     }
 
     public void resetField() {
@@ -174,11 +173,13 @@ public class EnviaEmail_view extends javax.swing.JInternalFrame {
 
     private void btnEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarActionPerformed
 
+        String attachment = file.getAbsolutePath();
+
         String toAddress = "jones@no2l.com.br";
         String ccAddress = "iipenvio@no2l.com.br";
         String fromAddress = "iipenvio@no2l.com.br";
         String message = jtaMensagem.getText();
-        String attachment = file.getAbsolutePath();
+
         String attachments[] = attachment.split(" ");
 
         String Tipo = combotipo.getSelectedItem().toString();
@@ -201,14 +202,13 @@ public class EnviaEmail_view extends javax.swing.JInternalFrame {
 
         } catch (MessagingException messagingException) {
             messagingException.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Problemas ao enviar o email.\n\nTente novamente mais tarde!\n");
+            JOptionPane.showMessageDialog(null, "Problemas ao enviar o email.\nTente novamente mais tarde!\n");
 
         }
 
     }//GEN-LAST:event_btnEnviarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        //JFileChooser chooser = new JFileChooser();
         chooser.setMultiSelectionEnabled(false);
         chooser.showOpenDialog(jFileChooser1);
         file = chooser.getSelectedFile();
