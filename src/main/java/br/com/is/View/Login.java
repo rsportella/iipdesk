@@ -130,7 +130,9 @@ public class Login extends javax.swing.JFrame {
         listCriterias.add(new QueryCriteria("equal", "senha", Support.md5Criptor(String.valueOf(pwfSenha.getPassword()))));
         usuarioLogado = new Generico<Usuario>(new Usuario()).Visualizar(listCriterias);
         if (usuarioLogado != null) {
+            int userlogged = usuarioLogado.getPessoa();
             JanelaPrincipal window = new JanelaPrincipal();
+            
             window.setExtendedState(window.getExtendedState() | window.MAXIMIZED_BOTH);
             window.setVisible(true);
             permissoes = directPermissions();

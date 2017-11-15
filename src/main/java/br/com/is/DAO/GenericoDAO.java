@@ -1,9 +1,15 @@
 package br.com.is.DAO;
 
+import static br.com.is.View.Login.usuarioLogado;
+import static br.com.is.View.Login.permissoes;
+
 import br.com.is.utils.HibernateUtil;
 import java.util.List;
+import javax.persistence.Query;
 import org.hibernate.Criteria;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
@@ -23,7 +29,17 @@ public class GenericoDAO<T> {
     }
 
     public String gravar() {
+        
         try {
+            // seta o usuário - gravar no banco e continuar - fazer um novo execute query
+            //s.getSessionFactory().openSession();
+            //String username = "jones";
+            //Transaction t = s.beginTransaction();
+            String iduser = String.valueOf(usuarioLogado.getPessoa1().getCodigo());
+            SQLQuery query = s.createSQLQuery("set session \"iip.userid\" = "+iduser+"");
+            //Query query = (Query) s.createSQLQuery("set session \"iip.username\" = \""+username+"\"");
+           query.executeUpdate();
+
             s.saveOrUpdate(this.obj);
             s.getTransaction().commit();
             return "Gravado com sucesso!";
