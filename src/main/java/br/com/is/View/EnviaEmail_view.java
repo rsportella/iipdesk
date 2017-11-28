@@ -1,16 +1,11 @@
 package br.com.is.View;
 
-import br.com.is.DAO.GenericoDAO;
 import br.com.is.DAO.GerenciarPermissao;
-import br.com.is.DAO.LogradouroDAO;
 import br.com.is.Entitys.EnviaEmail;
-import br.com.is.Entitys.SocketServidor;
 import javax.mail.MessagingException;
 import javax.swing.JOptionPane;
 import java.io.File;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.filechooser.FileSystemView;
 
 public class EnviaEmail_view extends javax.swing.JInternalFrame {
 
@@ -21,7 +16,7 @@ public class EnviaEmail_view extends javax.swing.JInternalFrame {
     public EnviaEmail_view() {
         initComponents();
         resetField();
-        GerenciarPermissao.sweepComponents(telaalertasView, "Tela de Suporte");
+//        GerenciarPermissao.sweepComponents(telaalertasView, "Tela de Suporte");
     }
 
     public void resetField() {
@@ -174,7 +169,7 @@ public class EnviaEmail_view extends javax.swing.JInternalFrame {
 
     private void btnEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarActionPerformed
 
-        String toAddress = "jones@no2l.com.br";
+        String toAddress = "rodolfosportella@gmail.com";
         String ccAddress = "iipenvio@no2l.com.br";
         String fromAddress = "iipenvio@no2l.com.br";
         String message = jtaMensagem.getText();

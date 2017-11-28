@@ -9,9 +9,6 @@ import br.com.is.utils.GerenciamentoBD;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.xml.bind.JAXBException;
 import utils.Support;
 
 /**
