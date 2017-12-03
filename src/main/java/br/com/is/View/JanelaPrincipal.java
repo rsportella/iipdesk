@@ -6,13 +6,19 @@
 package br.com.is.View;
 
 import br.com.is.utils.GerenciamentoBD;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.xml.bind.JAXBException;
 import utils.Support;
+//import DAO.WebService;
 
 /**
  *
@@ -25,12 +31,29 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     /**
      * Creates new form JanelaPrincipal
      */
-    public JanelaPrincipal() {
+    public JanelaPrincipal() throws IOException {
         initComponents();
 //        log4j.info("#######################################################################################");
 //        log4j.info("########## IPP - INICIANDO...##########################################################");
 //        log4j.info("#######################################################################################");
-      
+
+        String URL_WEBSERVICE = "http://api.promasters.net.br/cotacao/v1/valores?moedas=USD&alt=json";
+
+        URL url = new URL(URL_WEBSERVICE);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+
+        StringBuffer dadosUrl = new StringBuffer();
+        String dado = "";
+        while (null != ((dado = br.readLine()))) {
+            dadosUrl.append(dado);
+        }
+        br.close();
+
+        //System.out.println("###########  VALOR = "+dadosUrl.toString().substring(61, 65));
+        labdolar.setText(dadosUrl.toString().substring(61, 65));
+
     }
 
     /**
@@ -45,6 +68,8 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         jDesktopPane = new javax.swing.JDesktopPane();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        labdolar = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         mitBackup = new javax.swing.JMenuItem();
@@ -85,6 +110,14 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         });
         jDesktopPane.add(jButton2);
         jButton2.setBounds(220, 20, 170, 130);
+
+        jLabel1.setText("Cotação Dólar:");
+        jDesktopPane.add(jLabel1);
+        jLabel1.setBounds(20, 170, 110, 15);
+
+        labdolar.setText("ERRO");
+        jDesktopPane.add(labdolar);
+        labdolar.setBounds(130, 170, 50, 15);
 
         getContentPane().add(jDesktopPane);
 
@@ -273,6 +306,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     public static javax.swing.JDesktopPane jDesktopPane;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
@@ -281,6 +315,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JPopupMenu.Separator jSeparator4;
+    private javax.swing.JLabel labdolar;
     private javax.swing.JMenuItem mitBackup;
     private javax.swing.JMenuItem mitCliente;
     private javax.swing.JMenuItem mitEquipeServico;
