@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="servicos" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1413802a-09a6-4b76-9568-2cb036743734">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="evento" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     servico_pertence_evento."valor_final" AS servico_pertence_evento_valor_final,
+     servico."codigo" AS servico_codigo,
+     servico."titulo" AS servico_titulo,
+     equipe."titulo" AS equipe_titulo
+FROM
+     "public"."servico" servico INNER JOIN "public"."servico_pertence_evento" servico_pertence_evento ON servico."codigo" = servico_pertence_evento."servico"
+     INNER JOIN "public"."equipe" equipe ON servico."equipe" = equipe."codigo"
+WHERE
+     servico_pertence_evento."evento" = $P{evento}]]>
+	</queryString>
+	<field name="servico_pertence_evento_valor_final" class="java.math.BigDecimal"/>
+	<field name="servico_codigo" class="java.lang.Integer"/>
+	<field name="servico_titulo" class="java.lang.String"/>
+	<field name="equipe_titulo" class="java.lang.String"/>
+	<columnHeader>
+		<band height="20">
+			<staticText>
+				<reportElement x="0" y="0" width="161" height="20" uuid="74ceeab0-b1ed-46d0-897f-e4a07115f83a"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Serviços contratados:]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="18" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="485" height="18" uuid="69cb106a-6427-4883-ab06-3507b4828184"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["Item " + $F{servico_codigo} + " - "+ $F{servico_titulo} +" oferecido por "+ $F{equipe_titulo} +" ao valor de R\$ "+ $F{servico_pertence_evento_valor_final}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

@@ -23,15 +23,23 @@ import br.com.is.Entitys.ServicoPertenceEventoPK;
 import br.com.is.Entitys.TipoEvento;
 import static br.com.is.View.JanelaPrincipal.jDesktopPane;
 import br.com.is.utils.ComboItens;
+import br.com.is.utils.ConexaoBD;
 import static br.com.is.utils.Funcoes.geraParcelas;
 import br.com.is.utils.Layouts;
 import java.awt.event.ItemEvent;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.TreeMap;
 import javax.swing.JOptionPane;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
 import utils.Support;
 
 public class Evento_view extends javax.swing.JInternalFrame {
@@ -557,6 +565,11 @@ public class Evento_view extends javax.swing.JInternalFrame {
         });
 
         jButton11.setText("Contrato");
+        jButton11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton11ActionPerformed(evt);
+            }
+        });
 
         jLabel13.setText("Número de parcelas");
 
@@ -650,9 +663,8 @@ public class Evento_view extends javax.swing.JInternalFrame {
                                     .addComponent(dcsInicial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel10)
-                                        .addComponent(lblTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jLabel10)
+                                    .addComponent(lblTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jButton11))
                                 .addGap(0, 208, Short.MAX_VALUE)))
                         .addGap(24, 24, 24))
@@ -1001,19 +1013,43 @@ public class Evento_view extends javax.swing.JInternalFrame {
             cmbPagamentoFormaPagamento.setEnabled(true);
             cmbPagamentoSatus.setSelectedItem(amorTemp.getStatus());
             cmbPagamentoSatus.setEnabled(true);
-        } else {
-
         }
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        amorTemp.setData(dcsData.getDate());
-        amorTemp.setValor(cmmValorDebi.getValue());
-        amorTemp.setStatus(cmbPagamentoSatus.getSelectedItem().toString());
-        amorTemp.setFormaPagamento(cmbPagamentoFormaPagamento.getSelectedItem().toString());
-        new Generico<Amortizacao>(amorTemp).Gravar();
-        new AmortizacaoDAO(new Amortizacao()).PopulaTabela(jTable1, evento.getCodigo());
+        if (cmbPagamentoFormaPagamento.getSelectedIndex() != 0
+                && cmbPagamentoSatus.getSelectedIndex() != 0
+                && !dcsData.getDate().equals("")
+                && !cmmValorDebi.getValue().equals("")) {
+            amorTemp.setData(dcsData.getDate());
+            amorTemp.setValor(cmmValorDebi.getValue());
+            amorTemp.setStatus(cmbPagamentoSatus.getSelectedItem().toString());
+            amorTemp.setFormaPagamento(cmbPagamentoFormaPagamento.getSelectedItem().toString());
+            new Generico<Amortizacao>(amorTemp).Gravar();
+            new AmortizacaoDAO(new Amortizacao()).PopulaTabela(jTable1, evento.getCodigo());
+
+            cmmValorDebi.setValue(new BigDecimal(0));
+            cmmValorDebi.setEnabled(false);
+            dcsData.setDate(null);
+            dcsData.setEnabled(false);
+            cmbPagamentoFormaPagamento.setSelectedIndex(0);
+            cmbPagamentoFormaPagamento.setEnabled(false);
+            cmbPagamentoSatus.setSelectedIndex(0);
+            cmbPagamentoSatus.setEnabled(false);
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+        try {
+            JasperReport relatorio = JasperCompileManager.compileReport(getClass().getResourceAsStream("/relatorios/relatorioTipoAdicionais.jrxml"));
+            Map parametros = new HashMap();
+            parametros.put("", 0);
+            JasperPrint impressao = JasperFillManager.fillReport(relatorio, parametros, ConexaoBD.getInstance().getConnection());
+            JasperViewer.viewReport(impressao, false);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao gerar relatório: " + e);
+        }
+    }//GEN-LAST:event_jButton11ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

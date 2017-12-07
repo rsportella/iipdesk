@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="contratantes" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="41027133-cf51-4d53-8013-4f7d9bdde61a">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="evento" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     pessoa."nome" AS pessoa_nome,
+     pessoa."apelido" AS pessoa_apelido,
+     pessoa."cpf" AS pessoa_cpf,
+     pessoa."rg" AS pessoa_rg,
+     pessoa."nascimento" AS pessoa_nascimento,
+     pessoa."orgexp" AS pessoa_orgexp,
+     pessoa."genero" AS pessoa_genero,
+     endereco."codigo" AS endereco_codigo,
+     endereco."rua" AS endereco_rua,
+     endereco."numero" AS endereco_numero,
+     endereco."bairro" AS endereco_bairro,
+     endereco."cep" AS endereco_cep,
+     cidade."nome" AS cidade_nome,
+     estado."nome" AS estado_nome,
+     estado."uf" AS estado_uf,
+     pais."nome" AS pais_nome,
+     pais."sigla" AS pais_sigla,
+     responsavel."evento" AS responsavel_evento
+FROM
+     "public"."pessoa" pessoa INNER JOIN "public"."responsavel" responsavel ON pessoa."codigo" = responsavel."cliente"
+     INNER JOIN "public"."possui_endereco" possui_endereco ON pessoa."codigo" = possui_endereco."cliente"
+     INNER JOIN "public"."endereco" endereco ON possui_endereco."endereco" = endereco."codigo"
+     INNER JOIN "public"."cidade" cidade ON endereco."cidade" = cidade."codigo"
+     INNER JOIN "public"."estado" estado ON cidade."estado" = estado."codigo"
+     INNER JOIN "public"."pais" pais ON estado."pais" = pais."codigo"
+WHERE
+     responsavel."evento" = $P{evento}]]>
+	</queryString>
+	<field name="pessoa_nome" class="java.lang.String"/>
+	<field name="pessoa_apelido" class="java.lang.String"/>
+	<field name="pessoa_cpf" class="java.lang.String"/>
+	<field name="pessoa_rg" class="java.lang.String"/>
+	<field name="pessoa_nascimento" class="java.sql.Date"/>
+	<field name="pessoa_orgexp" class="java.lang.String"/>
+	<field name="pessoa_genero" class="java.lang.String"/>
+	<field name="endereco_codigo" class="java.lang.Integer"/>
+	<field name="endereco_rua" class="java.lang.String"/>
+	<field name="endereco_numero" class="java.lang.String"/>
+	<field name="endereco_bairro" class="java.lang.String"/>
+	<field name="endereco_cep" class="java.lang.String"/>
+	<field name="cidade_nome" class="java.lang.String"/>
+	<field name="estado_nome" class="java.lang.String"/>
+	<field name="estado_uf" class="java.lang.String"/>
+	<field name="pais_nome" class="java.lang.String"/>
+	<field name="pais_sigla" class="java.lang.String"/>
+	<field name="responsavel_evento" class="java.lang.Integer"/>
+	<columnHeader>
+		<band height="20">
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="20" uuid="e55c5296-8a17-454a-9135-7be41c05ac72"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Contratante:]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="49" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="509" height="49" uuid="0b073899-fcfc-4a7d-91b3-da7f08bf7af6"/>
+				<textElement textAlignment="Justified">
+					<font isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pessoa_nome}+", residente e domiciliado na Rua "+
+$F{endereco_rua}+", nº " + $F{endereco_numero} +
+", bairro "+$F{endereco_bairro}+", CEP "+$F{endereco_cep} +", cidade"
++$F{cidade_nome}+", no Estado" + $F{estado_nome} +" "+ $F{estado_uf} + ", CPF sob o nº " + $F{pessoa_cpf} + " e Carteira de Identidade nº " + $F{pessoa_rg}+";"]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

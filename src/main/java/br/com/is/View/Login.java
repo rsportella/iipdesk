@@ -133,13 +133,13 @@ public class Login extends javax.swing.JFrame {
         usuarioLogado = new Generico<Usuario>(new Usuario()).Visualizar(listCriterias);
         if (usuarioLogado != null) {
             int userlogged = usuarioLogado.getPessoa();
-            JanelaPrincipal window;
+            JanelaPrincipal window = null;
             try {
                 window = new JanelaPrincipal();
             } catch (IOException ex) {
                 Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
             window.setExtendedState(window.getExtendedState() | JanelaPrincipal.MAXIMIZED_BOTH);
             window.setVisible(true);
             permissoes = directPermissions();

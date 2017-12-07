@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="locais" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9b119dca-07cd-4c70-a0ff-d6decba572bc">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="evento" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     realizacao."descricao" AS realizacao_descricao,
+     realizacao."data" AS realizacao_data,
+     realizacao."hora_inicio" AS realizacao_hora_inicio,
+     realizacao."hora_termino" AS realizacao_hora_termino,
+     endereco."rua" AS endereco_rua,
+     endereco."numero" AS endereco_numero,
+     endereco."bairro" AS endereco_bairro,
+     endereco."cep" AS endereco_cep,
+     cidade."nome" AS cidade_nome,
+     estado."nome" AS estado_nome,
+     estado."uf" AS estado_uf,
+     pais."nome" AS pais_nome,
+     pais."sigla" AS pais_sigla,
+     sub_tipo_evento."titulo" AS sub_tipo_evento_titulo
+FROM
+     "public"."endereco" endereco INNER JOIN "public"."realizacao" realizacao ON endereco."codigo" = realizacao."endereco"
+     INNER JOIN "public"."cidade" cidade ON endereco."cidade" = cidade."codigo"
+     INNER JOIN "public"."estado" estado ON cidade."estado" = estado."codigo"
+     INNER JOIN "public"."pais" pais ON estado."pais" = pais."codigo"
+     INNER JOIN "public"."sub_tipo_evento" sub_tipo_evento ON realizacao."sub_tipo_evento" = sub_tipo_evento."codigo"
+WHERE
+     realizacao."evento" = $P{evento}]]>
+	</queryString>
+	<field name="realizacao_descricao" class="java.lang.String"/>
+	<field name="realizacao_data" class="java.sql.Date"/>
+	<field name="realizacao_hora_inicio" class="java.lang.String"/>
+	<field name="realizacao_hora_termino" class="java.lang.String"/>
+	<field name="endereco_rua" class="java.lang.String"/>
+	<field name="endereco_numero" class="java.lang.String"/>
+	<field name="endereco_bairro" class="java.lang.String"/>
+	<field name="endereco_cep" class="java.lang.String"/>
+	<field name="cidade_nome" class="java.lang.String"/>
+	<field name="estado_nome" class="java.lang.String"/>
+	<field name="estado_uf" class="java.lang.String"/>
+	<field name="pais_nome" class="java.lang.String"/>
+	<field name="pais_sigla" class="java.lang.String"/>
+	<field name="sub_tipo_evento_titulo" class="java.lang.String"/>
+	<columnHeader>
+		<band height="19" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="161" height="19" uuid="3aabac1e-a41c-45a3-bba8-06001ff3b4b8"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Eventos vinculados:]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="28" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="555" height="28" uuid="b2be98c8-7c45-4180-872f-010cb702e18d"/>
+				<textFieldExpression><![CDATA[$F{sub_tipo_evento_titulo}+" iniciando as " + $F{realizacao_data} + $F{realizacao_hora_inicio} +" e com o termino programado as " + $F{realizacao_hora_termino}+" no endereço " + $F{endereco_rua} +", "+ $F{endereco_numero} + ", " + $F{endereco_bairro}+", " +$F{endereco_cep} + ", na cidade " + $F{cidade_nome} + ", " + $F{estado_uf} +" - "+$F{estado_nome}+", "+$F{pais_sigla} +" - "+$F{pais_nome}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

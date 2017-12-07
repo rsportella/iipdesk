@@ -11,18 +11,18 @@ import java.security.NoSuchAlgorithmException;
 public class Support {
 
     public static void centralizar(Component componente) {
-        // Centraliza a janela de abertura no centro do desktop.   
+        // Centraliza a janela de abertura no centro do desktop.
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         Rectangle r = componente.getBounds();
-        // Dimensões da janela   
+        // Dimensões da janela
         int widthSplash = r.width;
         int heightSplash = r.height;
 
-        // calculo para encontrar as cooredenadas X e Y para a centralização da janela.   
+        // calculo para encontrar as cooredenadas X e Y para a centralização da janela.
         int posX = (screen.width / 2) - (widthSplash / 2);
         int posY = (screen.height / 2) - (heightSplash / 2);
 
-        componente.setBounds(posX, posY, widthSplash, heightSplash);
+        componente.setLocation(posX, posY);
     }
 
     public static String md5Criptor(String senha) {
