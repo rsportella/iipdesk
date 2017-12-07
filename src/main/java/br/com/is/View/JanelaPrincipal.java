@@ -11,9 +11,14 @@ import br.com.is.Entitys.Evento;
 import br.com.is.utils.GerenciamentoBD;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static javax.swing.text.html.HTML.Tag.HEAD;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -21,6 +26,7 @@ import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 import utils.Support;
+//import DAO.WebService;
 
 /**
  *
@@ -33,7 +39,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     /**
      * Creates new form JanelaPrincipal
      */
-    public JanelaPrincipal() {
+    public JanelaPrincipal() throws IOException {
         initComponents();
         //        log4j.info("#######################################################################################");
         //        log4j.info("########## IPP - INICIANDO...##########################################################");
@@ -56,6 +62,27 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         jPanel1.removeAll();
         jPanel1.add(panel, BorderLayout.CENTER);
         jPanel1.validate();
+//        log4j.info("#######################################################################################");
+//        log4j.info("########## IPP - INICIANDO...##########################################################");
+//        log4j.info("#######################################################################################");
+
+        String URL_WEBSERVICE = "http://api.promasters.net.br/cotacao/v1/valores?moedas=USD&alt=json";
+
+        URL url = new URL(URL_WEBSERVICE);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+        BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+
+        StringBuffer dadosUrl = new StringBuffer();
+        String dado = "";
+        while (null != ((dado = br.readLine()))) {
+            dadosUrl.append(dado);
+        }
+        br.close();
+
+        //System.out.println("###########  VALOR = "+dadosUrl.toString().substring(61, 65));
+        labdolar.setText(dadosUrl.toString().substring(61, 65));
+
     }
 
     /**
@@ -70,9 +97,11 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         jDesktopPane = new javax.swing.JDesktopPane();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        labdolar = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
@@ -116,6 +145,10 @@ public class JanelaPrincipal extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setText("Cotação Dólar:");
+
+        labdolar.setText("ERRO");
+
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -129,8 +162,8 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
-        jLabel1.setText("Eventos ativos");
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        jLabel3.setText("Eventos ativos");
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel2.setText("Pagamentos abertos");
@@ -161,8 +194,10 @@ public class JanelaPrincipal extends javax.swing.JFrame {
 
         jDesktopPane.setLayer(jButton1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane.setLayer(jButton2, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane.setLayer(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane.setLayer(labdolar, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane.setLayer(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane.setLayer(jLabel3, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane.setLayer(jScrollPane2, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane.setLayer(jPanel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -399,6 +434,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     public static javax.swing.JDesktopPane jDesktopPane;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
@@ -412,6 +448,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator4;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
+    private javax.swing.JLabel labdolar;
     private javax.swing.JMenuItem mitBackup;
     private javax.swing.JMenuItem mitCliente;
     private javax.swing.JMenuItem mitEquipeServico;

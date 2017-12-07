@@ -29,16 +29,14 @@ public class GenericoDAO<T> {
     }
 
     public String gravar() {
-        
+
         try {
-            // seta o usuário - gravar no banco e continuar - fazer um novo execute query
-            //s.getSessionFactory().openSession();
-            //String username = "jones";
-            //Transaction t = s.beginTransaction();
             String iduser = String.valueOf(usuarioLogado.getPessoa1().getCodigo());
-            SQLQuery query = s.createSQLQuery("set session \"iip.userid\" = "+iduser+"");
-            //Query query = (Query) s.createSQLQuery("set session \"iip.username\" = \""+username+"\"");
-           query.executeUpdate();
+            SQLQuery query = s.createSQLQuery("set session \"iip.userid\" = " + iduser + "");
+            query.executeUpdate();
+            
+            SQLQuery queryAudit = s.createSQLQuery("set session \"iip.auditoria\" = \"ON\"");
+            queryAudit.executeUpdate();
 
             s.saveOrUpdate(this.obj);
             s.getTransaction().commit();

@@ -10,8 +10,11 @@ import static br.com.is.DAO.GerenciarPermissao.directPermissions;
 import br.com.is.DAO.QueryCriteria;
 import br.com.is.Entitys.PermissaoTela;
 import br.com.is.Entitys.Usuario;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import utils.Support;
 
 /**
@@ -130,9 +133,14 @@ public class Login extends javax.swing.JFrame {
         usuarioLogado = new Generico<Usuario>(new Usuario()).Visualizar(listCriterias);
         if (usuarioLogado != null) {
             int userlogged = usuarioLogado.getPessoa();
-            JanelaPrincipal window = new JanelaPrincipal();
+            JanelaPrincipal window;
+            try {
+                window = new JanelaPrincipal();
+            } catch (IOException ex) {
+                Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+            }
             
-            window.setExtendedState(window.getExtendedState() | window.MAXIMIZED_BOTH);
+            window.setExtendedState(window.getExtendedState() | JanelaPrincipal.MAXIMIZED_BOTH);
             window.setVisible(true);
             permissoes = directPermissions();
             dispose();
