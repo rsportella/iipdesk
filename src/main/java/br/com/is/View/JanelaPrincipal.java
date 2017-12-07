@@ -34,21 +34,18 @@ import utils.Support;
 public class JanelaPrincipal extends javax.swing.JFrame {
 
     //initializing the logger
-//    static final Logger log4j = Logger.getLogger(JanelaPrincipal.class);
+    static org.apache.log4j.Logger log4j = org.apache.log4j.Logger.getLogger(JanelaPrincipal.class);
+
     /**
      * Creates new form JanelaPrincipal
      */
     public JanelaPrincipal() throws IOException {
         initComponents();
-        //        log4j.info("#######################################################################################");
-        //        log4j.info("########## IPP - INICIANDO...##########################################################");
-        //        log4j.info("#######################################################################################");
+        log4j.info("#######################################################################################");
+        log4j.info("########## IPP - INICIANDO...##########################################################");
+        log4j.info("#######################################################################################");
 
         new EventoDAO(new Evento()).PopulaTabela(jTable1, new QueryCriteria("contain", "status", "1 - Ativo"));
-
-//        log4j.info("#######################################################################################");
-//        log4j.info("########## IPP - INICIANDO...##########################################################");
-//        log4j.info("#######################################################################################");
 
         String URL_WEBSERVICE = "http://api.promasters.net.br/cotacao/v1/valores?moedas=USD&alt=json";
 
@@ -66,7 +63,6 @@ public class JanelaPrincipal extends javax.swing.JFrame {
 
         //System.out.println("###########  VALOR = "+dadosUrl.toString().substring(61, 65));
 //        labdolar.setText(dadosUrl.toString().substring(61, 65));
-
     }
 
     /**
