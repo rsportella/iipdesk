@@ -84,7 +84,7 @@
             <version>3.8.2</version>
             <scope>test</scope>
         </dependency>
-                <!-- https://mvnrepository.com/artifact/org.codehaus.groovy/groovy-all -->
+        <!-- https://mvnrepository.com/artifact/org.codehaus.groovy/groovy-all -->
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
             <artifactId>groovy-all</artifactId>
@@ -96,5 +96,12 @@
             <artifactId>jasperreports</artifactId>
             <version>5.5.0</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.toedter/jcalendar -->
+        <dependency>
+            <groupId>com.toedter</groupId>
+            <artifactId>jcalendar</artifactId>
+            <version>1.4</version>
+        </dependency>
+
     </dependencies>
 </project>
