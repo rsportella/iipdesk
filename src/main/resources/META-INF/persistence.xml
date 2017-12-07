@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="br.com.is_iipdesk_jar_1.0-SNAPSHOTPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>br.com.is.Entitys.SubTipoEvento</class>
+    <class>br.com.is.Entitys.Realizacao</class>
+    <class>br.com.is.Entitys.Auditoria</class>
+    <class>br.com.is.Entitys.TipoEndereco</class>
+    <class>br.com.is.Entitys.Tela</class>
+    <class>br.com.is.Entitys.Evento</class>
+    <class>br.com.is.Entitys.Cidade</class>
+    <class>br.com.is.Entitys.Pais</class>
+    <class>br.com.is.Entitys.Contato</class>
+    <class>br.com.is.Entitys.Pessoa</class>
+    <class>br.com.is.Entitys.TipoEvento</class>
+    <class>br.com.is.Entitys.Servico</class>
+    <class>br.com.is.Entitys.Endereco</class>
+    <class>br.com.is.Entitys.PossuiContato</class>
+    <class>br.com.is.Entitys.TipoContato</class>
+    <class>br.com.is.Entitys.Diretiva</class>
+    <class>br.com.is.Entitys.PacotePossuiServico</class>
+    <class>br.com.is.Entitys.Estado</class>
+    <class>br.com.is.Entitys.Permissao</class>
+    <class>br.com.is.Entitys.Usuario</class>
+    <class>br.com.is.Entitys.Pacote</class>
+    <class>br.com.is.Entitys.Logradouro</class>
+    <class>br.com.is.Entitys.Campo</class>
+    <class>br.com.is.Entitys.ServicoPertenceEvento</class>
+    <class>br.com.is.Entitys.PossuiEndereco</class>
+    <class>br.com.is.Entitys.Equipe</class>
+    <class>br.com.is.Entitys.Responsavel</class>
+    <class>br.com.is.Entitys.Amortizacao</class>
+    <class>br.com.is.Entitys.Pagamento</class>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/iip"/>
+      <property name="javax.persistence.jdbc.user" value="postgres"/>
+      <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+      <property name="javax.persistence.jdbc.password" value="postgres"/>
+    </properties>
+  </persistence-unit>
+</persistence>
