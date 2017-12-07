@@ -1,5 +1,6 @@
 package br.com.is.utils;
 
+import java.math.BigDecimal;
 import java.text.*;
 import java.util.Date;
 import java.util.Locale;
@@ -34,9 +35,6 @@ public class Formatacao {
         campo.setText(df.format(Double.parseDouble(campo.getText())));
     }
 
-    public static JFormattedTextField getMonetario() {
-        return getFormatado("#.###,##");
-    }
 
     public static JFormattedTextField getTelefone() {
         return getFormatado("(##) ####-####");
@@ -67,6 +65,19 @@ public class Formatacao {
             MaskFormatter m = new MaskFormatter();
             m.setPlaceholderCharacter('_');
             m.setMask("R$ ##.###,##");
+            campo.setFormatterFactory(null);
+            campo.setFormatterFactory(new DefaultFormatterFactory(m));
+            campo.setValue(null);
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+    }
+
+    public static void reformatarHora(JFormattedTextField campo) {
+        try {
+            MaskFormatter m = new MaskFormatter();
+            m.setPlaceholderCharacter('_');
+            m.setMask("##:##");
             campo.setFormatterFactory(null);
             campo.setFormatterFactory(new DefaultFormatterFactory(m));
             campo.setValue(null);
@@ -155,8 +166,13 @@ public class Formatacao {
     }
 
     public static Date dataSql(String data) throws ParseException {
-        Date dataAMD = new SimpleDateFormat(forDtEUA).parse(data);
-        return dataAMD;
+        try {
+            Date dataAMD = new SimpleDateFormat(forDtEUA).parse(data);
+            return dataAMD;
+        } catch (Exception e) {
+            System.err.println(e);
+            return null;
+        }
     }
 
     public static String ajustaDataDMA(String data) {

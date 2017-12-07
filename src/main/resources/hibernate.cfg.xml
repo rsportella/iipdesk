@@ -28,15 +28,21 @@
     <mapping class="br.com.is.Entitys.Pessoa"/>
     <mapping class="br.com.is.Entitys.Estado"/>
     <mapping class="br.com.is.Entitys.Cidade"/>
-    <mapping class="br.com.is.Entitys.PossuiEnderecoId"/>
+    <mapping class="br.com.is.Entitys.PossuiEnderecoPK"/>
     <mapping class="br.com.is.Entitys.Logradouro"/>
     <mapping class="br.com.is.Entitys.TipoContato"/>
-    <mapping class="br.com.is.Entitys.PossuiContatoId"/>
+    <mapping class="br.com.is.Entitys.PossuiContatoPK"/>
+    <mapping class="br.com.is.Entitys.Realizacao"/>
     <mapping class="br.com.is.Entitys.TipoEvento"/>
+    <mapping class="br.com.is.Entitys.SubTipoEvento"/>
     <mapping class="br.com.is.Entitys.Evento"/>
-    <mapping class="br.com.is.Entitys.PacotePossuiServicoId"/>
+    <mapping class="br.com.is.Entitys.Responsavel"/>
+    <mapping class="br.com.is.Entitys.ResponsavelPK"/>
+    <mapping class="br.com.is.Entitys.PacotePossuiServicoPK"/>
     <mapping class="br.com.is.Entitys.PacotePossuiServico"/>
     <mapping class="br.com.is.Entitys.Contato"/>
     <mapping class="br.com.is.Entitys.Pais"/>
+    <mapping class="br.com.is.Entitys.Pagamento"/>
+    <mapping class="br.com.is.Entitys.Amortizacao"/>
   </session-factory>
 </hibernate-configuration>

@@ -35,14 +35,14 @@ public class Diretiva implements Serializable {
     @Basic(optional = false)
     @Column(name = "codigo")
     private Integer codigo;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "diretiva1")
+    private Collection<Permissao> permissaoCollection;
     @JoinColumn(name = "campo", referencedColumnName = "codigo")
     @ManyToOne
     private Campo campo;
     @JoinColumn(name = "tela", referencedColumnName = "codigo")
     @ManyToOne
     private Tela tela;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "diretiva1")
-    private Collection<Permissao> permissaoCollection;
 
     public Diretiva() {
     }
@@ -59,6 +59,15 @@ public class Diretiva implements Serializable {
         this.codigo = codigo;
     }
 
+    @XmlTransient
+    public Collection<Permissao> getPermissaoCollection() {
+        return permissaoCollection;
+    }
+
+    public void setPermissaoCollection(Collection<Permissao> permissaoCollection) {
+        this.permissaoCollection = permissaoCollection;
+    }
+
     public Campo getCampo() {
         return campo;
     }
@@ -73,15 +82,6 @@ public class Diretiva implements Serializable {
 
     public void setTela(Tela tela) {
         this.tela = tela;
-    }
-
-    @XmlTransient
-    public Collection<Permissao> getPermissaoCollection() {
-        return permissaoCollection;
-    }
-
-    public void setPermissaoCollection(Collection<Permissao> permissaoCollection) {
-        this.permissaoCollection = permissaoCollection;
     }
 
     @Override
@@ -106,7 +106,7 @@ public class Diretiva implements Serializable {
 
     @Override
     public String toString() {
-        return "Entitys.Diretiva[ codigo=" + codigo + " ]";
+        return "br.com.is.Entitys.Diretiva[ codigo=" + codigo + " ]";
     }
 
 }

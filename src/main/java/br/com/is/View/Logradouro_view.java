@@ -1,9 +1,13 @@
 package br.com.is.View;
 
+import br.com.is.DAO.Generico;
 import br.com.is.DAO.GenericoDAO;
 import br.com.is.DAO.GerenciarPermissao;
 import br.com.is.DAO.LogradouroDAO;
+import br.com.is.DAO.QueryCriteria;
 import br.com.is.Entitys.Logradouro;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 public class Logradouro_view extends javax.swing.JInternalFrame {
@@ -23,7 +27,8 @@ public class Logradouro_view extends javax.swing.JInternalFrame {
         tfdSigla.requestFocus(true);
         log = new Logradouro();
         tfdCodigo.setText(String.valueOf(new GenericoDAO<Logradouro>(log).ProximoCodigo()));
-        new LogradouroDAO(log).PopulaTabela(tblConsulta, null);
+        QueryCriteria criterio = new QueryCriteria("contain", "nome", "%%");
+        new LogradouroDAO(log).PopulaTabela(tblConsulta, criterio);
     }
 
     @SuppressWarnings("unchecked")
@@ -221,8 +226,10 @@ public class Logradouro_view extends javax.swing.JInternalFrame {
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         if (tblConsulta.getSelectedRow() != -1) {
-            String[][] criterios = {{"codigo", String.valueOf(tblConsulta.getValueAt(tblConsulta.getSelectedRow(), 0))}};
-            this.log = (Logradouro) new GenericoDAO<Logradouro>(log).visualizar(criterios);
+
+            List<QueryCriteria> listCriterias = new ArrayList<QueryCriteria>();
+            listCriterias.add(new QueryCriteria("equal", "codigo", String.valueOf(tblConsulta.getValueAt(tblConsulta.getSelectedRow(), 0))));
+            this.log = new Generico<Logradouro>(log).Visualizar(listCriterias);
             tfdCodigo.setText(String.valueOf(log.getCodigo()));
             tfdSigla.setText(log.getSigla());
             tfdNome.setText(log.getNome());
@@ -236,7 +243,7 @@ public class Logradouro_view extends javax.swing.JInternalFrame {
             log.setNome(tfdNome.getText());
             log.setSigla(tfdSigla.getText());
 
-            JOptionPane.showMessageDialog(null, new GenericoDAO<Logradouro>(log).gravar());
+            new Generico<Logradouro>(log).Gravar();
 
             resetField();
         } else {
@@ -245,7 +252,7 @@ public class Logradouro_view extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnBuscaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscaActionPerformed
-        String[][] criterio = {{"contain", "nome", "%" + tfdBuscar.getText() + "%"}};
+        QueryCriteria criterio = new QueryCriteria("contain", "nome", "%" + tfdBuscar.getText() + "%");
         new LogradouroDAO(this.log).PopulaTabela(tblConsulta, criterio);
     }//GEN-LAST:event_btnBuscaActionPerformed
 

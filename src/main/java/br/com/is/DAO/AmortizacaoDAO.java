@@ -1,25 +1,30 @@
 package br.com.is.DAO;
 
-import br.com.is.Entitys.Pais;
-import br.com.is.utils.ComboItens;
+import br.com.is.Entitys.Amortizacao;
+import br.com.is.utils.Formatacao;
+import br.com.is.utils.Layouts;
+import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
-public class PaisDAO extends GenericoDAO<Object> {
+public class AmortizacaoDAO extends Generico<Object> {
 
-    public PaisDAO(Object obj) {
+    public AmortizacaoDAO(Object obj) {
         super(obj);
     }
 
-    public void PopulaTabela(JTable tabela, String[][] criterio) {
+    public void PopulaTabela(JTable tabela, int evento) {
         Object[][] dadosTabela = null;
-        List<Object> resultQuery = Listar(criterio);
+        List<QueryCriteria> criterios = new ArrayList<>();
+        criterios.add(new QueryCriteria("node", "pagamento", "pag"));
+        criterios.add(new QueryCriteria("node", "pag.evento1", "ev"));
+        criterios.add(new QueryCriteria("equal", "ev.codigo", String.valueOf(evento)));
 
+        List resultQuery = Listar(criterios);
         // cabecalho da tabela
-        Object[] cabecalho = {"Código", "Titulo", "Sigla"};
+        Object[] cabecalho = {"Código", "Data", "Valor", "Forma de pagamento", "Status"};
 
         // cria matriz de acordo com nº de registros da tabela
         try {
@@ -32,10 +37,12 @@ public class PaisDAO extends GenericoDAO<Object> {
         try {
             int row = 0;
             for (Object o : resultQuery) {
-                Pais s = (Pais) o;
+                Amortizacao s = (Amortizacao) o;
                 dadosTabela[row][0] = s.getCodigo();
-                dadosTabela[row][1] = s.getNome();
-                dadosTabela[row][2] = s.getSigla();
+                dadosTabela[row][1] = Layouts.setData(s.getData());
+                dadosTabela[row][2] = "R$ " + Layouts.setMonetario(s.getValor());
+                dadosTabela[row][3] = s.getFormaPagamento();
+                dadosTabela[row][4] = s.getStatus();
                 row++;
             }
         } catch (Exception e) {
@@ -87,31 +94,4 @@ public class PaisDAO extends GenericoDAO<Object> {
         }
     }
 
-    public void popularCombo(JComboBox combo) {
-        ComboItens item;
-        combo.removeAllItems();
-        List<Object> resultQuery = Listar(null);
-        try {
-            if (!resultQuery.isEmpty()) {
-                item = new ComboItens();
-                item.setCodigo(0);
-                item.setDescricao("-- Selecione uma opção --");
-                combo.addItem(item);
-                for (Object o : resultQuery) {
-                    Pais s = (Pais) o;
-                    item = new ComboItens();
-                    item.setCodigo(s.getCodigo());
-                    item.setDescricao(s.getSigla() + " - " + s.getNome());
-                    combo.addItem(item);
-                }
-            } else {
-                item = new ComboItens();
-                item.setCodigo(0);
-                item.setDescricao("-- Nenhuma opção cadastrada --");
-                combo.addItem(item);
-            }
-        } catch (Exception e) {
-            System.out.println("Erro ao popular Combo = " + e.toString());
-        }
-    }
 }

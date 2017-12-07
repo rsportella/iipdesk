@@ -1,7 +1,10 @@
 package br.com.is.Entitys;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,8 +14,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * @author Portella, Rodolfo <rodolfosportella@gmail.com>
@@ -40,7 +45,9 @@ public class Servico implements Serializable {
     private String descricao;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "valor")
-    private Double valor;
+    private BigDecimal valor;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "servico1")
+    private Collection<ServicoPertenceEvento> servicoPertenceEventoCollection;
     @JoinColumn(name = "equipe", referencedColumnName = "codigo")
     @ManyToOne
     private Equipe equipe;
@@ -76,12 +83,21 @@ public class Servico implements Serializable {
         this.descricao = descricao;
     }
 
-    public Double getValor() {
+    public BigDecimal getValor() {
         return valor;
     }
 
-    public void setValor(Double valor) {
+    public void setValor(BigDecimal valor) {
         this.valor = valor;
+    }
+
+    @XmlTransient
+    public Collection<ServicoPertenceEvento> getServicoPertenceEventoCollection() {
+        return servicoPertenceEventoCollection;
+    }
+
+    public void setServicoPertenceEventoCollection(Collection<ServicoPertenceEvento> servicoPertenceEventoCollection) {
+        this.servicoPertenceEventoCollection = servicoPertenceEventoCollection;
     }
 
     public Equipe getEquipe() {

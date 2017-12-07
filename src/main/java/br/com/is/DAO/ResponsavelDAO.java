@@ -1,25 +1,27 @@
 package br.com.is.DAO;
 
-import br.com.is.Entitys.Pais;
-import br.com.is.utils.ComboItens;
+import br.com.is.Entitys.Responsavel;
+import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
-public class PaisDAO extends GenericoDAO<Object> {
-
-    public PaisDAO(Object obj) {
+public class ResponsavelDAO extends Generico<Object> {
+    
+    public ResponsavelDAO(Object obj) {
         super(obj);
     }
-
-    public void PopulaTabela(JTable tabela, String[][] criterio) {
+    
+    public void PopulaTabela(JTable tabela, int evento) {
         Object[][] dadosTabela = null;
-        List<Object> resultQuery = Listar(criterio);
-
+        List<QueryCriteria> criterios = new ArrayList<QueryCriteria>();
+        criterios.add(new QueryCriteria("node", "pessoa", "pe"));
+        criterios.add(new QueryCriteria("node", "evento1", "evt"));
+        criterios.add(new QueryCriteria("equal", "evt.codigo", String.valueOf(evento)));
+        List resultQuery = Listar(criterios);
         // cabecalho da tabela
-        Object[] cabecalho = {"Código", "Titulo", "Sigla"};
+        Object[] cabecalho = {"Código", "Nome"};
 
         // cria matriz de acordo com nº de registros da tabela
         try {
@@ -32,10 +34,9 @@ public class PaisDAO extends GenericoDAO<Object> {
         try {
             int row = 0;
             for (Object o : resultQuery) {
-                Pais s = (Pais) o;
-                dadosTabela[row][0] = s.getCodigo();
-                dadosTabela[row][1] = s.getNome();
-                dadosTabela[row][2] = s.getSigla();
+                Responsavel s = (Responsavel) o;
+                dadosTabela[row][0] = s.getPessoa().getCodigo();
+                dadosTabela[row][1] = s.getPessoa().getNome();
                 row++;
             }
         } catch (Exception e) {
@@ -57,7 +58,7 @@ public class PaisDAO extends GenericoDAO<Object> {
             @Override
             public Class getColumnClass(int column
             ) {
-
+                
                 if (column == 2) {
 //                    return ImageIcon.class;
                 }
@@ -86,32 +87,5 @@ public class PaisDAO extends GenericoDAO<Object> {
             }
         }
     }
-
-    public void popularCombo(JComboBox combo) {
-        ComboItens item;
-        combo.removeAllItems();
-        List<Object> resultQuery = Listar(null);
-        try {
-            if (!resultQuery.isEmpty()) {
-                item = new ComboItens();
-                item.setCodigo(0);
-                item.setDescricao("-- Selecione uma opção --");
-                combo.addItem(item);
-                for (Object o : resultQuery) {
-                    Pais s = (Pais) o;
-                    item = new ComboItens();
-                    item.setCodigo(s.getCodigo());
-                    item.setDescricao(s.getSigla() + " - " + s.getNome());
-                    combo.addItem(item);
-                }
-            } else {
-                item = new ComboItens();
-                item.setCodigo(0);
-                item.setDescricao("-- Nenhuma opção cadastrada --");
-                combo.addItem(item);
-            }
-        } catch (Exception e) {
-            System.out.println("Erro ao popular Combo = " + e.toString());
-        }
-    }
+    
 }

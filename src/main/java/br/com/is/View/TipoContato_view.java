@@ -1,11 +1,14 @@
 package br.com.is.View;
 
-import br.com.is.DAO.GenericoDAO;
+import br.com.is.DAO.Generico;
 import br.com.is.DAO.GerenciarPermissao;
+import br.com.is.DAO.QueryCriteria;
 import br.com.is.DAO.TipoContatoDAO;
 import br.com.is.Entitys.TipoContato;
 import javax.swing.JOptionPane;
 import br.com.is.utils.Formatacao;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TipoContato_view extends javax.swing.JInternalFrame {
 
@@ -24,8 +27,9 @@ public class TipoContato_view extends javax.swing.JInternalFrame {
         tfdBuscar.setText("");
         tfdSigla.requestFocus(true);
         tc = new TipoContato();
-        tfdCodigo.setText(String.valueOf(new GenericoDAO<TipoContato>(tc).ProximoCodigo()));
-        new TipoContatoDAO(tc).PopulaTabela(tblConsulta, null);
+        tfdCodigo.setText(String.valueOf(new Generico<TipoContato>(tc).ProximoCodigo()));
+        QueryCriteria criterio = new QueryCriteria("contain", "nome", "%%");
+        new TipoContatoDAO(tc).PopulaTabela(tblConsulta, criterio);
     }
 
     @SuppressWarnings("unchecked")
@@ -210,9 +214,9 @@ public class TipoContato_view extends javax.swing.JInternalFrame {
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         if (tblConsulta.getSelectedRow() != -1) {
-            String[][] criterios = {{"codigo", String.valueOf(tblConsulta.getValueAt(tblConsulta.getSelectedRow(), 0))}};
-            tc = (TipoContato) new GenericoDAO<TipoContato>(tc)
-                    .visualizar(criterios);
+            List<QueryCriteria> listCriterias = new ArrayList<QueryCriteria>();
+            listCriterias.add(new QueryCriteria("equal", "codigo", String.valueOf(tblConsulta.getValueAt(tblConsulta.getSelectedRow(), 0))));
+            tc = new Generico<TipoContato>(tc).Visualizar(listCriterias);
             tfdCodigo.setText(String.valueOf(tc.getCodigo()));
             tfdTitulo.setText(tc.getNome());
             tfdSigla.setText(tc.getSigla());
@@ -231,7 +235,7 @@ public class TipoContato_view extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnNovoActionPerformed
 
     private void btnBuscaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscaActionPerformed
-        String[][] criterio = {{"contain", "nome", "%" + tfdBuscar.getText() + "%"}};
+        QueryCriteria criterio = new QueryCriteria("contain", "nome", "%" + tfdBuscar.getText() + "%");
         new TipoContatoDAO(tc).PopulaTabela(tblConsulta, criterio);
     }//GEN-LAST:event_btnBuscaActionPerformed
 
@@ -242,7 +246,7 @@ public class TipoContato_view extends javax.swing.JInternalFrame {
             tc.setSigla(tfdSigla.getText());
             tc.setDescricao(txaDescricao.getText());
 
-            JOptionPane.showMessageDialog(null, new GenericoDAO<TipoContato>(tc).gravar());
+            new Generico<TipoContato>(tc).Gravar();
 
             resetField();
         } else {

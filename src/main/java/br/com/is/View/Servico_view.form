@@ -79,7 +79,7 @@
                       </Group>
                       <Component id="jScrollPane1" alignment="0" pref="298" max="32767" attributes="0"/>
                       <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="ftfValor" max="32767" attributes="0"/>
+                      <Component id="cmdValor" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -103,7 +103,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="ftfValor" min="-2" max="-2" attributes="0"/>
+                  <Component id="cmdValor" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="btnSalvar" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -174,7 +174,10 @@
             <Property name="text" type="java.lang.String" value="Valor *"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JFormattedTextField" name="ftfValor">
+        <Component class="br.com.is.utils.CampoMoeda" name="cmdValor">
+          <Properties>
+            <Property name="horizontalAlignment" type="int" value="2"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>

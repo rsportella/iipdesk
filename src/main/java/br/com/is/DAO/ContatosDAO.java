@@ -1,30 +1,31 @@
 package br.com.is.DAO;
 
-import br.com.is.Entitys.Cidade;
 import br.com.is.Entitys.PossuiContato;
+import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
-import utils.ComboItens;
 
-public class ContatosDAO extends GenericoDAO<Object> {
+public class ContatosDAO extends Generico<Object> {
+
+    List<QueryCriteria> listCriterias = new ArrayList<QueryCriteria>();
 
     public ContatosDAO(Object obj) {
         super(obj);
+        listCriterias.add(new QueryCriteria("node", "contato1", "cont"));
+        listCriterias.add(new QueryCriteria("node", "tipoContato", "tcont"));
+        listCriterias.add(new QueryCriteria("node", "pessoa", "pe"));
     }
 
     public void PopulaTabela(JTable tabela, int codPessoa) {
         Object[][] dadosTabela = null;
-        String[][] criterios = {
-            {"node", "pessoa", "pe"},
-            {"node", "pessoa", "pe"},
-            {"equal", "pe.codigo", String.valueOf(codPessoa)}
-        };
-        List resultQuery = Listar(criterios);
+
+        listCriterias.add(new QueryCriteria("equal", "pe.codigo", String.valueOf(codPessoa)));
+
+        List resultQuery = Listar(listCriterias);
         // cabecalho da tabela
-        Object[] cabecalho = {"Endereço", "Cidade|UF"};
+        Object[] cabecalho = {"Tipo", "Contato"};
 
         // cria matriz de acordo com nº de registros da tabela
         try {
@@ -38,8 +39,8 @@ public class ContatosDAO extends GenericoDAO<Object> {
             int row = 0;
             for (Object o : resultQuery) {
                 PossuiContato s = (PossuiContato) o;
-                dadosTabela[row][0] = s.getContato().getContato();
-                dadosTabela[row][1] = s.getContato().getContato();
+                dadosTabela[row][0] = s.getTipoContato().getCodigo() + " - " + s.getTipoContato().getNome();
+                dadosTabela[row][1] = s.getContato1().getContato();
                 row++;
             }
         } catch (Exception e) {
@@ -91,31 +92,34 @@ public class ContatosDAO extends GenericoDAO<Object> {
         }
     }
 
-    public void popularCombo(JComboBox combo, String[][] criterio) {
-        ComboItens item;
-        combo.removeAllItems();
-        List<Object> resultQuery = Listar(criterio);
-        try {
-            if (!resultQuery.isEmpty()) {
-                item = new ComboItens();
-                item.setCodigo(0);
-                item.setDescricao("-- Selecione uma opção --");
-                combo.addItem(item);
-                for (Object o : resultQuery) {
-                    Cidade s = (Cidade) o;
-                    item = new ComboItens();
-                    item.setCodigo(s.getCodigo());
-                    item.setDescricao(s.getNome());
-                    combo.addItem(item);
-                }
-            } else {
-                item = new ComboItens();
-                item.setCodigo(0);
-                item.setDescricao("-- Nenhuma opção cadastrada --");
-                combo.addItem(item);
-            }
-        } catch (Exception e) {
-            System.out.println("Erro ao popular Combo = " + e.toString());
-        }
-    }
+//    public void popularCombo(JComboBox combo, String[][] criterio) {
+//        ComboItens item;
+//        combo.removeAllItems();
+//
+//        listCriterias.add(new QueryCriteria("equal", "pe.codigo", String.valueOf(codPessoa)));
+//
+//        List<Object> resultQuery = Listar(criterio);
+//        try {
+//            if (!resultQuery.isEmpty()) {
+//                item = new ComboItens();
+//                item.setCodigo(0);
+//                item.setDescricao("-- Selecione uma opção --");
+//                combo.addItem(item);
+//                for (Object o : resultQuery) {
+//                    Cidade s = (Cidade) o;
+//                    item = new ComboItens();
+//                    item.setCodigo(s.getCodigo());
+//                    item.setDescricao(s.getNome());
+//                    combo.addItem(item);
+//                }
+//            } else {
+//                item = new ComboItens();
+//                item.setCodigo(0);
+//                item.setDescricao("-- Nenhuma opção cadastrada --");
+//                combo.addItem(item);
+//            }
+//        } catch (Exception e) {
+//            System.out.println("Erro ao popular Combo = " + e.toString());
+//        }
+//    }
 }

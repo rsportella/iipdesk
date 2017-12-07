@@ -14,7 +14,7 @@ public class Estado_view extends javax.swing.JInternalFrame {
 
     public Estado_view(int codPais) {
         initComponents();
-        String[][] criterios = {{"codigo", String.valueOf(codPais)}};
+        String[][] criterios = {{"equal", "codigo", String.valueOf(codPais)}};
         this.pa = new GenericoDAO<Pais>(pa).visualizar(criterios);
         resetField();
     }
@@ -237,7 +237,7 @@ public class Estado_view extends javax.swing.JInternalFrame {
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         if (tblConsulta.getSelectedRow() != -1) {
-            String[][] criterios = {{"codigo", String.valueOf(tblConsulta.getValueAt(tblConsulta.getSelectedRow(), 0))}};
+            String[][] criterios = {{"equal", "codigo", String.valueOf(tblConsulta.getValueAt(tblConsulta.getSelectedRow(), 0))}};
             this.est = (Estado) new GenericoDAO<Estado>(est).visualizar(criterios);
             tfdCodigo.setText(String.valueOf(est.getCodigo()));
             ftfUf.setText(est.getUf());

@@ -7,34 +7,43 @@ import br.com.is.DAO.ServicoDAO;
 import br.com.is.Entitys.Equipe;
 import br.com.is.Entitys.Servico;
 import static br.com.is.View.Equipe_view.tblServicos;
-import br.com.is.utils.Formatacao;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Servico_view extends javax.swing.JInternalFrame {
-    
+
     Equipe eq;
     Servico ser = new Servico();
-    
+
     List<QueryCriteria> listCriterias = new ArrayList<QueryCriteria>();
-    
+
     public Servico_view(Equipe eq) {
         initComponents();
         this.eq = eq;
         resetField();
-        Formatacao.reformatarMonetario(ftfValor);
         GerenciarPermissao.sweepComponents(background, "Servico");
-        listCriterias.add(new QueryCriteria("node", "equipe", "eq"));
-        listCriterias.add(new QueryCriteria("equal", "eq.codigo", String.valueOf(eq.getCodigo())));
     }
-    
+
+    public Servico_view(Equipe eq, Servico servico) {
+        initComponents();
+        GerenciarPermissao.sweepComponents(background, "Servico");
+        
+        this.eq = eq;
+        this.ser = servico;
+        
+        tfdCodigo.setText(String.valueOf(ser.getCodigo()));
+        tfdNome.setText(ser.getTitulo());
+        txaDescricao.setText(ser.getDescricao());
+        cmdValor.setValue(ser.getValor());
+    }
+
     public void resetField() {
         tfdCodigo.setText(String.valueOf(new Generico<Servico>(ser).ProximoCodigo()));
         tfdNome.setText("");
         txaDescricao.setText("");
-        ftfValor.setText("");
+        cmdValor.setText("");
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -51,7 +60,7 @@ public class Servico_view extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         txaDescricao = new javax.swing.JTextArea();
         jLabel3 = new javax.swing.JLabel();
-        ftfValor = new javax.swing.JFormattedTextField();
+        cmdValor = new br.com.is.utils.CampoMoeda();
 
         jInternalFrame1.setVisible(true);
 
@@ -100,6 +109,8 @@ public class Servico_view extends javax.swing.JInternalFrame {
 
         jLabel3.setText("Valor *");
 
+        cmdValor.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+
         javax.swing.GroupLayout backgroundLayout = new javax.swing.GroupLayout(background);
         background.setLayout(backgroundLayout);
         backgroundLayout.setHorizontalGroup(
@@ -118,7 +129,7 @@ public class Servico_view extends javax.swing.JInternalFrame {
                         .addComponent(btnSair))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 298, Short.MAX_VALUE)
                     .addComponent(jLabel3)
-                    .addComponent(ftfValor))
+                    .addComponent(cmdValor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         backgroundLayout.setVerticalGroup(
@@ -139,7 +150,7 @@ public class Servico_view extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ftfValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cmdValor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalvar)
@@ -171,9 +182,9 @@ public class Servico_view extends javax.swing.JInternalFrame {
         ser.setEquipe(this.eq);
         ser.setTitulo(tfdNome.getText());
         ser.setDescricao(txaDescricao.getText());
-        ser.setValor(Double.valueOf(ftfValor.getText()));
+        ser.setValor(cmdValor.getValue());
         new Generico<Servico>(ser).Gravar();
-        new ServicoDAO(ser).PopulaTabela(tblServicos, listCriterias);
+        new ServicoDAO(ser).PopulaTabela(tblServicos, eq);
         dispose();
     }//GEN-LAST:event_btnSalvarActionPerformed
 
@@ -181,7 +192,7 @@ public class Servico_view extends javax.swing.JInternalFrame {
     private javax.swing.JPanel background;
     private javax.swing.JButton btnSair;
     private javax.swing.JButton btnSalvar;
-    private javax.swing.JFormattedTextField ftfValor;
+    private br.com.is.utils.CampoMoeda cmdValor;
     private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

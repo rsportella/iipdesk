@@ -1,16 +1,23 @@
 package br.com.is.View;
 
+import br.com.is.DAO.EventoDAO;
 import br.com.is.DAO.Generico;
 import br.com.is.DAO.GenericoDAO;
 import br.com.is.DAO.PessoaDAO;
+import br.com.is.DAO.QueryCriteria;
+import br.com.is.DAO.ResponsavelDAO;
+import br.com.is.Entitys.Evento;
 import br.com.is.Entitys.Pessoa;
+import br.com.is.Entitys.Responsavel;
+import br.com.is.Entitys.ResponsavelPK;
+import static br.com.is.View.Evento_view.tblContratantes;
 import br.com.is.utils.Wrapper;
 import javax.swing.JOptionPane;
 import br.com.is.utils.Formatacao;
 import utils.Support;
 import static br.com.is.View.JanelaPrincipal.jDesktopPane;
 import br.com.is.utils.Serializacao;
-import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,25 +27,37 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+import static br.com.is.View.Evento_view.btnAvanca2;
 
 public class Pessoa_listar_view extends javax.swing.JInternalFrame {
 
     Pessoa pe = new Pessoa();
     private String frame;
+    private Evento evento;
+    QueryCriteria criterio = new QueryCriteria("contain", "nome", "%%");
 
     public Pessoa_listar_view() {
         initComponents();
-        new PessoaDAO(pe).PopulaTabela(tblConsulta, null);
-        ftfBusca.requestFocus(true);
+        new PessoaDAO(pe).PopulaTabela(tblConsulta, criterio);
+        jTextField2.requestFocus(true);
         btnSelecionar.setEnabled(false);
     }
 
     public Pessoa_listar_view(String frame) {
         initComponents();
-        new PessoaDAO(pe).PopulaTabela(tblConsulta, null);
-        ftfBusca.requestFocus(true);
+        new PessoaDAO(pe).PopulaTabela(tblConsulta, criterio);
+        jTextField2.requestFocus(true);
         btnSelecionar.setEnabled(true);
         this.frame = frame;
+    }
+
+    public Pessoa_listar_view(String frame, Evento evento) {
+        initComponents();
+        new PessoaDAO(pe).PopulaTabela(tblConsulta, criterio);
+        jTextField2.requestFocus(true);
+        btnSelecionar.setEnabled(true);
+        this.frame = frame;
+        this.evento = evento;
     }
 
     @SuppressWarnings("unchecked")
@@ -46,21 +65,23 @@ public class Pessoa_listar_view extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         btnGrupo = new javax.swing.ButtonGroup();
+        jTextField1 = new javax.swing.JTextField();
         background = new javax.swing.JPanel();
         btnAdicionar = new javax.swing.JButton();
         btnBloquear = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
         btnSelecionar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        rbtNome = new javax.swing.JRadioButton();
-        rbtCpf = new javax.swing.JRadioButton();
         btnLocalizar = new javax.swing.JButton();
         btnSair = new javax.swing.JButton();
-        ftfBusca = new javax.swing.JFormattedTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblConsulta = new javax.swing.JTable();
         btnExportar = new javax.swing.JButton();
         btnImportar = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jTextField2 = new javax.swing.JTextField();
+
+        jTextField1.setText("jTextField1");
 
         setTitle("Listar pessoas");
         setToolTipText("");
@@ -89,23 +110,6 @@ public class Pessoa_listar_view extends javax.swing.JInternalFrame {
         });
 
         jLabel1.setText("Buscar");
-
-        btnGrupo.add(rbtNome);
-        rbtNome.setSelected(true);
-        rbtNome.setText("Nome");
-        rbtNome.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                rbtNomeItemStateChanged(evt);
-            }
-        });
-
-        btnGrupo.add(rbtCpf);
-        rbtCpf.setText("CPF");
-        rbtCpf.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                rbtCpfItemStateChanged(evt);
-            }
-        });
 
         btnLocalizar.setText("Localizar");
         btnLocalizar.addActionListener(new java.awt.event.ActionListener() {
@@ -145,6 +149,8 @@ public class Pessoa_listar_view extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel2.setText("Nome");
+
         javax.swing.GroupLayout backgroundLayout = new javax.swing.GroupLayout(background);
         background.setLayout(backgroundLayout);
         backgroundLayout.setHorizontalGroup(
@@ -154,12 +160,10 @@ public class Pessoa_listar_view extends javax.swing.JInternalFrame {
                 .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 588, Short.MAX_VALUE)
                     .addGroup(backgroundLayout.createSequentialGroup()
-                        .addComponent(rbtNome)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jTextField2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(rbtCpf)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(ftfBusca)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnLocalizar))
                     .addGroup(backgroundLayout.createSequentialGroup()
                         .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -187,10 +191,9 @@ public class Pessoa_listar_view extends javax.swing.JInternalFrame {
                 .addComponent(jLabel1)
                 .addGap(6, 6, 6)
                 .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(rbtNome)
-                    .addComponent(rbtCpf)
                     .addComponent(btnLocalizar)
-                    .addComponent(ftfBusca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel2)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, Short.MAX_VALUE)
@@ -225,20 +228,9 @@ public class Pessoa_listar_view extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnSairActionPerformed
 
     private void btnLocalizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLocalizarActionPerformed
-        if (rbtCpf.isSelected()) {
-            String[][] criterios = {{"equal", "cpf", Formatacao.removerFormatacao(ftfBusca.getText())}};
-            new PessoaDAO(pe).PopulaTabela(tblConsulta, criterios);
-        } else {
-            String[][] criterios = {{"contain", "nome", "%" + ftfBusca.getText() + "%"}};
-            new PessoaDAO(pe).PopulaTabela(tblConsulta, criterios);
-        }
+        QueryCriteria criterio = new QueryCriteria("contain", "nome", "%" + jTextField2.getText() + "%");
+        new PessoaDAO(pe).PopulaTabela(tblConsulta, criterio);
     }//GEN-LAST:event_btnLocalizarActionPerformed
-
-    private void rbtCpfItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rbtCpfItemStateChanged
-        if (this.isSelected()) {
-            Formatacao.reformatarCpf(ftfBusca);
-        }
-    }//GEN-LAST:event_rbtCpfItemStateChanged
 
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
         Pessoa_view pev = new Pessoa_view();
@@ -249,8 +241,10 @@ public class Pessoa_listar_view extends javax.swing.JInternalFrame {
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         if (tblConsulta.getSelectedRow() != -1) {
-            String[][] criterios = {{"codigo", String.valueOf(tblConsulta.getValueAt(tblConsulta.getSelectedRow(), 0))}};
-            this.pe = (Pessoa) new GenericoDAO<Pessoa>(pe).visualizar(criterios);
+            List<QueryCriteria> listCriterias = new ArrayList<QueryCriteria>();
+            listCriterias.add(new QueryCriteria("equal", "codigo", String.valueOf(tblConsulta.getValueAt(tblConsulta.getSelectedRow(), 0))));
+
+            this.pe = new Generico<Pessoa>(new Pessoa()).Visualizar(listCriterias);
             Pessoa_view pev = new Pessoa_view(this.pe);
             Support.centralizar(jDesktopPane.add(pev));
             pev.setVisible(true);
@@ -259,12 +253,6 @@ public class Pessoa_listar_view extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "Uma linha da tabela deve estar selecionada para efetuar a ação!");
         }
     }//GEN-LAST:event_btnEditarActionPerformed
-
-    private void rbtNomeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rbtNomeItemStateChanged
-        if (this.isSelected) {
-            ftfBusca.setFormatterFactory(null);
-        }
-    }//GEN-LAST:event_rbtNomeItemStateChanged
 
     private void btnExportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarActionPerformed
         JFileChooser fileChooser = new JFileChooser();
@@ -311,13 +299,27 @@ public class Pessoa_listar_view extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnImportarActionPerformed
 
     private void btnSelecionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelecionarActionPerformed
+        List<QueryCriteria> criterios = new ArrayList<QueryCriteria>();
+        criterios.add(new QueryCriteria("equal", "codigo", String.valueOf(tblConsulta.getValueAt(tblConsulta.getSelectedRow(), 0))));
+        pe = (Pessoa) new Generico<Pessoa>(pe).Visualizar(criterios);
         switch (frame) {
             case "equipe":
-                String[][] criterios = {{"codigo", String.valueOf(tblConsulta.getValueAt(tblConsulta.getSelectedRow(), 0))}};
-                pe = (Pessoa) new GenericoDAO<Pessoa>(pe).visualizar(criterios);
                 Equipe_view.ps = pe;
                 Equipe_view.ftfCpf.setText(pe.getCpf());
                 Equipe_view.tfdNome.setText(pe.getNome());
+                dispose();
+                break;
+            case "evento":
+                Responsavel resp = new Responsavel();
+                resp.setEvento1(this.evento);
+                resp.setPessoa(this.pe);
+                resp.setTipo("");
+                resp.setResponsavelPK(new ResponsavelPK(evento.getCodigo(), pe.getCodigo()));
+                new Generico<Responsavel>(resp).Gravar();
+
+                new ResponsavelDAO(new Responsavel()).PopulaTabela(tblContratantes, evento.getCodigo());
+
+                btnAvanca2.setEnabled(true);
                 dispose();
                 break;
             default:
@@ -337,11 +339,11 @@ public class Pessoa_listar_view extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnLocalizar;
     private javax.swing.JButton btnSair;
     private javax.swing.JButton btnSelecionar;
-    private javax.swing.JFormattedTextField ftfBusca;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JRadioButton rbtCpf;
-    private javax.swing.JRadioButton rbtNome;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
     private javax.swing.JTable tblConsulta;
     // End of variables declaration//GEN-END:variables
 }

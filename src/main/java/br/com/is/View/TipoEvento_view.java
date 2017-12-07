@@ -1,9 +1,12 @@
 package br.com.is.View;
 
-import br.com.is.DAO.GenericoDAO;
+import br.com.is.DAO.Generico;
+import br.com.is.DAO.QueryCriteria;
 import br.com.is.DAO.TipoEventoDAO;
 import br.com.is.Entitys.Endereco;
 import br.com.is.Entitys.TipoEvento;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 public class TipoEvento_view extends javax.swing.JInternalFrame {
@@ -20,8 +23,9 @@ public class TipoEvento_view extends javax.swing.JInternalFrame {
         tfdBuscar.setText("");
         tfdTitulo.requestFocus(true);
         te = new TipoEvento();
-        tfdCodigo.setText(String.valueOf(new GenericoDAO<Endereco>(te).ProximoCodigo()));
-        new TipoEventoDAO(te).PopulaTabela(tblConsulta, null);
+        tfdCodigo.setText(String.valueOf(new Generico<Endereco>(te).ProximoCodigo()));
+        QueryCriteria criterio = new QueryCriteria("contain", "nome", "%%");
+        new TipoEventoDAO(te).PopulaTabela(tblConsulta, criterio);
     }
 
     @SuppressWarnings("unchecked")
@@ -177,9 +181,9 @@ public class TipoEvento_view extends javax.swing.JInternalFrame {
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         if (tblConsulta.getSelectedRow() != -1) {
-            String[][] criterios = {{"codigo", String.valueOf(tblConsulta.getValueAt(tblConsulta.getSelectedRow(), 0))}};
-            te = (TipoEvento) new GenericoDAO<TipoEvento>(te)
-                    .visualizar(criterios);
+            List<QueryCriteria> listCriterias = new ArrayList<QueryCriteria>();
+            listCriterias.add(new QueryCriteria("equal", "codigo", String.valueOf(tblConsulta.getValueAt(tblConsulta.getSelectedRow(), 0))));
+            te = new Generico<TipoEvento>(te).Visualizar(listCriterias);
             tfdCodigo.setText(String.valueOf(te.getCodigo()));
             tfdTitulo.setText(te.getNome());
         } else {
@@ -196,7 +200,7 @@ public class TipoEvento_view extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnNovoActionPerformed
 
     private void btnBuscaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscaActionPerformed
-        String[][] criterio = {{"contain", "nome", "%" + tfdBuscar.getText() + "%"}};
+        QueryCriteria criterio = new QueryCriteria("contain", "nome", "%" + tfdBuscar.getText() + "%");
         new TipoEventoDAO(te).PopulaTabela(tblConsulta, criterio);
     }//GEN-LAST:event_btnBuscaActionPerformed
 
@@ -206,7 +210,7 @@ public class TipoEvento_view extends javax.swing.JInternalFrame {
             te.setNome(tfdTitulo.getText());
             te.setDescricao(txaDescricao.getText());
 
-            JOptionPane.showMessageDialog(null, new GenericoDAO<TipoEvento>(te).gravar());
+            new Generico<TipoEvento>(te).Gravar();
 
             resetField();
         } else {

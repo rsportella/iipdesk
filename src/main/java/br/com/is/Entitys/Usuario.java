@@ -45,9 +45,8 @@ public class Usuario implements Serializable {
     @Column(name = "ultimo_acesso")
     @Temporal(TemporalType.TIMESTAMP)
     private Date ultimoAcesso;
-    @Basic(optional = false)
     @Column(name = "status")
-    private int status;
+    private Character status;
     @JoinColumn(name = "pessoa", referencedColumnName = "codigo", insertable = false, updatable = false)
     @OneToOne(optional = false)
     private Pessoa pessoa1;
@@ -59,12 +58,9 @@ public class Usuario implements Serializable {
         this.pessoa = pessoa;
     }
 
-    public Usuario(Integer pessoa, String login, String senha, Date ultimoAcesso, int status) {
+    public Usuario(Integer pessoa, String login) {
         this.pessoa = pessoa;
         this.login = login;
-        this.senha = senha;
-        this.ultimoAcesso = ultimoAcesso;
-        this.status = status;
     }
 
     public Integer getPessoa() {
@@ -99,11 +95,11 @@ public class Usuario implements Serializable {
         this.ultimoAcesso = ultimoAcesso;
     }
 
-    public int getStatus() {
+    public Character getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(Character status) {
         this.status = status;
     }
 
@@ -137,7 +133,8 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return "Entitys.Usuario[ pessoa=" + pessoa + " ]";
+        return "Usuario{" + "pessoa=" + pessoa + ", login=" + login + ", senha=" + senha + ", ultimoAcesso=" + ultimoAcesso + ", status=" + status + ", pessoa1=" + pessoa1 + '}';
     }
+
 
 }

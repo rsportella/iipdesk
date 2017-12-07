@@ -1,10 +1,13 @@
 package br.com.is.View;
 
-import br.com.is.DAO.GenericoDAO;
+import br.com.is.DAO.Generico;
+import br.com.is.DAO.QueryCriteria;
 import br.com.is.DAO.TipoEnderecoDAO;
 import br.com.is.Entitys.TipoEndereco;
 import javax.swing.JOptionPane;
 import br.com.is.utils.Formatacao;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TipoEndereco_view extends javax.swing.JInternalFrame {
 
@@ -22,8 +25,9 @@ public class TipoEndereco_view extends javax.swing.JInternalFrame {
         tfdBuscar.setText("");
         tfdSigla.requestFocus(true);
         te = new TipoEndereco();
-        tfdCodigo.setText(String.valueOf(new GenericoDAO<TipoEndereco>(te).ProximoCodigo()));
-        new TipoEnderecoDAO(te).PopulaTabela(tblConsulta, null);
+        tfdCodigo.setText(String.valueOf(new Generico<TipoEndereco>(te).ProximoCodigo()));
+        QueryCriteria criterio = new QueryCriteria("contain", "nome", "%%");
+        new TipoEnderecoDAO(te).PopulaTabela(tblConsulta, criterio);
     }
 
     @SuppressWarnings("unchecked")
@@ -197,9 +201,10 @@ public class TipoEndereco_view extends javax.swing.JInternalFrame {
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         if (tblConsulta.getSelectedRow() != -1) {
-            String[][] criterios = {{"codigo", String.valueOf(tblConsulta.getValueAt(tblConsulta.getSelectedRow(), 0))}};
-            te = (TipoEndereco) new GenericoDAO<TipoEndereco>(te)
-                    .visualizar(criterios);
+
+            List<QueryCriteria> listCriterias = new ArrayList<QueryCriteria>();
+            listCriterias.add(new QueryCriteria("equal", "codigo", String.valueOf(tblConsulta.getValueAt(tblConsulta.getSelectedRow(), 0))));
+            te = new Generico<TipoEndereco>(te).Visualizar(listCriterias);
             tfdCodigo.setText(String.valueOf(te.getCodigo()));
             tfdTitulo.setText(te.getNome());
             tfdSigla.setText(te.getSigla());
@@ -218,7 +223,7 @@ public class TipoEndereco_view extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnNovoActionPerformed
 
     private void btnBuscaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscaActionPerformed
-        String[][] criterio = {{"contain", "nome", "%" + tfdBuscar.getText() + "%"}};
+        QueryCriteria criterio = new QueryCriteria("contain", "nome", "%" + tfdBuscar.getText() + "%");
         new TipoEnderecoDAO(te).PopulaTabela(tblConsulta, criterio);
     }//GEN-LAST:event_btnBuscaActionPerformed
 
@@ -229,7 +234,7 @@ public class TipoEndereco_view extends javax.swing.JInternalFrame {
             te.setSigla(tfdSigla.getText());
             te.setDescricao(txaDescricao.getText());
 
-            JOptionPane.showMessageDialog(null, new GenericoDAO<TipoEndereco>(te).gravar());
+            new Generico<TipoEndereco>(te).Gravar();
 
             resetField();
         } else {

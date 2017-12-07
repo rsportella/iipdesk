@@ -12,6 +12,10 @@ public class QueryCriteria {
     /*O que?*/
     private String what;
 
+    public QueryCriteria(String withwhat) {
+        this.withwhat = withwhat;
+    }
+
     public QueryCriteria(String withwhat, String where, String what) {
         this.withwhat = withwhat;
         this.where = where;

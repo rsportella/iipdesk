@@ -5,12 +5,12 @@ import br.com.is.Entitys.Permissao;
 import br.com.is.Entitys.PermissaoPK;
 import br.com.is.Entitys.Tela;
 import br.com.is.Entitys.Usuario;
+import br.com.is.utils.ComboItens;
 import java.util.List;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
-import utils.ComboItens;
 
 public class PermissaoDAO extends GenericoDAO<Object> {
 

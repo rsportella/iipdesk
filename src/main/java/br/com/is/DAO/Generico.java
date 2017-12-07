@@ -100,10 +100,12 @@ public class Generico<T> {
                     case "equal":
                         boolean isNumber = false;
                         if (criteria.getWhere().indexOf(".") >= 0) {
-                            String[] codigo = split(criteria.getWhere(), ".");
-                            if (codigo[1].equals("codigo")) {
-                                isNumber = true;
-                            }
+//                            String[] codigo = split(criteria.getWhere(), ".");
+//                            if (codigo[1].equals("codigo")) {
+                            isNumber = true;
+//                            }
+                        } else if (criteria.getWhat().matches("\\d+")) {
+                            isNumber = true;
                         }
                         if (criteria.getWhere().contains("codigo") || isNumber) {
                             queryRule.add(Restrictions.eq(criteria.getWhere(),

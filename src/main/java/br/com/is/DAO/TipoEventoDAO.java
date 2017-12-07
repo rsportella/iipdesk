@@ -1,20 +1,25 @@
 package br.com.is.DAO;
 
 import br.com.is.Entitys.TipoEvento;
+import br.com.is.utils.ComboItens;
+import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
-public class TipoEventoDAO extends GenericoDAO<Object> {
+public class TipoEventoDAO extends Generico<Object> {
 
     public TipoEventoDAO(Object obj) {
         super(obj);
     }
 
-    public void PopulaTabela(JTable tabela, String[][] criterio) {
+    public void PopulaTabela(JTable tabela, QueryCriteria criterios) {
         Object[][] dadosTabela = null;
-        List<String> resultQuery = Listar(criterio);
+        List<QueryCriteria> criterio = new ArrayList<QueryCriteria>();
+        criterio.add(criterios);
+        List<Object> resultQuery = Listar(criterio);
 
         // cabecalho da tabela
         Object[] cabecalho = {"Código", "Titulo"};
@@ -81,6 +86,34 @@ public class TipoEventoDAO extends GenericoDAO<Object> {
                     column.setPreferredWidth(140);
                     break;
             }
+        }
+    }
+
+    public void popularCombo(JComboBox combo) {
+        ComboItens item;
+        combo.removeAllItems();
+        List<Object> resultQuery = Listar(null);
+        try {
+            if (!resultQuery.isEmpty()) {
+                item = new ComboItens();
+                item.setCodigo(0);
+                item.setDescricao("-- Selecione uma opção --");
+                combo.addItem(item);
+                for (Object o : resultQuery) {
+                    TipoEvento s = (TipoEvento) o;
+                    item = new ComboItens();
+                    item.setCodigo(s.getCodigo());
+                    item.setDescricao(s.getCodigo() + " - " + s.getNome());
+                    combo.addItem(item);
+                }
+            } else {
+                item = new ComboItens();
+                item.setCodigo(0);
+                item.setDescricao("-- Nenhuma opção cadastrada --");
+                combo.addItem(item);
+            }
+        } catch (Exception e) {
+            System.out.println("Erro ao popular Combo = " + e.toString());
         }
     }
 

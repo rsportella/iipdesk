@@ -1,10 +1,13 @@
 package br.com.is.View;
 
 import br.com.is.DAO.CidadeDAO;
+import br.com.is.DAO.EnderecosDAO;
 import br.com.is.DAO.EstadoDAO;
+import br.com.is.DAO.Generico;
 import br.com.is.DAO.GenericoDAO;
 import br.com.is.DAO.LogradouroDAO;
 import br.com.is.DAO.PaisDAO;
+import br.com.is.DAO.QueryCriteria;
 import br.com.is.DAO.TipoEnderecoDAO;
 import br.com.is.Entitys.Cidade;
 import br.com.is.Entitys.Endereco;
@@ -13,11 +16,14 @@ import br.com.is.Entitys.Logradouro;
 import br.com.is.Entitys.Pais;
 import br.com.is.Entitys.Pessoa;
 import br.com.is.Entitys.PossuiEndereco;
-import br.com.is.Entitys.PossuiEnderecoId;
+import br.com.is.Entitys.PossuiEnderecoPK;
 import br.com.is.Entitys.TipoEndereco;
+import static br.com.is.View.Pessoa_view.tblEnderecos;
+import br.com.is.utils.ComboItens;
 import java.awt.event.ItemEvent;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
-import utils.ComboItens;
 
 public class Endereco_view extends javax.swing.JInternalFrame {
 
@@ -29,19 +35,13 @@ public class Endereco_view extends javax.swing.JInternalFrame {
 
     public Endereco_view(Pessoa pes) {
         initComponents();
+        System.out.println(pes);
         this.pe = pes;
+        System.out.println(pe);
         new TipoEnderecoDAO(te).popularCombo(cmbTipoEndereco);
         new LogradouroDAO(log).popularCombo(cmbLogradouro);
         new PaisDAO(new Pais()).popularCombo(cmbPais);
         tfdCodigo.setText(String.valueOf(new GenericoDAO<Endereco>(end).ProximoCodigo()));
-    }
-
-    public void resetField() {
-        tfdEndereco.setText("");
-        tfdNum.setText("");
-        tfdCep.setText("");
-        tfdBairro.setText("");
-        tfaComplemento.setText("");
     }
 
     @SuppressWarnings("unchecked")
@@ -128,7 +128,7 @@ public class Endereco_view extends javax.swing.JInternalFrame {
 
         tfdCodigo.setEditable(false);
 
-        jLabel1.setText("Rua *");
+        jLabel1.setText("Endereco *");
 
         jLabel11.setText("Tipo de endereço *");
 
@@ -248,7 +248,7 @@ public class Endereco_view extends javax.swing.JInternalFrame {
                 .addGap(11, 11, 11)
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnSalvar)
@@ -264,7 +264,7 @@ public class Endereco_view extends javax.swing.JInternalFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(background, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(background, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -275,18 +275,22 @@ public class Endereco_view extends javax.swing.JInternalFrame {
         item.setCodigo(0);
         item.setDescricao("Selecione uma opção");
 
+        List<QueryCriteria> listCriterias = new ArrayList<QueryCriteria>();
+
         if (!tfdEndereco.getText().trim().isEmpty() && !tfdNum.getText().trim().isEmpty()
                 && !cmbLogradouro.getSelectedItem().equals(item) && !cmbPais.getSelectedItem().equals(item)
                 && !cmbEstado.getSelectedItem().equals(item) && !cmbCidade.getSelectedItem().equals(item)
                 && !cmbTipoEndereco.getSelectedItem().equals(item)) {
 
             ComboItens comboLogradouro = (ComboItens) cmbLogradouro.getSelectedItem();
-            String[][] criteriosLogradouro = {{"codigo", String.valueOf(comboLogradouro.getCodigo())}};
-            log = (Logradouro) new LogradouroDAO(log).visualizar(criteriosLogradouro);
+            listCriterias.add(new QueryCriteria("equal", "codigo", String.valueOf(comboLogradouro.getCodigo())));
+            log = new Generico<Logradouro>(new Logradouro()).Visualizar(listCriterias);
+            listCriterias.removeAll(listCriterias);
 
-            ComboItens comboCidade = (ComboItens) cmbLogradouro.getSelectedItem();
-            String[][] criteriosCidade = {{"codigo", String.valueOf(comboCidade.getCodigo())}};
-            cid = (Cidade) new CidadeDAO(cid).visualizar(criteriosCidade);
+            ComboItens comboCidade = (ComboItens) cmbCidade.getSelectedItem();
+            listCriterias.add(new QueryCriteria("equal", "codigo", String.valueOf(comboCidade.getCodigo())));
+            cid = new Generico<Cidade>(new Cidade()).Visualizar(listCriterias);
+            listCriterias.removeAll(listCriterias);
 
             end.setRua(tfdEndereco.getText());
             end.setNumero(tfdNum.getText());
@@ -296,29 +300,34 @@ public class Endereco_view extends javax.swing.JInternalFrame {
             end.setLogradouro(log);
             end.setCidade(cid);
 
-            String retorno = null;
-            String[][] criterios = {{"rua", end.getRua()}, {"cep", end.getCep()}, {"bairro", end.getBairro()}};
-            Endereco existe = new GenericoDAO<Endereco>(end).visualizar(criterios);
+            listCriterias.add(new QueryCriteria("equal", "rua", end.getRua()));
+            listCriterias.add(new QueryCriteria("equal", "cep", end.getCep()));
+            listCriterias.add(new QueryCriteria("equal", "bairro", end.getBairro()));
+            Endereco existe = new Generico<Endereco>(new Endereco()).Visualizar(listCriterias);
+
             if (existe == null) {
-                retorno = new GenericoDAO<Endereco>(end).gravar();
-                existe = new GenericoDAO<Endereco>(end).visualizar(criterios);
+                new Generico<Endereco>(end).Gravar();
+                existe = new Generico<Endereco>(new Endereco()).Visualizar(listCriterias);
             }
+            listCriterias.removeAll(listCriterias);
 
             /**
              * Cadastro do possui endereço
              */
             PossuiEndereco pse = new PossuiEndereco();
-            pse.setEndereco(existe);
+            pse.setEndereco1(existe);
             pse.setPessoa(pe);
-            pse.setId(new PossuiEnderecoId(pe.getCodigo(), end.getCodigo()));
+            pse.setPossuiEnderecoPK(new PossuiEnderecoPK(pe.getCodigo(), end.getCodigo()));
 
             ComboItens comboTipoEndereco = (ComboItens) cmbTipoEndereco.getSelectedItem();
-            String[][] criteriosTipoEndereco = {{"codigo", String.valueOf(comboTipoEndereco.getCodigo())}};
-            te = (TipoEndereco) new TipoEnderecoDAO(te).visualizar(criteriosTipoEndereco);
-            pse.setTipoEndereco(te);
-            retorno = new GenericoDAO<PossuiEndereco>(pse).gravar();
+            listCriterias.add(new QueryCriteria("equal", "codigo", String.valueOf(comboTipoEndereco.getCodigo())));
+            te = new Generico<TipoEndereco>(new TipoEndereco()).Visualizar(listCriterias);
+            pse.setTipoendereco(te);
+            new Generico<PossuiEndereco>(pse).Gravar();
 
-            JOptionPane.showMessageDialog(null, retorno);
+            new EnderecosDAO(new PossuiEndereco()).PopulaTabela(tblEnderecos, pe.getCodigo());
+
+            dispose();
 
         } else {
             JOptionPane.showMessageDialog(null, "Os campos obrigatórios devem estar todos preenchidos!");

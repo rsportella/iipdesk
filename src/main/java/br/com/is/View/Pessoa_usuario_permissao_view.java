@@ -5,8 +5,8 @@ import br.com.is.Entitys.Diretiva;
 import br.com.is.Entitys.Tela;
 import br.com.is.Entitys.TipoContato;
 import br.com.is.Entitys.Usuario;
+import br.com.is.utils.ComboItens;
 import java.awt.event.ItemEvent;
-import utils.ComboItens;
 
 public class Pessoa_usuario_permissao_view extends javax.swing.JInternalFrame {
 
@@ -131,7 +131,7 @@ public class Pessoa_usuario_permissao_view extends javax.swing.JInternalFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnSalvar)
                             .addComponent(btnSair))))
-                .addContainerGap(106, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();

@@ -1,17 +1,25 @@
 package br.com.is.View;
 
-import br.com.is.DAO.ContatoDAOs;
+import br.com.is.DAO.ContatosDAO;
 import br.com.is.DAO.EnderecosDAO;
+import br.com.is.DAO.Generico;
 import br.com.is.DAO.GenericoDAO;
+import br.com.is.DAO.QueryCriteria;
+import br.com.is.Entitys.Contato;
+import br.com.is.Entitys.Endereco;
 import br.com.is.Entitys.Pessoa;
 import br.com.is.Entitys.PossuiContato;
+import br.com.is.Entitys.PossuiContatoPK;
 import br.com.is.Entitys.PossuiEndereco;
+import br.com.is.Entitys.PossuiEnderecoPK;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import br.com.is.utils.Formatacao;
 import utils.Support;
 import static br.com.is.View.JanelaPrincipal.jDesktopPane;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Pessoa_view extends javax.swing.JInternalFrame {
 
@@ -38,7 +46,7 @@ public class Pessoa_view extends javax.swing.JInternalFrame {
         ftfCpf.setText(pes.getCpf());
         ftfNascimento.setText(Formatacao.ajustaDataDMA(String.valueOf(pes.getNascimento())));
         tfdExpedidor.setText(pes.getOrgexp());
-        if ("M".equals(pes.getGenero())) {
+        if (pes.getGenero() == 'M') {
             rbtM.setSelected(true);
         } else {
             rbtF.setSelected(true);
@@ -50,7 +58,7 @@ public class Pessoa_view extends javax.swing.JInternalFrame {
         btnRemoveEndereco.setEnabled(true);
         btnLogin.setEnabled(true);
 
-        new ContatoDAOs(new PossuiContato()).PopulaTabela(tblContatos, pe.getCodigo());
+        new ContatosDAO(new PossuiContato()).PopulaTabela(tblContatos, pe.getCodigo());
         new EnderecosDAO(new PossuiEndereco()).PopulaTabela(tblEnderecos, pe.getCodigo());
     }
 
@@ -311,7 +319,7 @@ public class Pessoa_view extends javax.swing.JInternalFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(btnAdicionaContato)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnRemoveContato))
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
@@ -319,9 +327,8 @@ public class Pessoa_view extends javax.swing.JInternalFrame {
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(btnAdicionaEndereco)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnRemoveEndereco)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnRemoveEndereco))
                     .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -329,11 +336,11 @@ public class Pessoa_view extends javax.swing.JInternalFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -343,9 +350,8 @@ public class Pessoa_view extends javax.swing.JInternalFrame {
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnAdicionaContato)
                         .addComponent(btnRemoveContato))
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnAdicionaEndereco)
-                        .addComponent(btnRemoveEndereco)))
+                    .addComponent(btnAdicionaEndereco)
+                    .addComponent(btnRemoveEndereco))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -413,16 +419,44 @@ public class Pessoa_view extends javax.swing.JInternalFrame {
 
     private void btnRemoveEnderecoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveEnderecoActionPerformed
         if (tblEnderecos.getSelectedRow() != -1) {
+            if (JOptionPane.showInternalConfirmDialog(this, "Deseja remover este endereço?",
+                    "O endereço selecionado será definitivamente removido.",
+                    JOptionPane.WARNING_MESSAGE, JOptionPane.YES_NO_OPTION) == JOptionPane.YES_NO_OPTION) {
+                String[] endereco = tblEnderecos.getValueAt(tblEnderecos.getSelectedRow(), 0).toString().split(", ");
 
+                List<QueryCriteria> listCriterias = new ArrayList<QueryCriteria>();
+                listCriterias.add(new QueryCriteria("equal", "rua", endereco[0]));
+                listCriterias.add(new QueryCriteria("equal", "numero", endereco[1]));
+                Endereco end = new Generico<Endereco>(new Endereco()).Visualizar(listCriterias);
+
+                PossuiEndereco pse = new PossuiEndereco(new PossuiEnderecoPK(pe.getCodigo(), end.getCodigo()));
+                new Generico<PossuiEndereco>(pse).Excluir();
+                new EnderecosDAO(new PossuiEndereco()).PopulaTabela(tblEnderecos, pe.getCodigo());
+            }
         } else {
             JOptionPane.showMessageDialog(null, "Uma linha da tabela deve estar selecionada para efetuar a ação!");
         }
     }//GEN-LAST:event_btnRemoveEnderecoActionPerformed
 
     private void btnRemoveContatoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveContatoActionPerformed
-        JOptionPane.showInternalConfirmDialog(this, "Deseja remover este contato?",
-                "O endereço selecionado será definitivamente removido.",
-                JOptionPane.WARNING_MESSAGE, JOptionPane.OK_CANCEL_OPTION);
+        if (tblContatos.getSelectedRow() != -1) {
+            if (JOptionPane.showInternalConfirmDialog(this, "Deseja remover este contato?",
+                    "O endereço selecionado será definitivamente removido.",
+                    JOptionPane.WARNING_MESSAGE, JOptionPane.YES_NO_OPTION) == JOptionPane.YES_NO_OPTION) {
+                String[] contato = tblContatos.getValueAt(tblContatos.getSelectedRow(), 0).toString().split(", ");
+
+                List<QueryCriteria> listCriterias = new ArrayList<QueryCriteria>();
+                listCriterias.add(new QueryCriteria("equal", "contato", String.valueOf(tblContatos.getValueAt(tblContatos.getSelectedRow(), 1))));
+                Contato cont = new Generico<Contato>(new Contato()).Visualizar(listCriterias);
+
+                PossuiContato psc = new PossuiContato(new PossuiContatoPK(pe.getCodigo(), cont.getCodigo()));
+                new Generico<PossuiContato>(psc).Excluir();
+                new ContatosDAO(new PossuiContato()).PopulaTabela(tblContatos, pe.getCodigo());
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Uma linha da tabela deve estar selecionada para efetuar a ação!");
+        }
+
     }//GEN-LAST:event_btnRemoveContatoActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
@@ -438,9 +472,12 @@ public class Pessoa_view extends javax.swing.JInternalFrame {
                 pe.setOrgexp(tfdExpedidor.getText());
                 pe.setGenero((rbtM.isSelected()) ? 'M' : 'F');
 
-                JOptionPane.showMessageDialog(null, new GenericoDAO<Pessoa>(pe).gravar());
+                new Generico<Pessoa>(pe).Gravar();
 
-                resetField();
+                btnAdicionaContato.setEnabled(true);
+                btnAdicionaEndereco.setEnabled(true);
+                btnRemoveContato.setEnabled(true);
+                btnRemoveEndereco.setEnabled(true);
             } catch (Exception ex) {
                 Logger.getLogger(Pessoa_view.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -475,6 +512,7 @@ public class Pessoa_view extends javax.swing.JInternalFrame {
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         Pessoa_usuario_view usuv = new Pessoa_usuario_view(pe);
+        System.out.println(pe);
         Support.centralizar(jDesktopPane.add(usuv));
         usuv.setVisible(true);
     }//GEN-LAST:event_btnLoginActionPerformed

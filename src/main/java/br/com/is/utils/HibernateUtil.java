@@ -32,4 +32,8 @@ public class HibernateUtil {
         return factory.openSession();
     }
 
+    public static Object getSessionFactory() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

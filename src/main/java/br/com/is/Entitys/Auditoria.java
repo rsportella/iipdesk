@@ -133,7 +133,7 @@ public class Auditoria implements Serializable {
 
     @Override
     public String toString() {
-        return "Entitys.Auditoria[ codigo=" + codigo + " ]";
+        return "br.com.is.Entitys.Auditoria[ codigo=" + codigo + " ]";
     }
 
 }

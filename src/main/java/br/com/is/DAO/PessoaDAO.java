@@ -1,19 +1,23 @@
 package br.com.is.DAO;
 
 import br.com.is.Entitys.Pessoa;
+import br.com.is.utils.Layouts;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
-public class PessoaDAO extends GenericoDAO<Object> {
+public class PessoaDAO extends Generico<Object> {
 
     public PessoaDAO(Object obj) {
         super(obj);
     }
 
-    public void PopulaTabela(JTable tabela, String[][] criterio) {
+    public void PopulaTabela(JTable tabela, QueryCriteria criterios) {
         Object[][] dadosTabela = null;
+        List<QueryCriteria> criterio = new ArrayList<QueryCriteria>();
+        criterio.add(criterios);
         List<Object> resultQuery = Listar(criterio);
 
         // cabecalho da tabela
@@ -33,8 +37,8 @@ public class PessoaDAO extends GenericoDAO<Object> {
                 Pessoa s = (Pessoa) o;
                 dadosTabela[row][0] = s.getCodigo();
                 dadosTabela[row][1] = s.getNome();
-                dadosTabela[row][2] = s.getCpf();
-                dadosTabela[row][3] = s.getNascimento();
+                dadosTabela[row][2] = Layouts.setCpf(s.getCpf());
+                dadosTabela[row][3] = Layouts.setData(s.getNascimento());
                 row++;
             }
         } catch (Exception e) {

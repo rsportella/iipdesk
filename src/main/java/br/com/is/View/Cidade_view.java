@@ -14,7 +14,7 @@ public class Cidade_view extends javax.swing.JInternalFrame {
 
     public Cidade_view(int codEstado) {
         initComponents();
-        String[][] criterios = {{"codigo", String.valueOf(codEstado)}};
+        String[][] criterios = {{"equal", "codigo", String.valueOf(codEstado)}};
         this.est = new GenericoDAO<Estado>(est).visualizar(criterios);
         resetField();
         GerenciarPermissao.sweepComponents(background, "Cidade");
@@ -221,7 +221,7 @@ public class Cidade_view extends javax.swing.JInternalFrame {
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         if (tblConsulta.getSelectedRow() != -1) {
-            String[][] criterios = {{"codigo", String.valueOf(tblConsulta.getValueAt(tblConsulta.getSelectedRow(), 0))}};
+            String[][] criterios = {{"equal", "codigo", String.valueOf(tblConsulta.getValueAt(tblConsulta.getSelectedRow(), 0))}};
             this.cid = (Cidade) new GenericoDAO<Cidade>(cid).visualizar(criterios);
             tfdCodigo.setText(String.valueOf(cid.getCodigo()));
             tfdNome.setText(cid.getNome());

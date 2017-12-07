@@ -1,22 +1,25 @@
 package br.com.is.DAO;
 
 import br.com.is.Entitys.TipoEndereco;
+import br.com.is.utils.ComboItens;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
-import utils.ComboItens;
 
-public class TipoEnderecoDAO extends GenericoDAO<Object> {
+public class TipoEnderecoDAO extends Generico<Object> {
 
     public TipoEnderecoDAO(Object obj) {
         super(obj);
     }
 
-    public void PopulaTabela(JTable tabela, String[][] criterio) {
+    public void PopulaTabela(JTable tabela, QueryCriteria criterios) {
         Object[][] dadosTabela = null;
-        List<String> resultQuery = Listar(criterio);
+        List<QueryCriteria> criterio = new ArrayList<QueryCriteria>();
+        criterio.add(criterios);
+        List<Object> resultQuery = Listar(criterio);
 
         // cabecalho da tabela
         Object[] cabecalho = {"Código", "Sigla", "Titulo"};

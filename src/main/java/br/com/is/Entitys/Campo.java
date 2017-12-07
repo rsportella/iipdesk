@@ -1,6 +1,7 @@
 package br.com.is.Entitys;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,8 +10,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * @author Portella, Rodolfo <rodolfosportella@gmail.com>
@@ -21,7 +24,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Campo.findAll", query = "SELECT c FROM Campo c")
     , @NamedQuery(name = "Campo.findByCodigo", query = "SELECT c FROM Campo c WHERE c.codigo = :codigo")
-    , @NamedQuery(name = "Campo.findByDescricao", query = "SELECT c FROM Campo c WHERE c.descricao = :descricao")})
+    , @NamedQuery(name = "Campo.findByDescricao", query = "SELECT c FROM Campo c WHERE c.descricao = :descricao")
+    , @NamedQuery(name = "Campo.findByNome", query = "SELECT c FROM Campo c WHERE c.nome = :nome")})
 public class Campo implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -33,6 +37,10 @@ public class Campo implements Serializable {
     @Basic(optional = false)
     @Column(name = "descricao")
     private String descricao;
+    @Column(name = "nome")
+    private String nome;
+    @OneToMany(mappedBy = "campo")
+    private Collection<Diretiva> diretivaCollection;
 
     public Campo() {
     }
@@ -62,6 +70,23 @@ public class Campo implements Serializable {
         this.descricao = descricao;
     }
 
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    @XmlTransient
+    public Collection<Diretiva> getDiretivaCollection() {
+        return diretivaCollection;
+    }
+
+    public void setDiretivaCollection(Collection<Diretiva> diretivaCollection) {
+        this.diretivaCollection = diretivaCollection;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -84,7 +109,7 @@ public class Campo implements Serializable {
 
     @Override
     public String toString() {
-        return "Entitys.Campo[ codigo=" + codigo + " ]";
+        return "br.com.is.Entitys.Campo[ codigo=" + codigo + " ]";
     }
 
 }

@@ -30,9 +30,6 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Equipe.findByDescricao", query = "SELECT e FROM Equipe e WHERE e.descricao = :descricao")})
 public class Equipe implements Serializable {
 
-    @OneToMany(mappedBy = "equipe")
-    private Collection<Servico> servicoCollection;
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,6 +40,8 @@ public class Equipe implements Serializable {
     private String titulo;
     @Column(name = "descricao")
     private String descricao;
+    @OneToMany(mappedBy = "equipe")
+    private Collection<Servico> servicoCollection;
     @JoinColumn(name = "responsavel", referencedColumnName = "codigo")
     @ManyToOne
     private Pessoa responsavel;
@@ -78,6 +77,15 @@ public class Equipe implements Serializable {
         this.descricao = descricao;
     }
 
+    @XmlTransient
+    public Collection<Servico> getServicoCollection() {
+        return servicoCollection;
+    }
+
+    public void setServicoCollection(Collection<Servico> servicoCollection) {
+        this.servicoCollection = servicoCollection;
+    }
+
     public Pessoa getResponsavel() {
         return responsavel;
     }
@@ -109,15 +117,6 @@ public class Equipe implements Serializable {
     @Override
     public String toString() {
         return "br.com.is.Entitys.Equipe[ codigo=" + codigo + " ]";
-    }
-
-    @XmlTransient
-    public Collection<Servico> getServicoCollection() {
-        return servicoCollection;
-    }
-
-    public void setServicoCollection(Collection<Servico> servicoCollection) {
-        this.servicoCollection = servicoCollection;
     }
 
 }

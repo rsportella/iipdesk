@@ -1,19 +1,23 @@
 package br.com.is.View;
 
-import br.com.is.DAO.ContatoDAOs;
+import br.com.is.DAO.ContatosDAO;
+import br.com.is.DAO.Generico;
 import br.com.is.DAO.GenericoDAO;
+import br.com.is.DAO.QueryCriteria;
 import br.com.is.DAO.TipoContatoDAO;
 import br.com.is.Entitys.Contato;
 import br.com.is.Entitys.Pessoa;
 import br.com.is.Entitys.PossuiContato;
-import br.com.is.Entitys.PossuiContatoId;
+import br.com.is.Entitys.PossuiContatoPK;
 import br.com.is.Entitys.TipoContato;
+import static br.com.is.View.Pessoa_view.tblContatos;
+import br.com.is.utils.ComboItens;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
-import utils.ComboItens;
 
 public class Contato_view extends javax.swing.JInternalFrame {
 
-    TipoContato tc = new TipoContato();
     Contato ctt = new Contato();
     Pessoa pe;
 
@@ -21,7 +25,7 @@ public class Contato_view extends javax.swing.JInternalFrame {
         initComponents();
         this.pe = pes;
         resetField();
-        new TipoContatoDAO(tc).popularCombo(cmbTipo);
+        new TipoContatoDAO(new TipoContato()).popularCombo(cmbTipo);
     }
 
     public void resetField() {
@@ -147,30 +151,33 @@ public class Contato_view extends javax.swing.JInternalFrame {
         if (!tfdContato.getText().trim().equals("")) {
             ctt.setContato(tfdContato.getText());
             ctt.setDescricao(txaDescricao.getText());
-            
-            String retorno;
-            String[][] criterios = {{"contato", ctt.getContato()}};
-            Contato existe = new GenericoDAO<Contato>(ctt).visualizar(criterios);
+
+            List<QueryCriteria> listCriterias = new ArrayList<QueryCriteria>();
+            listCriterias.add(new QueryCriteria("equal", "contato", ctt.getContato()));
+
+            Contato existe = new Generico<Contato>(new Contato()).Visualizar(listCriterias);
             if (existe == null) {
-                retorno = new GenericoDAO<Contato>(ctt).gravar();
-                existe = new GenericoDAO<Contato>(ctt).visualizar(criterios);
+                new Generico<Contato>(ctt).Gravar();
+                existe = new Generico<Contato>(new Contato()).Visualizar(listCriterias);
             }
 
             PossuiContato pc = new PossuiContato();
-            pc.setId(new PossuiContatoId(pe.getCodigo(), existe.getCodigo()));
-            pc.setContato(existe);
+            pc.setContato1(existe);
             pc.setPessoa(pe);
+            pc.setPossuiContatoPK(new PossuiContatoPK(pe.getCodigo(), existe.getCodigo()));
+            pc.setStatus('A');
 
-            ComboItens comboTipoContato = (ComboItens) cmbTipo.getSelectedItem();
-            String[][] criteriosTipoContato = {{"codigo", String.valueOf(comboTipoContato.getCodigo())}};
-            tc = (TipoContato) new ContatoDAOs(tc).visualizar(criteriosTipoContato);
-
+            ComboItens comboTipo = (ComboItens) cmbTipo.getSelectedItem();
+            List<QueryCriteria> listTipos = new ArrayList<QueryCriteria>();
+            listTipos.add(new QueryCriteria("equal", "codigo", String.valueOf(comboTipo.getCodigo())));
+            TipoContato tc = new Generico<TipoContato>(new TipoContato()).Visualizar(listTipos);
             pc.setTipoContato(tc);
-            retorno = new GenericoDAO<PossuiContato>(pc).gravar();
 
-            JOptionPane.showMessageDialog(null, null);
+            new Generico<PossuiContato>(pc).Gravar();
 
-            resetField();
+            new ContatosDAO(new PossuiContato()).PopulaTabela(tblContatos, pe.getCodigo());
+
+            dispose();
         } else {
             JOptionPane.showMessageDialog(null, "Os campos obrigatórios devem estar todos preenchidos!");
         }

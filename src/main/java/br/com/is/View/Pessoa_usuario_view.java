@@ -1,7 +1,6 @@
 package br.com.is.View;
 
 import br.com.is.DAO.Generico;
-import br.com.is.DAO.GenericoDAO;
 import br.com.is.DAO.QueryCriteria;
 import br.com.is.Entitys.Pessoa;
 import br.com.is.Entitys.Usuario;
@@ -14,7 +13,7 @@ import utils.Support;
 public class Pessoa_usuario_view extends javax.swing.JInternalFrame {
 
     Pessoa pe = new Pessoa();
-    Usuario user = new Usuario();
+    Usuario user;
 
     public Pessoa_usuario_view(Pessoa pe) {
         initComponents();
@@ -22,13 +21,13 @@ public class Pessoa_usuario_view extends javax.swing.JInternalFrame {
         this.setEnabled(true);
 
         List<QueryCriteria> listCriterias = new ArrayList<QueryCriteria>();
-        listCriterias.add(new QueryCriteria("node", "pessoa1", "p"));
-        listCriterias.add(new QueryCriteria("equal", "p.codigo", String.valueOf(pe.getCodigo())));
+        listCriterias.add(new QueryCriteria("node", "pessoa1", "pe"));
+        listCriterias.add(new QueryCriteria("equal", "pe.codigo", String.valueOf(pe.getCodigo())));
         user = new Generico<Usuario>(new Usuario()).Visualizar(listCriterias);
-
-        if (user.getLogin() != "") {
+        System.out.println(user);
+        if (user != null) {
             tfdLogin.setText(user.getLogin());
-            cmbStatus.setSelectedIndex(user.getStatus() - 1);
+            cmbStatus.setSelectedItem(user.getStatus());
         } else {
             pwfAtual.setEnabled(false);
         }
@@ -161,15 +160,16 @@ public class Pessoa_usuario_view extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnSairActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        user.setPessoa(pe.getCodigo());
+        user = new Usuario(pe.getCodigo(), tfdLogin.getText());
         user.setPessoa1(pe);
-        user.setLogin(tfdLogin.getText());
-        if (pwfAtual.getPassword().length != 0) {
+        if (pwfAtual.isEnabled()) {
+            user.setSenha(Support.md5Criptor(String.valueOf(pwfRepita.getPassword())));
+        } else {
             user.setSenha(Support.md5Criptor(String.valueOf(pwfRepita.getPassword())));
         }
-        user.setStatus(Integer.valueOf(cmbStatus.getSelectedItem().toString().split(" - ")[0]));
+        user.setStatus(cmbStatus.getSelectedItem().toString().charAt(0));
         user.setUltimoAcesso(new Date(new Date().getTime()));
-        new GenericoDAO<Usuario>(user).gravar();
+        new Generico<Usuario>(user).Gravar();
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

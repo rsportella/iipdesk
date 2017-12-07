@@ -1,23 +1,23 @@
 package br.com.is.View;
 
-import br.com.is.DAO.EquipesDAO;
+import br.com.is.DAO.EventoDAO;
 import br.com.is.DAO.Generico;
 import br.com.is.DAO.QueryCriteria;
-import br.com.is.Entitys.Equipe;
+import br.com.is.Entitys.Evento;
 import static br.com.is.View.JanelaPrincipal.jDesktopPane;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import utils.Support;
 
-public class Equipe_listar_view extends javax.swing.JInternalFrame {
+public class Evento_listar_view extends javax.swing.JInternalFrame {
 
-    Equipe equ = new Equipe();
+    Evento evento = new Evento();
 
-    public Equipe_listar_view() {
+    public Evento_listar_view() {
         initComponents();
         QueryCriteria criterio = new QueryCriteria("contain", "titulo", "%%");
-        new EquipesDAO(equ).PopulaTabela(tblEquipes, criterio);
+        new EventoDAO(evento).PopulaTabela(tblEventos, criterio);
     }
 
     @SuppressWarnings("unchecked")
@@ -27,7 +27,7 @@ public class Equipe_listar_view extends javax.swing.JInternalFrame {
         jPanel2 = new javax.swing.JPanel();
         background = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        tblEquipes = new javax.swing.JTable();
+        tblEventos = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
@@ -46,17 +46,20 @@ public class Equipe_listar_view extends javax.swing.JInternalFrame {
             .addGap(0, 100, Short.MAX_VALUE)
         );
 
-        setTitle("Equipe");
+        setTitle("Eventos");
 
-        tblEquipes.setModel(new javax.swing.table.DefaultTableModel(
+        tblEventos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-
+                "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane3.setViewportView(tblEquipes);
+        jScrollPane3.setViewportView(tblEventos);
 
         jButton1.setText("Manipular");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -107,7 +110,7 @@ public class Equipe_listar_view extends javax.swing.JInternalFrame {
                                 .addComponent(jButton3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnSair)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -152,13 +155,13 @@ public class Equipe_listar_view extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnSairActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if (tblEquipes.getSelectedRow() != -1) {
+        if (tblEventos.getSelectedRow() != -1) {
             List<QueryCriteria> listCriterias = new ArrayList<QueryCriteria>();
-            listCriterias.add(new QueryCriteria("equal", "codigo", String.valueOf(tblEquipes.getValueAt(tblEquipes.getSelectedRow(), 0))));
-            this.equ = new Generico<Equipe>(equ).Visualizar(listCriterias);
-            Equipe_view eqv = new Equipe_view(this.equ);
-            Support.centralizar(jDesktopPane.add(eqv));
-            eqv.setVisible(true);
+            listCriterias.add(new QueryCriteria("equal", "codigo", String.valueOf(tblEventos.getValueAt(tblEventos.getSelectedRow(), 0))));
+            this.evento = new Generico<Evento>(new Evento()).Visualizar(listCriterias);
+            Evento_view evv = new Evento_view(evento);
+            Support.centralizar(jDesktopPane.add(evv));
+            evv.setVisible(true);
 
             dispose();
         } else {
@@ -166,16 +169,16 @@ public class Equipe_listar_view extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        Evento_view evv = new Evento_view();
+        Support.centralizar(jDesktopPane.add(evv));
+        evv.setVisible(true);
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         QueryCriteria criterio = new QueryCriteria("contain", "titulo", "%" + jTextField1.getText() + "%");
-        new EquipesDAO(equ).PopulaTabela(tblEquipes, criterio);
+        new EventoDAO(evento).PopulaTabela(tblEventos, criterio);
     }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        Equipe_view eqv = new Equipe_view();
-        Support.centralizar(jDesktopPane.add(eqv));
-        eqv.setVisible(true);
-    }//GEN-LAST:event_jButton3ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel background;
@@ -187,6 +190,6 @@ public class Equipe_listar_view extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTable tblEquipes;
+    private javax.swing.JTable tblEventos;
     // End of variables declaration//GEN-END:variables
 }

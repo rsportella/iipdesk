@@ -68,7 +68,7 @@ public class PermissaoPK implements Serializable {
 
     @Override
     public String toString() {
-        return "Entitys.PermissaoPK[ usuario=" + usuario + ", diretiva=" + diretiva + " ]";
+        return "br.com.is.Entitys.PermissaoPK[ usuario=" + usuario + ", diretiva=" + diretiva + " ]";
     }
 
 }

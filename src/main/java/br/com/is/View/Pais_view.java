@@ -266,7 +266,7 @@ public class Pais_view extends javax.swing.JInternalFrame {
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         if (tblConsulta.getSelectedRow() != -1) {
-            String[][] criterios = {{"codigo", String.valueOf(tblConsulta.getValueAt(tblConsulta.getSelectedRow(), 0))}};
+            String[][] criterios = {{"equal", "codigo", String.valueOf(tblConsulta.getValueAt(tblConsulta.getSelectedRow(), 0))}};
             this.pa = (Pais) new GenericoDAO<Pais>(pa).visualizar(criterios);
             tfdCodigo.setText(String.valueOf(pa.getCodigo()));
             tfdSigla.setText(pa.getSigla());

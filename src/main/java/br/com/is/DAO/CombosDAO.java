@@ -1,8 +1,8 @@
-package DAO;
+package br.com.is.DAO;
 
+import br.com.is.utils.ComboItens;
 import java.sql.ResultSet;
 import javax.swing.JComboBox;
-import utils.ComboItens;
 
 /**
  *

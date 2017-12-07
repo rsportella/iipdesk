@@ -1,12 +1,12 @@
 package br.com.is.DAO;
 
 import br.com.is.Entitys.Cidade;
+import br.com.is.utils.ComboItens;
 import java.util.List;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
-import utils.ComboItens;
 
 public class CidadeDAO extends GenericoDAO<Object> {
 

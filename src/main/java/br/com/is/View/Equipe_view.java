@@ -9,6 +9,7 @@ import br.com.is.Entitys.Pessoa;
 import br.com.is.Entitys.Servico;
 import utils.Support;
 import static br.com.is.View.JanelaPrincipal.jDesktopPane;
+import br.com.is.utils.Formatacao;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -33,6 +34,7 @@ public class Equipe_view extends javax.swing.JInternalFrame {
     public Equipe_view(Equipe equ) {
         initComponents();
         this.eq = equ;
+        Formatacao.reformatarCpf(ftfCpf);
 
         tfdCodigo.setText(String.valueOf(this.eq.getCodigo()));
         tfdTitulo.setText(this.eq.getTitulo());
@@ -40,14 +42,10 @@ public class Equipe_view extends javax.swing.JInternalFrame {
         ftfCpf.setText(this.eq.getResponsavel().getCpf());
         tfdNome.setText(this.eq.getResponsavel().getNome());
 
-        List<QueryCriteria> listCriterias = new ArrayList<QueryCriteria>();
-        listCriterias.add(new QueryCriteria("node", "equipe", "eq"));
-        listCriterias.add(new QueryCriteria("equal", "eq.codigo", String.valueOf(eq.getCodigo())));
-        new ServicoDAO(new Servico()).PopulaTabela(tblServicos, listCriterias);
+        new ServicoDAO(new Servico()).PopulaTabela(tblServicos, equ);
 
         btnAdicionar.setEnabled(true);
         btnEditar.setEnabled(true);
-        btnBloquear.setEnabled(true);
     }
 
     private void resetField() {
@@ -56,10 +54,9 @@ public class Equipe_view extends javax.swing.JInternalFrame {
         txaDescricao.setText("");
         tfdNome.setText("");
         ftfCpf.setText("");
-
+        Formatacao.reformatarCpf(ftfCpf);
         btnAdicionar.setEnabled(false);
         btnEditar.setEnabled(false);
-        btnBloquear.setEnabled(false);
     }
 
     @SuppressWarnings("unchecked")
@@ -74,7 +71,6 @@ public class Equipe_view extends javax.swing.JInternalFrame {
         tblServicos = new javax.swing.JTable();
         btnAdicionar = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
-        btnBloquear = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         tfdNome = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
@@ -127,13 +123,6 @@ public class Equipe_view extends javax.swing.JInternalFrame {
             }
         });
 
-        btnBloquear.setText("Bloquear");
-        btnBloquear.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBloquearActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -146,8 +135,6 @@ public class Equipe_view extends javax.swing.JInternalFrame {
                         .addComponent(btnAdicionar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnEditar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnBloquear)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -159,8 +146,7 @@ public class Equipe_view extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAdicionar)
-                    .addComponent(btnEditar)
-                    .addComponent(btnBloquear))
+                    .addComponent(btnEditar))
                 .addContainerGap())
         );
 
@@ -301,6 +287,8 @@ public class Equipe_view extends javax.swing.JInternalFrame {
         eq.setDescricao(txaDescricao.getText());
         eq.setResponsavel(this.ps);
 
+        btnAdicionar.setEnabled(true);
+
         new Generico<Equipe>(eq).Gravar();
     }//GEN-LAST:event_btnSalvarActionPerformed
 
@@ -312,19 +300,18 @@ public class Equipe_view extends javax.swing.JInternalFrame {
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         if (tblServicos.getSelectedRow() != -1) {
+            List<QueryCriteria> criterias = new ArrayList<QueryCriteria>();
+            criterias.add(new QueryCriteria("equal", "codigo", String.valueOf(tblServicos.getValueAt(tblServicos.getSelectedRow(), 0))));
+            Servico srv = new Generico<Servico>(new Servico()).Visualizar(criterias);
+
+            Servico_view serv = new Servico_view(eq, srv);
+            Support.centralizar(JanelaPrincipal.jDesktopPane.add(serv));
+            serv.setVisible(true);
 
         } else {
             JOptionPane.showMessageDialog(null, "Uma linha da tabela deve estar selecionada para efetuar a ação!");
         }
     }//GEN-LAST:event_btnEditarActionPerformed
-
-    private void btnBloquearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBloquearActionPerformed
-        if (tblServicos.getSelectedRow() != -1) {
-
-        } else {
-            JOptionPane.showMessageDialog(null, "Uma linha da tabela deve estar selecionada para efetuar a ação!");
-        }
-    }//GEN-LAST:event_btnBloquearActionPerformed
 
     private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
         Servico_view serv = new Servico_view(eq);
@@ -342,7 +329,6 @@ public class Equipe_view extends javax.swing.JInternalFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel background;
     private javax.swing.JButton btnAdicionar;
-    private javax.swing.JButton btnBloquear;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnLocalizar;
     private javax.swing.JButton btnSair;

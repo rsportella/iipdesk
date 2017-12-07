@@ -1,6 +1,8 @@
 package br.com.is.DAO;
 
+import br.com.is.Entitys.Equipe;
 import br.com.is.Entitys.Servico;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -12,8 +14,11 @@ public class ServicoDAO extends Generico<Object> {
         super(obj);
     }
 
-    public void PopulaTabela(JTable tabela, List<QueryCriteria> criterio) {
+    public void PopulaTabela(JTable tabela, Equipe equipe) {
         Object[][] dadosTabela = null;
+        List<QueryCriteria> criterio = new ArrayList<QueryCriteria>();
+        criterio.add(new QueryCriteria("node", "equipe", "eq"));
+        criterio.add(new QueryCriteria("equal", "eq.codigo", String.valueOf(equipe.getCodigo())));
         List resultQuery = Listar(criterio);
         // cabecalho da tabela
         Object[] cabecalho = {"Código", "Nome", "Valor"};
@@ -32,7 +37,7 @@ public class ServicoDAO extends Generico<Object> {
                 Servico s = (Servico) o;
                 dadosTabela[row][0] = s.getCodigo();
                 dadosTabela[row][1] = s.getTitulo();
-                dadosTabela[row][2] = s.getValor();
+                dadosTabela[row][2] = "R$ " + s.getValor();
                 row++;
             }
         } catch (Exception e) {

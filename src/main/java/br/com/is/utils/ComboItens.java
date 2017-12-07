@@ -1,6 +1,9 @@
-package utils;
+package br.com.is.utils;
+
+import javax.swing.JComboBox;
 
 public class ComboItens {
+
     private int codigo;
     private String descricao;
 
@@ -33,8 +36,16 @@ public class ComboItens {
     }
 
     @Override
-    public String toString () {
+    public String toString() {
         return descricao;
     }
-    
+
+    public void definirItemCombo(JComboBox combo, ComboItens item) {
+        for (int i = 0; i < combo.getItemCount(); i++) {
+            if (((ComboItens) combo.getItemAt(i)).getCodigo() == (item.getCodigo())) {
+                combo.setSelectedIndex(i);
+                return;
+            }
+        }
+    }
 }

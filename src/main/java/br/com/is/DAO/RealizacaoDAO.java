@@ -1,31 +1,28 @@
 package br.com.is.DAO;
 
-import br.com.is.Entitys.Cidade;
-import br.com.is.Entitys.PossuiContato;
+import br.com.is.Entitys.Realizacao;
+import br.com.is.utils.Layouts;
 import java.util.List;
-import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
-import utils.ComboItens;
 
-public class ContatoDAOs extends GenericoDAO<Object> {
+public class RealizacaoDAO extends GenericoDAO<Object> {
 
-    public ContatoDAOs(Object obj) {
+    public RealizacaoDAO(Object obj) {
         super(obj);
     }
 
-    public void PopulaTabela(JTable tabela, int codPessoa) {
+    public void PopulaTabela(JTable tabela, int evento) {
         Object[][] dadosTabela = null;
         String[][] criterios = {
-            {"node", "tipoContato", "tcont"},
-            {"node", "contato", "cont"},
-            {"node", "pessoa", "pe"},
-            {"equal", "pe.codigo", String.valueOf(codPessoa)}
+            {"node", "subTipoEvento1", "sub"},
+            {"node", "evento1", "ev"},
+            {"equal", "ev.codigo", String.valueOf(evento)}
         };
         List resultQuery = Listar(criterios);
         // cabecalho da tabela
-        Object[] cabecalho = {"Tipo", "Contato"};
+        Object[] cabecalho = {"Subtipo", "Data", "Início", "Término", "Status"};
 
         // cria matriz de acordo com nº de registros da tabela
         try {
@@ -38,9 +35,12 @@ public class ContatoDAOs extends GenericoDAO<Object> {
         try {
             int row = 0;
             for (Object o : resultQuery) {
-                PossuiContato s = (PossuiContato) o;
-                dadosTabela[row][0] = s.getTipoContato().getSigla();
-                dadosTabela[row][1] = s.getContato().getContato();
+                Realizacao rea = (Realizacao) o;
+                dadosTabela[row][0] = rea.getSubTipoEvento1().getCodigo() + " - " + rea.getSubTipoEvento1().getTitulo();
+                dadosTabela[row][1] = Layouts.setData(rea.getData());
+                dadosTabela[row][2] = rea.getHoraInicio();
+                dadosTabela[row][3] = rea.getHoraTermino();
+                dadosTabela[row][4] = rea.getStatus();
                 row++;
             }
         } catch (Exception e) {
@@ -92,31 +92,4 @@ public class ContatoDAOs extends GenericoDAO<Object> {
         }
     }
 
-    public void popularCombo(JComboBox combo, String[][] criterio) {
-        ComboItens item;
-        combo.removeAllItems();
-        List<Object> resultQuery = Listar(criterio);
-        try {
-            if (!resultQuery.isEmpty()) {
-                item = new ComboItens();
-                item.setCodigo(0);
-                item.setDescricao("-- Selecione uma opção --");
-                combo.addItem(item);
-                for (Object o : resultQuery) {
-                    Cidade s = (Cidade) o;
-                    item = new ComboItens();
-                    item.setCodigo(s.getCodigo());
-                    item.setDescricao(s.getNome());
-                    combo.addItem(item);
-                }
-            } else {
-                item = new ComboItens();
-                item.setCodigo(0);
-                item.setDescricao("-- Nenhuma opção cadastrada --");
-                combo.addItem(item);
-            }
-        } catch (Exception e) {
-            System.out.println("Erro ao popular Combo = " + e.toString());
-        }
-    }
 }

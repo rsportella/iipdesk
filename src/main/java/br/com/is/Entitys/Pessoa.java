@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,8 +16,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -25,7 +24,6 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "pessoa")
-
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Pessoa.findAll", query = "SELECT p FROM Pessoa p")
@@ -37,11 +35,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Pessoa.findByNascimento", query = "SELECT p FROM Pessoa p WHERE p.nascimento = :nascimento")
     , @NamedQuery(name = "Pessoa.findByOrgexp", query = "SELECT p FROM Pessoa p WHERE p.orgexp = :orgexp")
     , @NamedQuery(name = "Pessoa.findByGenero", query = "SELECT p FROM Pessoa p WHERE p.genero = :genero")})
-
 public class Pessoa implements Serializable {
-
-    @OneToMany(mappedBy = "responsavel")
-    private Collection<Equipe> equipeCollection;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -66,6 +60,8 @@ public class Pessoa implements Serializable {
     private String orgexp;
     @Column(name = "genero")
     private Character genero;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pessoa")
+    private Collection<PossuiContato> possuiContatoCollection;
 
     public Pessoa() {
     }
@@ -144,6 +140,15 @@ public class Pessoa implements Serializable {
         this.genero = genero;
     }
 
+    @XmlTransient
+    public Collection<PossuiContato> getPossuiContatoCollection() {
+        return possuiContatoCollection;
+    }
+
+    public void setPossuiContatoCollection(Collection<PossuiContato> possuiContatoCollection) {
+        this.possuiContatoCollection = possuiContatoCollection;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -166,16 +171,7 @@ public class Pessoa implements Serializable {
 
     @Override
     public String toString() {
-        return "Entitys.Pessoa[ codigo=" + codigo + " ]";
-    }
-
-    @XmlTransient
-    public Collection<Equipe> getEquipeCollection() {
-        return equipeCollection;
-    }
-
-    public void setEquipeCollection(Collection<Equipe> equipeCollection) {
-        this.equipeCollection = equipeCollection;
+        return "br.com.is.Entitys.Pessoa[ codigo=" + codigo + " ]";
     }
 
 }
