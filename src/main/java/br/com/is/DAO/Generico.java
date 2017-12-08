@@ -1,9 +1,11 @@
 package br.com.is.DAO;
 
+import static br.com.is.View.Login.usuarioLogado;
 import br.com.is.utils.HibernateUtil;
 import static com.sun.javafx.util.Utils.split;
 import java.util.List;
 import org.hibernate.Criteria;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
@@ -25,6 +27,13 @@ public class Generico<T> {
 
     public boolean Gravar() {
         try {
+            String iduser = String.valueOf(usuarioLogado.getPessoa1().getCodigo());
+            SQLQuery query = s.createSQLQuery("set session \"iip.userid\" = " + iduser + "");
+            query.executeUpdate();
+
+            SQLQuery queryAudit = s.createSQLQuery("set session \"iip.auditoria\" = \"ON\"");
+            queryAudit.executeUpdate();
+
             s.saveOrUpdate(this.obj);
             s.getTransaction().commit();
             return true;
@@ -39,6 +48,13 @@ public class Generico<T> {
 
     public boolean Excluir() {
         try {
+            String iduser = String.valueOf(usuarioLogado.getPessoa1().getCodigo());
+            SQLQuery query = s.createSQLQuery("set session \"iip.userid\" = " + iduser + "");
+            query.executeUpdate();
+
+            SQLQuery queryAudit = s.createSQLQuery("set session \"iip.auditoria\" = \"ON\"");
+            queryAudit.executeUpdate();
+
             s.delete(this.obj);
             s.getTransaction().commit();
             return true;

@@ -34,7 +34,7 @@ public class GenericoDAO<T> {
             String iduser = String.valueOf(usuarioLogado.getPessoa1().getCodigo());
             SQLQuery query = s.createSQLQuery("set session \"iip.userid\" = " + iduser + "");
             query.executeUpdate();
-            
+
             SQLQuery queryAudit = s.createSQLQuery("set session \"iip.auditoria\" = \"ON\"");
             queryAudit.executeUpdate();
 
@@ -52,6 +52,13 @@ public class GenericoDAO<T> {
 
     public String excluir() {
         try {
+            String iduser = String.valueOf(usuarioLogado.getPessoa1().getCodigo());
+            SQLQuery query = s.createSQLQuery("set session \"iip.userid\" = " + iduser + "");
+            query.executeUpdate();
+
+            SQLQuery queryAudit = s.createSQLQuery("set session \"iip.auditoria\" = \"ON\"");
+            queryAudit.executeUpdate();
+
             s.delete(this.obj);
             s.getTransaction().commit();
             return "Excluido com sucesso!";

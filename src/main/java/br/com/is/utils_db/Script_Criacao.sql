@@ -297,3 +297,167 @@ CREATE TABLE amortizacao(
     CONSTRAINT pk_amortizacao PRIMARY KEY (codigo),
     CONSTRAINT fk_amortizacao_pagamento FOREIGN KEY (pagamento) REFERENCES pagamento (evento)
 );
+
+
+CREATE schema audit;
+REVOKE CREATE ON schema audit FROM public;
+ 
+CREATE TABLE audit.logged_actions (
+    schema_name text NOT NULL,
+    TABLE_NAME text NOT NULL,
+    user_id text,
+    action_tstamp TIMESTAMP WITH TIME zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    action TEXT NOT NULL CHECK (action IN ('I','D','U')),
+    original_data text,
+    new_data text,
+    query text
+) WITH (fillfactor=100);
+ 
+REVOKE ALL ON audit.logged_actions FROM public;
+ 
+GRANT SELECT ON audit.logged_actions TO public;
+ 
+CREATE INDEX logged_actions_schema_table_idx 
+ON audit.logged_actions(((schema_name||'.'||TABLE_NAME)::TEXT));
+ 
+CREATE INDEX logged_actions_action_tstamp_idx 
+ON audit.logged_actions(action_tstamp);
+ 
+CREATE INDEX logged_actions_action_idx 
+ON audit.logged_actions(action);
+
+
+CREATE OR REPLACE FUNCTION audit.if_modified_func() RETURNS TRIGGER AS $body$
+DECLARE
+    v_old_data TEXT;
+    v_new_data TEXT;
+BEGIN
+ IF (current_setting('iip.auditoria') = 'ON') THEN
+    IF (TG_OP = 'UPDATE') THEN
+        v_old_data := ROW(OLD.*);
+        v_new_data := ROW(NEW.*);
+        INSERT INTO audit.logged_actions (schema_name,table_name,user_id,action,original_data,new_data,query) 
+        VALUES (TG_TABLE_SCHEMA::TEXT,TG_TABLE_NAME::TEXT,current_setting('iip.userid'),substring(TG_OP,1,1),v_old_data,v_new_data, current_query());
+        RETURN NEW;
+    ELSIF (TG_OP = 'DELETE') THEN
+        v_old_data := ROW(OLD.*);
+        INSERT INTO audit.logged_actions (schema_name,table_name,user_id,action,original_data,query)
+        VALUES (TG_TABLE_SCHEMA::TEXT,TG_TABLE_NAME::TEXT,current_setting('iip.userid'),substring(TG_OP,1,1),v_old_data, current_query());
+        RETURN OLD;
+    ELSIF (TG_OP = 'INSERT') THEN
+        v_new_data := ROW(NEW.*);
+        INSERT INTO audit.logged_actions (schema_name,table_name,user_id,action,new_data,query)
+        VALUES (TG_TABLE_SCHEMA::TEXT,TG_TABLE_NAME::TEXT,current_setting('iip.userid'),substring(TG_OP,1,1),v_new_data, current_query());
+        RETURN NEW;
+    ELSE
+        RAISE WARNING '[AUDIT.IF_MODIFIED_FUNC] - Other action occurred: %, at %',TG_OP,now();
+        RETURN NULL;
+    END IF;
+  END IF;
+ EXCEPTION
+    WHEN data_exception THEN
+        RAISE WARNING '[AUDIT.IF_MODIFIED_FUNC] - UDF ERROR [DATA EXCEPTION] - SQLSTATE: %, SQLERRM: %',SQLSTATE,SQLERRM;
+        RETURN NULL;
+    WHEN unique_violation THEN
+        RAISE WARNING '[AUDIT.IF_MODIFIED_FUNC] - UDF ERROR [UNIQUE] - SQLSTATE: %, SQLERRM: %',SQLSTATE,SQLERRM;
+        RETURN NULL;
+    WHEN OTHERS THEN
+        RAISE WARNING '[AUDIT.IF_MODIFIED_FUNC] - UDF ERROR [OTHER] - SQLSTATE: %, SQLERRM: %',SQLSTATE,SQLERRM;
+        RETURN NULL;
+END;
+$body$
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = pg_catalog, audit;
+
+CREATE TRIGGER logradouro_audit
+AFTER INSERT OR UPDATE OR DELETE ON logradouro
+FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+
+CREATE TRIGGER pais_audit
+AFTER INSERT OR UPDATE OR DELETE ON pais
+FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+
+CREATE TRIGGER campo_audit
+AFTER INSERT OR UPDATE OR DELETE ON campo
+FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+
+CREATE TRIGGER pacote_audit
+AFTER INSERT OR UPDATE OR DELETE ON pacote
+FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+
+CREATE TRIGGER tela_audit
+AFTER INSERT OR UPDATE OR DELETE ON tela
+FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+
+CREATE TRIGGER contato_audit
+AFTER INSERT OR UPDATE OR DELETE ON contato
+FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+
+CREATE TRIGGER servico_audit
+AFTER INSERT OR UPDATE OR DELETE ON servico
+FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+
+CREATE TRIGGER evento_audit
+AFTER INSERT OR UPDATE OR DELETE ON evento
+FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+
+CREATE TRIGGER pessoa_audit
+AFTER INSERT OR UPDATE OR DELETE ON pessoa
+FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+
+CREATE TRIGGER tipo_contato_audit
+AFTER INSERT OR UPDATE OR DELETE ON tipo_contato
+FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+
+CREATE TRIGGER permissao_audit
+AFTER INSERT OR UPDATE OR DELETE ON permissao
+FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+
+CREATE TRIGGER diretiva_audit
+AFTER INSERT OR UPDATE OR DELETE ON diretiva
+FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+
+CREATE TRIGGER pacote_possui_servico_audit
+AFTER INSERT OR UPDATE OR DELETE ON pacote_possui_servico
+FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+
+CREATE TRIGGER possui_endereco_audit
+AFTER INSERT OR UPDATE OR DELETE ON possui_endereco
+FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+
+CREATE TRIGGER equipe_audit
+AFTER INSERT OR UPDATE OR DELETE ON equipe
+FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+
+CREATE TRIGGER possui_contato_audit
+AFTER INSERT OR UPDATE OR DELETE ON possui_contato
+FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+
+CREATE TRIGGER servico_pertence_evento_audit
+AFTER INSERT OR UPDATE OR DELETE ON servico_pertence_evento
+FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+
+CREATE TRIGGER tipo_endereco_audit
+AFTER INSERT OR UPDATE OR DELETE ON tipo_endereco
+FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+
+CREATE TRIGGER cidade_audit
+AFTER INSERT OR UPDATE OR DELETE ON cidade
+FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+
+CREATE TRIGGER usuario_audit
+AFTER INSERT OR UPDATE OR DELETE ON usuario
+FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+
+CREATE TRIGGER estato_audit
+AFTER INSERT OR UPDATE OR DELETE ON estado
+FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+
+CREATE TRIGGER tipo_evento_audit
+AFTER INSERT OR UPDATE OR DELETE ON tipo_evento
+FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();
+
+CREATE TRIGGER endereco_audit
+AFTER INSERT OR UPDATE OR DELETE ON endereco
+FOR EACH ROW EXECUTE PROCEDURE audit.if_modified_func();

@@ -41,10 +41,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
      */
     public JanelaPrincipal() throws IOException {
         initComponents();
-        log4j.info("#######################################################################################");
-        log4j.info("########## IPP - INICIANDO...##########################################################");
-        log4j.info("#######################################################################################");
-
+       
         new EventoDAO(new Evento()).PopulaTabela(jTable1, new QueryCriteria("contain", "status", "1 - Ativo"));
 
         String URL_WEBSERVICE = "http://api.promasters.net.br/cotacao/v1/valores?moedas=USD&alt=json";
