@@ -55,7 +55,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         }
         br.close();
 
-        //labDolar.setText(dadosUrl.toString().substring(61, 65));
+        labDolar.setText(dadosUrl.toString().substring(61, 65));
     }
 
     /**

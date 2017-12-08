@@ -4,7 +4,7 @@
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
-		<defaultValueExpression><![CDATA["C:\\Projeto\\news\\iipdesk\\src\\main\\java\\br\\com\\is\\View\\report\\"]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA["/home/noll/NetBeansProjects/iipdesk/src/main/java/br/com/is/View/report/"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="evento" class="java.lang.Integer">
 		<defaultValueExpression><![CDATA[$F{evento_codigo}]]></defaultValueExpression>

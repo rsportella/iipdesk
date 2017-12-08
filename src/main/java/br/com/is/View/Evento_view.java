@@ -1043,7 +1043,8 @@ public class Evento_view extends javax.swing.JInternalFrame {
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
         try {
-            File arq = new File("C:\\Projeto\\news\\iipdesk\\src\\main\\java\\br\\com\\is\\View\\report\\contrato.jrxml");
+            //File arq = new File("C:\\Projeto\\news\\iipdesk\\src\\main\\java\\br\\com\\is\\View\\report\\contrato.jrxml");
+            File arq = new File("/home/noll/NetBeansProjects/iipdesk/src/main/java/br/com/is/View/report/contrato.jrxml");
             JasperReport relatorio = JasperCompileManager.compileReport(arq.getPath());
             Map parametros = new HashMap();
             parametros.put("evento", evento.getCodigo());
