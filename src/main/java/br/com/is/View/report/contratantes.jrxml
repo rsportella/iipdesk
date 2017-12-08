@@ -66,9 +66,9 @@ WHERE
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="49" splitType="Stretch">
+		<band height="32" splitType="Stretch">
 			<textField>
-				<reportElement x="0" y="0" width="509" height="49" uuid="0b073899-fcfc-4a7d-91b3-da7f08bf7af6"/>
+				<reportElement x="0" y="0" width="509" height="32" uuid="0b073899-fcfc-4a7d-91b3-da7f08bf7af6"/>
 				<textElement textAlignment="Justified">
 					<font isBold="false"/>
 				</textElement>

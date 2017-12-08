@@ -5,10 +5,10 @@ import br.com.is.DAO.QueryCriteria;
 import br.com.is.Entitys.Pessoa;
 import br.com.is.Entitys.Usuario;
 import static br.com.is.View.JanelaPrincipal.jDesktopPane;
+import br.com.is.utils.Support;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import utils.Support;
 
 public class Pessoa_usuario_view extends javax.swing.JInternalFrame {
 

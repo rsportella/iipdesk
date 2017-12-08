@@ -20,13 +20,13 @@ import br.com.is.Entitys.Realizacao;
 import br.com.is.Entitys.RealizacaoPK;
 import br.com.is.Entitys.SubTipoEvento;
 import br.com.is.Entitys.TipoEndereco;
-import static br.com.is.View.Evento_view.btnAvancar1;
 import static br.com.is.View.Evento_view.tblRealizacoes;
 import br.com.is.utils.ComboItens;
 import br.com.is.utils.Formatacao;
 import java.awt.event.ItemEvent;
 import java.util.ArrayList;
 import java.util.List;
+import static br.com.is.View.Evento_view.btnAvanca1;
 
 public class Realizacao_view extends javax.swing.JInternalFrame {
 
@@ -443,7 +443,7 @@ public class Realizacao_view extends javax.swing.JInternalFrame {
             new RealizacaoDAO(new Realizacao()).PopulaTabela(tblRealizacoes, evento.getCodigo());
 
             dispose();
-            btnAvancar1.setEnabled(true);
+            btnAvanca1.setEnabled(true);
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
 

@@ -2,6 +2,7 @@ package br.com.is.View;
 
 import br.com.is.DAO.AmortizacaoDAO;
 import br.com.is.DAO.EquipesDAO;
+import br.com.is.DAO.EventoDAO;
 import br.com.is.DAO.Generico;
 import br.com.is.DAO.GenericoDAO;
 import br.com.is.DAO.QueryCriteria;
@@ -26,7 +27,9 @@ import br.com.is.utils.ComboItens;
 import br.com.is.utils.ConexaoBD;
 import static br.com.is.utils.Funcoes.geraParcelas;
 import br.com.is.utils.Layouts;
+import br.com.is.utils.Support;
 import java.awt.event.ItemEvent;
+import java.io.File;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -40,7 +43,6 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.view.JasperViewer;
-import utils.Support;
 
 public class Evento_view extends javax.swing.JInternalFrame {
 
@@ -83,6 +85,7 @@ public class Evento_view extends javax.swing.JInternalFrame {
 //        Tela de responsaveis
         if (new Generico<Responsavel>(new Responsavel()).Listar(criterios).size() > 0) {
             new ResponsavelDAO(new Responsavel()).PopulaTabela(tblContratantes, evento.getCodigo());
+            btnAvanca1.setEnabled(true);
             btnAvanca2.setEnabled(true);
             tbpEvento.setEnabledAt(1, true);
         }
@@ -119,7 +122,7 @@ public class Evento_view extends javax.swing.JInternalFrame {
         btnSair = new javax.swing.JButton();
         tbpEvento = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
-        btnAvancar1 = new javax.swing.JButton();
+        btnAvanca1 = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         cmbTipoEvento = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
@@ -135,6 +138,7 @@ public class Evento_view extends javax.swing.JInternalFrame {
         tblRealizacoes = new javax.swing.JTable();
         jButton9 = new javax.swing.JButton();
         jButton10 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblContratantes = new javax.swing.JTable();
@@ -194,11 +198,11 @@ public class Evento_view extends javax.swing.JInternalFrame {
             }
         });
 
-        btnAvancar1.setText("Avançar");
-        btnAvancar1.setEnabled(false);
-        btnAvancar1.addActionListener(new java.awt.event.ActionListener() {
+        btnAvanca1.setText("Avançar");
+        btnAvanca1.setEnabled(false);
+        btnAvanca1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAvancar1ActionPerformed(evt);
+                btnAvanca1ActionPerformed(evt);
             }
         });
 
@@ -246,6 +250,9 @@ public class Evento_view extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel1.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel1.setText("* Nesta tela o botão avançar atualiza seus dados.");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -255,7 +262,10 @@ public class Evento_view extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnAvancar1)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnAvanca1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel1))
                             .addComponent(jLabel6)
                             .addComponent(tfdCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel7)
@@ -315,7 +325,9 @@ public class Evento_view extends javax.swing.JInternalFrame {
                     .addComponent(jButton9)
                     .addComponent(jButton10))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnAvancar1)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAvanca1)
+                    .addComponent(jLabel1))
                 .addContainerGap())
         );
 
@@ -362,7 +374,7 @@ public class Evento_view extends javax.swing.JInternalFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 782, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 855, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
@@ -426,7 +438,7 @@ public class Evento_view extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(cmbEquipes, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 757, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 830, Short.MAX_VALUE)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
@@ -663,10 +675,11 @@ public class Evento_view extends javax.swing.JInternalFrame {
                                     .addComponent(dcsInicial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel10)
-                                    .addComponent(lblTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel10)
+                                        .addComponent(lblTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(jButton11))
-                                .addGap(0, 208, Short.MAX_VALUE)))
+                                .addGap(0, 281, Short.MAX_VALUE)))
                         .addGap(24, 24, 24))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -800,10 +813,10 @@ public class Evento_view extends javax.swing.JInternalFrame {
         dispose();
     }//GEN-LAST:event_btnSairActionPerformed
 
-    private void btnAvancar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAvancar1ActionPerformed
+    private void btnAvanca1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAvanca1ActionPerformed
         tbpEvento.setEnabledAt(1, true);
         tbpEvento.setSelectedIndex(1);
-    }//GEN-LAST:event_btnAvancar1ActionPerformed
+    }//GEN-LAST:event_btnAvanca1ActionPerformed
 
     private void btnAvanca2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAvanca2ActionPerformed
         tbpEvento.setEnabledAt(2, true);
@@ -848,6 +861,7 @@ public class Evento_view extends javax.swing.JInternalFrame {
         Realizacao_view rv = new Realizacao_view(evento);
         Support.centralizar(jDesktopPane.add(rv));
         rv.setVisible(true);
+        new EventoDAO(new Evento()).PopulaTabela(jTable1, new QueryCriteria("contain", "status", "1 - Ativo"));
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
@@ -1013,37 +1027,26 @@ public class Evento_view extends javax.swing.JInternalFrame {
             cmbPagamentoFormaPagamento.setEnabled(true);
             cmbPagamentoSatus.setSelectedItem(amorTemp.getStatus());
             cmbPagamentoSatus.setEnabled(true);
+        } else {
+
         }
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        if (cmbPagamentoFormaPagamento.getSelectedIndex() != 0
-                && cmbPagamentoSatus.getSelectedIndex() != 0
-                && !dcsData.getDate().equals("")
-                && !cmmValorDebi.getValue().equals("")) {
-            amorTemp.setData(dcsData.getDate());
-            amorTemp.setValor(cmmValorDebi.getValue());
-            amorTemp.setStatus(cmbPagamentoSatus.getSelectedItem().toString());
-            amorTemp.setFormaPagamento(cmbPagamentoFormaPagamento.getSelectedItem().toString());
-            new Generico<Amortizacao>(amorTemp).Gravar();
-            new AmortizacaoDAO(new Amortizacao()).PopulaTabela(jTable1, evento.getCodigo());
-
-            cmmValorDebi.setValue(new BigDecimal(0));
-            cmmValorDebi.setEnabled(false);
-            dcsData.setDate(null);
-            dcsData.setEnabled(false);
-            cmbPagamentoFormaPagamento.setSelectedIndex(0);
-            cmbPagamentoFormaPagamento.setEnabled(false);
-            cmbPagamentoSatus.setSelectedIndex(0);
-            cmbPagamentoSatus.setEnabled(false);
-        }
+        amorTemp.setData(dcsData.getDate());
+        amorTemp.setValor(cmmValorDebi.getValue());
+        amorTemp.setStatus(cmbPagamentoSatus.getSelectedItem().toString());
+        amorTemp.setFormaPagamento(cmbPagamentoFormaPagamento.getSelectedItem().toString());
+        new Generico<Amortizacao>(amorTemp).Gravar();
+        new AmortizacaoDAO(new Amortizacao()).PopulaTabela(jTable1, evento.getCodigo());
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
         try {
-            JasperReport relatorio = JasperCompileManager.compileReport(getClass().getResourceAsStream("/relatorios/relatorioTipoAdicionais.jrxml"));
+            File arq = new File("C:\\Projeto\\news\\iipdesk\\src\\main\\java\\br\\com\\is\\View\\report\\contrato.jrxml");
+            JasperReport relatorio = JasperCompileManager.compileReport(arq.getPath());
             Map parametros = new HashMap();
-            parametros.put("", 0);
+            parametros.put("evento", evento.getCodigo());
             JasperPrint impressao = JasperFillManager.fillReport(relatorio, parametros, ConexaoBD.getInstance().getConnection());
             JasperViewer.viewReport(impressao, false);
         } catch (Exception e) {
@@ -1054,8 +1057,8 @@ public class Evento_view extends javax.swing.JInternalFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel background;
+    public static javax.swing.JButton btnAvanca1;
     public static javax.swing.JButton btnAvanca2;
-    public static javax.swing.JButton btnAvancar1;
     private javax.swing.JButton btnAvancar3;
     private javax.swing.JButton btnSair;
     private javax.swing.JComboBox<String> cmbEquipes;
@@ -1079,6 +1082,7 @@ public class Evento_view extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton9;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel13;

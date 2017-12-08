@@ -1,4 +1,4 @@
-package utils;
+package br.com.is.utils;
 
 import java.awt.Component;
 import java.awt.Dimension;

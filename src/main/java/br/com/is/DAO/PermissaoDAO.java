@@ -6,36 +6,37 @@ import br.com.is.Entitys.PermissaoPK;
 import br.com.is.Entitys.Tela;
 import br.com.is.Entitys.Usuario;
 import br.com.is.utils.ComboItens;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
-public class PermissaoDAO extends GenericoDAO<Object> {
-
+public class PermissaoDAO extends Generico<Object> {
+    
     public PermissaoDAO(Object obj) {
         super(obj);
     }
-
+    
     public void PopulaTabela(JTable tabela, int tela, Usuario user) {
         Object[][] dadosTabela = null;
+        
+        List<QueryCriteria> criterios = new ArrayList<>();
+        criterios.add(new QueryCriteria("node", "campo", "c"));
+        criterios.add(new QueryCriteria("node", "tela", "t"));
+        criterios.add(new QueryCriteria("equal", "t.codigo", String.valueOf(tela)));
+        
+        List<String> resultQuery = Listar(criterios);
+        criterios.removeAll(criterios);
+        
+        criterios.add(new QueryCriteria("node", "diretiva1", "d"));
+        criterios.add(new QueryCriteria("node", "usuario1", "u"));
+        criterios.add(new QueryCriteria("node", "d.tela", "t"));
+        criterios.add(new QueryCriteria("equal", "t.codigo", String.valueOf(tela)));
+        criterios.add(new QueryCriteria("equal", "u.pessoa", String.valueOf(user.getPessoa1().getCodigo())));
 
-        String[][] criteriosCampos = {
-            {"node", "campo", "c"},
-            {"node", "tela", "t"},
-            {"equal", "t.codigo", String.valueOf(tela)}
-        };
-        List<String> resultQuery = Listar(criteriosCampos);
-
-        String[][] criteriosPermissoes = {
-            {"node", "diretiva1", "d"},
-            {"node", "usuario1", "u"},
-            {"node", "d.tela", "t"},
-            {"equal", "t.codigo", String.valueOf(tela)},
-            {"equal", "u.pessoa", String.valueOf(user.getPessoa1().getCodigo())}
-        };
-        List<String> resultSubQuery = new GenericoDAO<Permissao>(new Permissao()).Listar(criteriosPermissoes);
+        List<String> resultSubQuery = new Generico<Permissao>(new Permissao()).Listar(criterios);
 
         // cabecalho da tabela
         Object[] cabecalho = {"Código", "Titulo", "Status"};
@@ -92,7 +93,7 @@ public class PermissaoDAO extends GenericoDAO<Object> {
                 }
                 return Object.class;
             }
-
+            
             @Override
             public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
                 super.setValueAt(aValue, rowIndex, columnIndex);
@@ -100,9 +101,7 @@ public class PermissaoDAO extends GenericoDAO<Object> {
                 per.setStatus((boolean) aValue);
                 per.setPermissaoPK(new PermissaoPK(user.getPessoa1().getCodigo(),
                         (int) getValueAt(rowIndex, 0)));
-                new GenericoDAO<Permissao>(per).gravar();
-                System.out.println(per);
-                System.out.println("aaaaaaaaaaaaaaaaa");
+                new Generico<Permissao>(per).Gravar();
             }
         }
         );
@@ -127,7 +126,7 @@ public class PermissaoDAO extends GenericoDAO<Object> {
             }
         }
     }
-
+    
     public void popularCombo(JComboBox combo) {
         ComboItens item;
         combo.removeAllItems();
@@ -155,5 +154,5 @@ public class PermissaoDAO extends GenericoDAO<Object> {
             System.out.println("Erro ao popular Combo = " + e.toString());
         }
     }
-
+    
 }

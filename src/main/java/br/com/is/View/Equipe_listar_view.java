@@ -5,10 +5,10 @@ import br.com.is.DAO.Generico;
 import br.com.is.DAO.QueryCriteria;
 import br.com.is.Entitys.Equipe;
 import static br.com.is.View.JanelaPrincipal.jDesktopPane;
+import br.com.is.utils.Support;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
-import utils.Support;
 
 public class Equipe_listar_view extends javax.swing.JInternalFrame {
 

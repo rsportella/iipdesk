@@ -4,8 +4,8 @@ import br.com.is.DAO.EstadoDAO;
 import br.com.is.DAO.GenericoDAO;
 import br.com.is.Entitys.Estado;
 import br.com.is.Entitys.Pais;
+import br.com.is.utils.Support;
 import javax.swing.JOptionPane;
-import utils.Support;
 
 public class Estado_view extends javax.swing.JInternalFrame {
 

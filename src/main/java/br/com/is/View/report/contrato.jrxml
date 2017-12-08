@@ -2,9 +2,12 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="contrato" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8a36a247-2121-4fca-822d-16c2fd025b9f">
 	<property name="ireport.zoom" value="1.2100000000000002"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="3"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
-		<defaultValueExpression><![CDATA["C:\\Projeto\\news\\iipdesk\\src\\main\\java\\br\\com\\is\\Relatorio\\"]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA["C:\\Projeto\\news\\iipdesk\\src\\main\\java\\br\\com\\is\\View\\report\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="evento" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[$F{evento_codigo}]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT
@@ -20,7 +23,9 @@
      pagamento."data_contrato" AS pagamento_data_contrato
 FROM
      "public"."tipo_evento" tipo_evento INNER JOIN "public"."evento" evento ON tipo_evento."codigo" = evento."tipo_evento"
-     INNER JOIN "public"."pagamento" pagamento ON evento."codigo" = pagamento."evento"]]>
+     INNER JOIN "public"."pagamento" pagamento ON evento."codigo" = pagamento."evento"
+WHERE
+     pagamento."evento" = $P{evento}]]>
 	</queryString>
 	<field name="evento_codigo" class="java.lang.Integer"/>
 	<field name="evento_titulo" class="java.lang.String"/>
@@ -47,68 +52,68 @@ FROM
 		</band>
 	</pageHeader>
 	<detail>
-		<band height="368" splitType="Stretch">
+		<band height="482" splitType="Stretch">
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="33" y="231" width="488" height="51" uuid="c8d3d550-5ec3-4a70-afea-6d911a3a5c9b"/>
+				<text><![CDATA[Para dirimir quaisquer controvérsias oriundas do presente contrato, as partes elegem o foro da comarca de Cidade/Estado;
+
+Por estarem assim justos e contratados, firmam o presente instrumento, em duas vias de igual teor, juntamente com 2 (duas) testemunhas.]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="27" y="382" width="181" height="1" uuid="e353f40c-0fa9-4ee5-85c6-e2d5f1e5d132"/>
+			</line>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="27" y="383" width="181" height="21" uuid="34faa77d-eafc-4b20-ac24-caee95a9bc3a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Primeiro contratante]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="27" y="457" width="181" height="1" uuid="bf1f8a49-2330-4f96-880b-8b5d649a6fdc"/>
+			</line>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="27" y="458" width="181" height="21" uuid="b323e4b4-92e5-494b-8ef9-e7111f2e8177"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Testemunha um]]></text>
+			</staticText>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="340" y="383" width="181" height="21" uuid="31787e02-5dfb-4abf-a4c6-cf1e9c688470"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Contratado]]></text>
+			</staticText>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="340" y="383" width="181" height="1" uuid="022a5bce-f0b9-4c13-9449-f63187031e55"/>
+			</line>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="340" y="456" width="181" height="1" uuid="b0d528b3-e23b-45d9-8799-aa467b7cc64e"/>
+			</line>
+			<staticText>
+				<reportElement positionType="FixRelativeToBottom" x="340" y="457" width="181" height="21" uuid="af137855-ea0f-4264-8cf6-b2bff480028d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Testemunha dois]]></text>
+			</staticText>
 			<subreport>
-				<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="0" width="521" height="21" uuid="57d4c3a3-193d-4039-8775-f50e1129059b"/>
+				<reportElement isPrintRepeatedValues="false" x="0" y="0" width="521" height="54" uuid="030e97f5-439d-4336-b684-02a0402e763d"/>
 				<subreportParameter name="evento">
 					<subreportParameterExpression><![CDATA[$F{evento_codigo}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "contratantes.jasper"]]></subreportExpression>
 			</subreport>
-			<staticText>
-				<reportElement x="27" y="176" width="494" height="51" uuid="c8d3d550-5ec3-4a70-afea-6d911a3a5c9b"/>
-				<text><![CDATA[Para dirimir quaisquer controvérsias oriundas do presente contrato, as partes elegem o foro da comarca de Cidade/Estado;
-
-Por estarem assim justos e contratados, firmam o presente instrumento, em duas vias de igual teor, juntamente com 2 (duas) testemunhas.]]></text>
-			</staticText>
-			<line>
-				<reportElement x="27" y="269" width="181" height="1" uuid="e353f40c-0fa9-4ee5-85c6-e2d5f1e5d132"/>
-			</line>
-			<staticText>
-				<reportElement x="27" y="270" width="181" height="21" uuid="34faa77d-eafc-4b20-ac24-caee95a9bc3a"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<text><![CDATA[Primeiro contratante]]></text>
-			</staticText>
-			<line>
-				<reportElement x="27" y="344" width="181" height="1" uuid="bf1f8a49-2330-4f96-880b-8b5d649a6fdc"/>
-			</line>
-			<staticText>
-				<reportElement x="27" y="345" width="181" height="21" uuid="b323e4b4-92e5-494b-8ef9-e7111f2e8177"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<text><![CDATA[Testemunha um]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="340" y="270" width="181" height="21" uuid="31787e02-5dfb-4abf-a4c6-cf1e9c688470"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<text><![CDATA[Contratado]]></text>
-			</staticText>
-			<line>
-				<reportElement x="340" y="270" width="181" height="1" uuid="022a5bce-f0b9-4c13-9449-f63187031e55"/>
-			</line>
-			<line>
-				<reportElement x="340" y="343" width="181" height="1" uuid="b0d528b3-e23b-45d9-8799-aa467b7cc64e"/>
-			</line>
-			<staticText>
-				<reportElement x="340" y="344" width="181" height="21" uuid="af137855-ea0f-4264-8cf6-b2bff480028d"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<text><![CDATA[Testemunha dois]]></text>
-			</staticText>
 			<subreport>
-				<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="21" width="521" height="21" uuid="1aea87a5-bc36-4938-90c9-d26a74a6f677"/>
-				<subreportParameter name="evento">
-					<subreportParameterExpression><![CDATA[$F{evento_codigo}]]></subreportParameterExpression>
-				</subreportParameter>
-				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "servicos.jasper"]]></subreportExpression>
-			</subreport>
-			<subreport>
-				<reportElement positionType="Float" stretchType="RelativeToBandHeight" x="0" y="42" width="521" height="16" uuid="0bf91444-60b9-497c-97a0-5586335c4d4e"/>
+				<reportElement isPrintRepeatedValues="false" x="0" y="85" width="521" height="51" uuid="c1c17798-27fb-494f-ba43-95241d22e070"/>
 				<subreportParameter name="evento">
 					<subreportParameterExpression><![CDATA[$F{evento_codigo}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "locais.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement isPrintRepeatedValues="false" x="0" y="136" width="521" height="37" uuid="d63cead5-91f6-4ce8-b670-2052f76b77de"/>
+				<subreportParameter name="evento">
+					<subreportParameterExpression><![CDATA[$F{evento_codigo}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "servicos.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>

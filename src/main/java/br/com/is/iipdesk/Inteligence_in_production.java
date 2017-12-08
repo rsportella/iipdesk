@@ -6,6 +6,8 @@
 package br.com.is.iipdesk;
 
 import br.com.is.View.Login;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 
 /**
  *
@@ -13,13 +15,13 @@ import br.com.is.View.Login;
  */
 public class Inteligence_in_production {
 
-
     /**
      * @param args the command line arguments
      */
-
     public static void main(String[] args) {
+
         Login login = new Login();
+        login.setLocationRelativeTo(null);
         login.setVisible(true);
 
     }

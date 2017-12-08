@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="contratos" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7ed80987-c781-445d-98cd-2f73f4639949">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Projeto\\news\\iipdesk\\src\\main\\java\\br\\com\\is\\View\\report\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     evento."codigo" AS evento_codigo,
+     evento."titulo" AS evento_titulo,
+     evento."descricao" AS evento_descricao,
+     tipo_evento."nome" AS tipo_evento_nome,
+     tipo_evento."codigo" AS tipo_evento_codigo,
+     pagamento."valor_total" AS pagamento_valor_total,
+     pagamento."quantidade_parcela" AS pagamento_quantidade_parcela,
+     pagamento."data_inicial" AS pagamento_data_inicial,
+     pagamento."forma_pagamento" AS pagamento_forma_pagamento,
+     pagamento."data_contrato" AS pagamento_data_contrato
+FROM
+     "public"."tipo_evento" tipo_evento INNER JOIN "public"."evento" evento ON tipo_evento."codigo" = evento."tipo_evento"
+     INNER JOIN "public"."pagamento" pagamento ON evento."codigo" = pagamento."evento"]]>
+	</queryString>
+	<field name="evento_codigo" class="java.lang.Integer"/>
+	<field name="evento_titulo" class="java.lang.String"/>
+	<field name="evento_descricao" class="java.lang.String"/>
+	<field name="tipo_evento_nome" class="java.lang.String"/>
+	<field name="tipo_evento_codigo" class="java.lang.Integer"/>
+	<field name="pagamento_valor_total" class="java.math.BigDecimal"/>
+	<field name="pagamento_quantidade_parcela" class="java.lang.Integer"/>
+	<field name="pagamento_data_inicial" class="java.sql.Date"/>
+	<field name="pagamento_forma_pagamento" class="java.lang.String"/>
+	<field name="pagamento_data_contrato" class="java.sql.Date"/>
+	<columnHeader>
+		<band height="33">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="33" uuid="c46f3504-895b-4176-9b41-9ab3e4de59bb"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="24" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Contrato de Prestação de Serviço para Evento]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="309">
+			<staticText>
+				<reportElement isPrintRepeatedValues="false" x="349" y="213" width="181" height="21" uuid="b77806f2-39aa-4b5e-8b4f-d0bbb5dc1a9c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Contratado]]></text>
+			</staticText>
+			<line>
+				<reportElement isPrintRepeatedValues="false" x="36" y="212" width="181" height="1" uuid="b48c97c5-722a-49a5-ac60-a22d7b61c099"/>
+			</line>
+			<line>
+				<reportElement isPrintRepeatedValues="false" x="36" y="287" width="181" height="1" uuid="f91ddc05-5533-421c-9302-e7582e0faef3"/>
+			</line>
+			<line>
+				<reportElement isPrintRepeatedValues="false" x="349" y="213" width="181" height="1" uuid="53466566-b15a-4591-9dac-c4e82b31c179"/>
+			</line>
+			<line>
+				<reportElement isPrintRepeatedValues="false" x="349" y="286" width="181" height="1" uuid="a7620c69-10bd-4d5c-b1a9-aecd206b0423"/>
+			</line>
+			<staticText>
+				<reportElement isPrintRepeatedValues="false" x="36" y="288" width="181" height="21" uuid="ce52e2d2-3ea6-4fe6-9ce7-a720e10749b0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Testemunha um]]></text>
+			</staticText>
+			<staticText>
+				<reportElement isPrintRepeatedValues="false" x="349" y="287" width="181" height="21" uuid="c2d0115c-30a6-41d7-ab00-135ba4559b46"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Testemunha dois]]></text>
+			</staticText>
+			<staticText>
+				<reportElement isPrintRepeatedValues="false" x="36" y="213" width="181" height="21" uuid="875e9dbd-b38e-4ec9-869f-ea045e646278"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Primeiro contratante]]></text>
+			</staticText>
+			<staticText>
+				<reportElement isPrintRepeatedValues="false" x="36" y="119" width="494" height="51" uuid="6194deab-ebb1-42c9-bc7b-bc7ead459fb6"/>
+				<text><![CDATA[Para dirimir quaisquer controvérsias oriundas do presente contrato, as partes elegem o foro da comarca de Cidade/Estado;
+
+Por estarem assim justos e contratados, firmam o presente instrumento, em duas vias de igual teor, juntamente com 2 (duas) testemunhas.]]></text>
+			</staticText>
+			<subreport>
+				<reportElement x="0" y="0" width="530" height="33" uuid="bc114efb-8baf-405c-93dd-831275be5e1d"/>
+				<subreportParameter name="evento">
+					<subreportParameterExpression><![CDATA[$F{evento_codigo}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "contratantes.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="42">
+			<textField pattern="dd/MM/yyyy HH.mm.ss">
+				<reportElement x="0" y="0" width="241" height="20" uuid="2bad2a35-e4ac-44ba-a69d-d117de67e5d0"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["Relatorio gerado em "+new SimpleDateFormat("dd/MM/yyyy h:mm a").format( new java.util.Date() )]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="20" width="555" height="22" uuid="4cdff786-e5e4-4ced-b453-2c27439896e6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<text><![CDATA[Rodolfo Portella - www.infosulst.com.br]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="277" y="0" width="255" height="20" uuid="097a98cd-e1f0-4fc0-805b-168ffc01bb5d"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

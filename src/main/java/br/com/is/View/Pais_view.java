@@ -6,8 +6,8 @@ import br.com.is.DAO.GenericoDAO;
 import br.com.is.DAO.GerenciarPermissao;
 import br.com.is.DAO.PaisDAO;
 import br.com.is.Entitys.Pais;
+import br.com.is.utils.Support;
 import java.util.List;
-import utils.Support;
 
 public class Pais_view extends javax.swing.JInternalFrame {
 
