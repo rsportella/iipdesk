@@ -133,8 +133,7 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return "Usuario{" + "pessoa=" + pessoa + ", login=" + login + ", senha=" + senha + ", ultimoAcesso=" + ultimoAcesso + ", status=" + status + ", pessoa1=" + pessoa1 + '}';
+        return "br.com.is.Entitys.Usuario[ pessoa=" + pessoa + " ]";
     }
-
 
 }
