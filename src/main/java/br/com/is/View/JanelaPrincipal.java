@@ -61,8 +61,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         }
         br.close();
 
-        //System.out.println("###########  VALOR = "+dadosUrl.toString().substring(61, 65));
-//        labdolar.setText(dadosUrl.toString().substring(61, 65));
+        //labDolar.setText(dadosUrl.toString().substring(61, 65));
     }
 
     /**
@@ -78,7 +77,6 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        labdolar = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
@@ -86,6 +84,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
+        labDolar = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         mitBackup = new javax.swing.JMenuItem();
@@ -127,8 +126,6 @@ public class JanelaPrincipal extends javax.swing.JFrame {
 
         jLabel1.setText("Cotação Dólar:");
 
-        labdolar.setText("ERRO");
-
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -164,15 +161,17 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel4.setText("Eventos abertos");
 
+        labDolar.setText("ERRO");
+
         jDesktopPane.setLayer(jButton1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane.setLayer(jButton2, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane.setLayer(labdolar, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane.setLayer(jScrollPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane.setLayer(jLabel3, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane.setLayer(jScrollPane2, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane.setLayer(jLabel4, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane.setLayer(labDolar, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jDesktopPaneLayout = new javax.swing.GroupLayout(jDesktopPane);
         jDesktopPane.setLayout(jDesktopPaneLayout);
@@ -195,7 +194,9 @@ public class JanelaPrincipal extends javax.swing.JFrame {
                     .addGroup(jDesktopPaneLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel1)
-                        .addGap(376, 376, 376))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(labDolar)
+                        .addGap(157, 157, 157))
                     .addGroup(jDesktopPaneLayout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addGroup(jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -210,7 +211,9 @@ public class JanelaPrincipal extends javax.swing.JFrame {
             .addGroup(jDesktopPaneLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
+                    .addGroup(jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel1)
+                        .addComponent(labDolar))
                     .addGroup(jDesktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -427,7 +430,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator4;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
-    private javax.swing.JLabel labdolar;
+    private javax.swing.JLabel labDolar;
     private javax.swing.JMenuItem mitBackup;
     private javax.swing.JMenuItem mitCliente;
     private javax.swing.JMenuItem mitEquipeServico;
